@@ -80,7 +80,7 @@ const SignInPage = () => {
             Enter your email to sign in to your account
           </p>
         </div>
-        
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -90,8 +90,8 @@ const SignInPage = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input 
-                      {...field} 
+                    <Input
+                      {...field}
                       autoComplete="email"
                       type="email"
                       placeholder="m@example.com"
@@ -109,8 +109,8 @@ const SignInPage = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input 
-                      {...field} 
+                    <Input
+                      {...field}
                       autoComplete="current-password"
                       type="password"
                       disabled={isLoading}
@@ -120,8 +120,8 @@ const SignInPage = () => {
                 </FormItem>
               )}
             />
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="w-full"
               disabled={isLoading}
             >
