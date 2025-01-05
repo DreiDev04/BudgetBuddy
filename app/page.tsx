@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 
-
 export default function Home() {
   return (
     <div className="h-screen flex flex-col">
@@ -14,10 +13,18 @@ export default function Home() {
             <h1 className="text-3xl p-4">LOGO</h1>
           </div>
           <nav className="flex flex-col gap-4">
-            <Button size="lg" className="text-md">Dashboard</Button>
-            <Button size="lg" className="text-md">Transaction</Button>
-            <Button size="lg" className="text-md">Budget</Button>
-            <Button size="lg" className="text-md">Goals</Button>
+            <Button size="lg" className="text-md">
+              Dashboard
+            </Button>
+            <Button size="lg" className="text-md">
+              Transaction
+            </Button>
+            <Button size="lg" className="text-md">
+              Budget
+            </Button>
+            <Button size="lg" className="text-md">
+              Goals
+            </Button>
           </nav>
           <div className="p-4">
             <Button variant="outline">
@@ -35,19 +42,27 @@ export default function Home() {
           </header>
 
           {/* Content Section */}
-          <section className="flex-1 ">
-
-          </section>
+          <section className="flex-1 "></section>
         </main>
       </div>
 
       {/* Footer */}
       <footer className="sm:hidden p-6 flex flex-wrap justify-around items-center border-t-2 border-t-zinc-900 gap-2 ">
-        <Button size="icon" className="flex-1 text-xs">Dashboard</Button>
-        <Button size="icon" className="flex-1 text-xs">Budget</Button>
-        <Button size="icon" className="flex-1 text-xs" variant="outline"><Plus /></Button>
-        <Button size="icon" className="flex-1 text-xs">Goals</Button>
-        <Button size="icon" className="flex-1 text-xs">Transaction</Button>
+        <Button size="icon" className="flex-1 text-xs">
+          Dashboard
+        </Button>
+        <Button size="icon" className="flex-1 text-xs">
+          Budget
+        </Button>
+        <Button size="icon" className="flex-1 text-xs" variant="outline">
+          <Plus />
+        </Button>
+        <Button size="icon" className="flex-1 text-xs">
+          Goals
+        </Button>
+        <Button size="icon" className="flex-1 text-xs">
+          Transaction
+        </Button>
       </footer>
     </div>
   );
