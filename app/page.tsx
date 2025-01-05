@@ -8,41 +8,33 @@ export default function Home() {
       {/* Main Content (Header, Sidebar, Section) */}
       <div className="flex-grow sm:grid sm:grid-cols-12">
         {/* Sidebar for larger screens */}
-        <aside className="hidden sm:flex sm:col-span-3 h-full flex-col justify-between items-center  border-r-2 border-r-zinc-900">
+        <aside className="hidden sm:flex sm:col-span-2 h-full flex-col justify-between items-center  border-r-2 border-r-zinc-900 bg-slate-100">
           <div>
-            <h1 className="text-3xl p-4">LOGO</h1>
+            <h1 className="text-3xl p-4">BUDGET</h1>
           </div>
           <nav className="flex flex-col gap-4">
-            <Button size="lg" className="text-md">
-              Dashboard
-            </Button>
-            <Button size="lg" className="text-md">
-              Transaction
-            </Button>
-            <Button size="lg" className="text-md">
-              Budget
-            </Button>
-            <Button size="lg" className="text-md">
-              Goals
-            </Button>
+            <Button size="lg" className="text-md w-56 dark:border-2 dark:border-zinc-900 shadow-md">Dashboard</Button>
+            <Button size="lg" className="text-md w-56 dark:border-2 dark:border-zinc-900 shadow-md">Transaction</Button>
+            <Button size="lg" className="text-md w-56 dark:border-2 dark:border-zinc-900 shadow-md">Budget</Button>
+            <Button size="lg" className="text-md w-56 dark:border-2 dark:border-zinc-900 shadow-md">Goals</Button>
           </nav>
           <div className="p-4">
-            <Button variant="outline">
+            <Button variant="outline" className="text-md w-56 h-16 dark:border dark:border-zinc-900 shadow-md">
               <Plus /> ADD NEW
             </Button>
           </div>
         </aside>
 
         {/* Main Section */}
-        <main className="sm:col-span-9 h-full flex flex-col ">
+        <main className="sm:col-span-10 h-full flex flex-col ">
           {/* Header */}
-          <header className=" w-full p-4 flex items-center justify-end border-b-2 border-b-zinc-900 gap-4">
+          <header className=" w-full p-4 flex items-center justify-end border-b-2 border-b-zinc-900 gap-4 bg-tertiary shadow-md">
             <h2 className="text-3xl ">Profile</h2>
             <ModeToggle />
           </header>
 
           {/* Content Section */}
-          <section className="flex-1 "></section>
+          <section className="flex-1 bg-slate-200"></section>
         </main>
       </div>
 

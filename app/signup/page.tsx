@@ -1,6 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { Input } from "@/components/ui/input"
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -47,44 +51,52 @@ export default function SignUpPage() {
   };
 
   return (
-    <div>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit">Sign Up</button>
-      </form>
+    <div className="h-screen flex flex-col bg-slate-200 justify-center ">
+      <main className="bg-white h-[425px] w-96 rounded-md p-5 shadow-xl flex flex-col items-center mx-auto">
+        <h1 className="text-4xl font-bold p-4">Sign Up</h1>
+        <form onSubmit={handleSubmit} className='flex flex-col gap-4 items-center'>
+          <div>
+            <Label htmlFor='text'>Name</Label>
+            <Input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className='w-72 shadow-md'
+              placeholder='Enter your name'
+            />
+          </div>
+          <div>
+            <Label htmlFor='email'>Email</Label>
+            <Input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className='w-72 shadow-md'
+              placeholder='Enter your email'
+            />
+          </div>
+          <div>
+            <Label>Password</Label>
+            <Input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className='w-72 shadow-md'
+              placeholder='Enter your password'
+            />
+          </div>
+          <Button type="submit" className='w-48 mt-3 shadow-md'>Sign Up</Button>
+        </form>
 
-      {error && <div style={{ color: 'red' }}>{error}</div>}
-      {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>}
+        {error && <div style={{ color: 'red' }}>{error}</div>}
+        {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>}
+      </main>
     </div>
   );
 }
