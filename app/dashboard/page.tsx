@@ -7,7 +7,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
+import SignOutButton from "@/components/custom/SignOutButton";
 
 export default function Home() {
   return (
@@ -44,18 +45,22 @@ export default function Home() {
         <main className="sm:col-span-9 h-full flex flex-col ">
           {/* Header */}
           <header className=" w-full p-4 flex items-center justify-end border-b-2 border-b-zinc-900 gap-4">
-            <DropdownMenu >
+            <ModeToggle />
+            <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline">Profile<span><ChevronDown /></span></Button>
+                <Button variant="outline">
+                  Profile
+                  <span>
+                    <ChevronDown />
+                  </span>
+                </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="">
-                <DropdownMenuItem>
-                  {/* <Button variant='ghost'> Logout</Button> */}
-                  Log Out
+              <DropdownMenuContent sticky="always" align="end">
+                <DropdownMenuItem className="flex justify-start">
+                  <SignOutButton />
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <ModeToggle />
           </header>
 
           {/* Content Section */}
