@@ -1,6 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export default function Home() {
   return (
@@ -37,7 +44,17 @@ export default function Home() {
         <main className="sm:col-span-9 h-full flex flex-col ">
           {/* Header */}
           <header className=" w-full p-4 flex items-center justify-end border-b-2 border-b-zinc-900 gap-4">
-            <h2 className="text-3xl ">Profile</h2>
+            <DropdownMenu >
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">Profile<span><ChevronDown /></span></Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="">
+                <DropdownMenuItem>
+                  {/* <Button variant='ghost'> Logout</Button> */}
+                  Log Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <ModeToggle />
           </header>
 
