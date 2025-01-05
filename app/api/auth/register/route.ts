@@ -9,10 +9,6 @@ export async function POST(req: Request) {
   if (!name || !email || !password) {
     return NextResponse.json({ error: "All fields are required." }, { status: 400 });
   }
-  console.log("name", name);
-  console.log("email", email);
-  console.log("password", password);
-
   console.log("Connecting to database...");
   await dbConnect();
   console.log("Connected to database.");

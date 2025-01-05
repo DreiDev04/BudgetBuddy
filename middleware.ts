@@ -9,8 +9,8 @@ export async function middleware(req: Request) {
 
   const url = req.url;
 
-  // Redirect unauthenticated users accessing protected routes
-  if (!token && url.includes("/protected")) {
+  // Redirect unauthenticated users accessing dashboard routes
+  if (!token && url.includes("/dashboard")) {
     return NextResponse.redirect(new URL("/api/auth/signin", req.url));
   }
 
@@ -18,5 +18,5 @@ export async function middleware(req: Request) {
 }
 
 export const config = {
-  matcher: ["/protected/:path*"], // Protect /protected and its subroutes
+  matcher: ["/dashboard/:path*"], // Protect /dashboard and its subroutes
 };
