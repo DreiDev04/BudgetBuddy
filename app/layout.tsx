@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./styles/globals.css";
+import "@/styles/globals.css";
 import { ThemeProvider } from "@/components/provider/theme-provider";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 
@@ -36,7 +36,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
-
         </ThemeProvider>
       </body>
     </html>

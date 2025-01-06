@@ -18,8 +18,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 // import { toast } from "sonner";
 import Link from "next/link";
-import { ChevronsLeft } from 'lucide-react';
-
+import { ChevronsLeft } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -55,7 +54,7 @@ const SignInPage = () => {
 
       if (response?.error) {
         // toast.error("Invalid credentials");
-        console.error(response.error)
+        console.error(response.error);
         return;
       }
 
@@ -75,7 +74,7 @@ const SignInPage = () => {
 
   return (
     <div className="grid items-center justify-center h-screen">
-     <Button asChild className="absolute top-4 left-4 h-10 w-10 p-4">
+      <Button asChild className="absolute top-4 left-4 h-10 w-10 p-4">
         <Link href="/">
           <span>
             <ChevronsLeft />
@@ -132,20 +131,13 @@ const SignInPage = () => {
                 </FormItem>
               )}
             />
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isLoading}
-            >
+            <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? "Signing in..." : "Sign in"}
             </Button>
           </form>
         </Form>
-        <Button
-        variant="link"
-        ><Link href='/signup'>
-          Don't have an account yet? Sign up
-        </Link>
+        <Button variant="link">
+          <Link href="/api/auth/signup">Don't have an account yet? Sign up</Link>
         </Button>
       </div>
     </div>

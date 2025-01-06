@@ -4,6 +4,10 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
+  // birthdate?: Date;
+  // createdAt?: Date;
+  // updatedAt?: Date;
+  // Gender?: "Female" | "Male" | "Other";
 }
 
 const UserSchema: Schema<IUser> = new Schema({

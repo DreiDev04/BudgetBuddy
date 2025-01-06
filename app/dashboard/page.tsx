@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import SignOutButton from "@/components/custom/SignOutButton";
+import SignOutButton from "@/components/shared/SignOutButton";
 
 export default function Home() {
   return (
