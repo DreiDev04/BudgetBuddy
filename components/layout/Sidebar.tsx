@@ -10,14 +10,14 @@ function Sidebar() {
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { name: "Budget", href: "/dashboard/budget", icon: PiggyBank },
     { name: "Transaction", href: "/dashboard/transaction", icon: Receipt },
-    { name: "Goal", href: "/dashboard/profile", icon: Goal },
+    { name: "Goals", href: "/dashboard/goals", icon: Goal },
   ];
 
   return (
     <nav className="bg-background border-r lg:w-64 lg:min-h-screen fixed lg:relative bottom-0 left-0 w-full lg:flex lg:flex-col">
       {/* Desktop Sidebar */}
       <div className="hidden lg:block p-4">
-        <h1 className="text-xl font-bold">Budget Buddy</h1>
+        <h1 className="text-xl font-bold ">Budget Buddy</h1>
       </div>
       <div className="flex lg:flex-col justify-between px-2 lg:px-0 py-2 lg:py-4 bg-card md:bg-background lg:bg-transparent ">
         {navigation.map((item) => {

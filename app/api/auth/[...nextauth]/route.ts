@@ -1,7 +1,7 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import dbConnect from "../../../../lib/mongodb";
-import User from "../../../../models/User";
+import dbConnect from "@/lib/mongodb";
+import User from "@/models/User";
 import bcrypt from "bcrypt";
 
 export const authOptions: NextAuthOptions = {
@@ -56,11 +56,7 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   pages: {
-    signIn: '/signin', // Custom sign-in page
-    signOut: '/signout', // Custom sign-out page (optional)
-    error: '/error', // Custom error page (optional)
-    verifyRequest: '/verify', // Verification page (for email link providers)
-    newUser: '/welcome', // Redirect here for new users (optional)
+    signIn: '/signin', 
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
