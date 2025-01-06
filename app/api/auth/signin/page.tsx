@@ -1,4 +1,5 @@
 "use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,6 +17,9 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 // import { toast } from "sonner";
+import Link from "next/link";
+import { ChevronsLeft } from 'lucide-react';
+
 
 const formSchema = z.object({
   email: z.string().email({
@@ -71,7 +75,14 @@ const SignInPage = () => {
 
   return (
     <div className="grid items-center justify-center h-screen">
-      <div className="p-8 rounded-lg border w-[400px] space-y-6">
+     <Button asChild className="absolute top-4 left-4 h-10 w-10 p-4">
+        <Link href="/">
+          <span>
+            <ChevronsLeft />
+          </span>
+        </Link>
+      </Button>
+      <div className="p-8 rounded-lg border w-[400px] space-y-6 text-center">
         <div className="space-y-2 text-center">
           <h1 className="text-2xl font-semibold tracking-tight">
             Welcome back
@@ -113,6 +124,7 @@ const SignInPage = () => {
                       {...field}
                       autoComplete="current-password"
                       type="password"
+                      placeholder="password"
                       disabled={isLoading}
                     />
                   </FormControl>
@@ -129,6 +141,12 @@ const SignInPage = () => {
             </Button>
           </form>
         </Form>
+        <Button
+        variant="link"
+        ><Link href='/signup'>
+          Don't have an account yet? Sign up
+        </Link>
+        </Button>
       </div>
     </div>
   );
