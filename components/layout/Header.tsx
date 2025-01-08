@@ -19,7 +19,7 @@ const Header = () => {
   const user = session?.user;
 
   return (
-    <header className="w-full px-4 py-2 flex items-center justify-end border-b gap-2">
+    <header className="w-full px-4 py-2 flex items-center justify-end border-b gap-2 bg-card">
       <ModeToggle />
       <DropdownMenu>
         <DropdownMenuTrigger asChild >

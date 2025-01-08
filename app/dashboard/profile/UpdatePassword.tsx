@@ -46,10 +46,10 @@ const UpdatePassword = () => {
   };
 
   return (
-    <section className="bg-secondary p-4 lg:w-[800px] w-full rounded-md mx-auto">
+    <section className="bg-card p-10 lg:w-[800px] w-full rounded-md mx-auto">
   <header className="mb-4 text-center lg:text-left">
     <h1 className="text-xl font-bold">Update Password</h1>
-    <p className="text-xs mx-2 text-muted-foreground italic">Update your account's password</p>
+    <p className="text-xs text-muted-foreground italic">Update your account's password</p>
   </header>
   <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
     <div className="p-4 grid grid-cols-1 gap-4">

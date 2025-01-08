@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormField,
+  FormField, 
   FormItem,
   FormLabel,
   FormMessage,
@@ -131,6 +131,7 @@ const SignInPage = () => {
                 </FormItem>
               )}
             />
+            
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? "Signing in..." : "Sign in"}
             </Button>

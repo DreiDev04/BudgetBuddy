@@ -45,6 +45,7 @@ const UpdateProfile = () => {
       const formattedDate = date ? format(date, "yyyy-MM-dd") : undefined;
 
       const payload = {
+        id: user?.id,
         email,
         name,
         birthdate: formattedDate, // Send as 'YYYY-MM-DD'
@@ -53,21 +54,21 @@ const UpdateProfile = () => {
 
       console.log("Sending payload:", payload);
 
-      const response = await fetch("/api/auth/update-profile", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      // const response = await fetch("/api/auth/update-profile", {
+      //   method: "PATCH",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(payload),
+      // });
 
-      const result = await response.json();
+      // const result = await response.json();
 
-      if (!response.ok) {
-        throw new Error(result.error || "Failed to update profile.");
-      }
+      // if (!response.ok) {
+      //   throw new Error(result.error || "Failed to update profile.");
+      // }
 
-      console.log("Profile updated successfully:", result.user);
+      // console.log("Profile updated successfully:", result.user);
     } catch (error) {
       console.error("Error updating profile:", error);
     } finally {
@@ -77,7 +78,7 @@ const UpdateProfile = () => {
 
 
   return (
-    <section className="bg-secondary p-4 lg:w-[800px] w-full rounded-md mx-auto">
+    <section className="bg-card p-10 lg:w-[800px] w-full rounded-md mx-auto">
       <header className="mb-4 text-center lg:text-left">
         <h1 className="text-xl font-bold">User Profile</h1>
         <p className="text-xs mx-2 text-muted-foreground italic">

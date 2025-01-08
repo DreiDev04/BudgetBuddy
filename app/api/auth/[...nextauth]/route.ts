@@ -11,6 +11,7 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
+        
       },
       async authorize(credentials) {
         if (!credentials) {
@@ -22,7 +23,12 @@ export const authOptions: NextAuthOptions = {
         await dbConnect();
 
         // Find user by email
-        const user = await User.findOne({ email }).exec() as { _id: any, name: string, email: string, password: string };
+        const user = (await User.findOne({ email }).exec()) as {
+          _id: any;
+          name: string;
+          email: string;
+          password: string;
+        };
         if (!user) {
           throw new Error("No user found with this email.");
         }
@@ -56,7 +62,7 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   pages: {
-    signIn: '/signin',
+    signIn: "/signin",
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
