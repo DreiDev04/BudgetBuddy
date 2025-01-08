@@ -26,7 +26,7 @@ function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`flex lg:justify-start justify-center items-center gap-2 px-3 py-2  transition-all duration-300 
+              className={`flex lg:justify-start justify-center items-center gap-2 px-3 py-2  transition-all duration-300
                 ${
                   isActive
                     ? "bg-card text-primary"
