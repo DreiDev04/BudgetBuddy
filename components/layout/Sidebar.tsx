@@ -11,12 +11,12 @@ function Sidebar() {
     { name: "Budget", href: "/dashboard/budget", icon: PiggyBank },
     { name: "Transaction", href: "/dashboard/transaction", icon: Receipt },
     { name: "Goals", href: "/dashboard/goals", icon: Goal },
-    { name: "Profile", href: "/dashboard/profile", icon: User }, //design system
+    { name: "Design", href: "/dashboard/Design", icon: User }, //design system
 
   ];
 
   return (
-    <nav className="bg-card border-r lg:w-64 lg:min-h-screen fixed lg:relative bottom-0 left-0 w-full lg:flex lg:flex-col">
+    <nav className="bg-card border-r lg:w-64 lg:min-h-screen fixed lg:relative bottom-0 left-0 w-full lg:flex lg:flex-col z-10">
       {/* Desktop Sidebar */}
       <div className="hidden lg:block p-4">
         <h1 className="text-xl font-bold ">Budget Buddy</h1>

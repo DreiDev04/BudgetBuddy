@@ -1,36 +1,36 @@
-import { Button } from "@/components/ui/button";
+import GoalsGraph from "./graphs/GoalsGraph";
+import Categories from "./graphs/Categories";
+import AccountBalanceGraph from "./graphs/AccountBalanceGraph";
+import { AccountBalanceCard } from "./graphs/AccountBalanceGraph";
+import TransactionsSummary from "./graphs/TransactionsSummary";
 
 export default function Home() {
   return (
-    <>
-    <h1 className="text-center text-xl font-bold">Design System para di ka malito</h1>
-      <div className="p-5 text-center">
-        <h1 className="mb-5">Buttons</h1>
-        <div className="flex justify-center gap-2 flex-wrap">
-          <Button variant="default">default</Button>
-          <Button variant="secondary">secondary</Button>
-          <Button variant="outline">outline</Button>
-          <Button variant="destructive">destructive</Button>
-          <Button variant="ghost">ghost</Button>
-          <Button variant="link">link</Button>
-        </div>
+    <section className="grid grid-cols-12 gap-5 pb-[80px]">
+      {/* Area Chart */}
+      <div className="bg-card rounded-md col-span-12 lg:col-span-8 lg:row-span-2">
+        <AccountBalanceGraph />
       </div>
-      <div className="p-5 text-center">
-        <h1 className="mb-5">Colors</h1>
-        <div className="flex justify-center gap-2 flex-wrap">
-            <div className="px-2 py-1 rounded-md bg-primary">primary</div>
-            <div className="px-2 py-1 rounded-md bg-secondary">secondary</div>
-            <div className="px-2 py-1 rounded-md bg-tertiary">tertiary</div>
-            <div className="px-2 py-1 rounded-md bg-accent">accent</div>
-            <div className="px-2 py-1 rounded-md bg-destructive">destructive</div>
-            <div className="px-2 py-1 rounded-md bg-card">card</div>
-            <div className="px-2 py-1 rounded-md bg-muted">muted</div>
-            <div className="px-2 py-1 rounded-md bg-border">border</div>
-            <div className="px-2 py-1 rounded-md bg-input">input</div>
-            <div className="px-2 py-1 rounded-md bg-ring">ring</div>
 
-        </div>
+      {/* Account Balance */}
+      <div className="bg-card rounded-md col-span-12 lg:col-span-4">
+        <AccountBalanceCard />
       </div>
-    </>
+
+      {/* Transactions */}
+      <div className="bg-card rounded-md col-span-12 lg:col-span-4 lg:row-span-2 md:col-span-6 md:row-span-2">
+        <TransactionsSummary />
+      </div>
+
+      {/* Bar Chart */}
+      <div className="bg-card rounded-md col-span-12 md:col-span-6 lg:col-span-4">
+        <GoalsGraph />
+      </div>
+
+      {/* Pie Chart */}
+      <div className="bg-card rounded-md col-span-12 md:col-span-6 lg:col-span-4">
+        <Categories />
+      </div>
+    </section>
   );
 }

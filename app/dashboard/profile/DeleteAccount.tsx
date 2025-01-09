@@ -1,8 +1,17 @@
 "use client"
 
 import React from 'react'
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { Button } from '@/components/ui/button'
 
 const DeleteAccount = () => {
@@ -14,7 +23,26 @@ const DeleteAccount = () => {
       </header>
         <form className="gap-4 mt-4 space-y-4">
           <div className='flex justify-center md:justify-end'>
-            <Button type='submit' variant={'destructive'}>Delete Account</Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant='destructive'>Delete Account</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete your
+                  account and remove your data from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction asChild>
+                    <Button variant='destructive'>Continue</Button>
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </form>
     </section>

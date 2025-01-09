@@ -1,132 +1,167 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useSession } from "next-auth/react";
+import { json } from "stream/consumers";
 
-type FormValues = {
-  currentPassword: string;
-  newPassword: string;
-  confirmPassword: string;
-};
+const formSchema = z.object({
+  currentPassword: z.string().min(6, "Password must be at least 6 characters"),
+  newPassword: z.string().min(6, "Password must be at least 6 characters"),
+  confirmPassword: z.string().min(6, "Password must be at least 6 characters"),
+});
+
+type FormValues =z.infer<typeof formSchema>
 
 const UpdatePassword = () => {
+  const { data:session } = useSession();
+  const user = session?.user;
   const [isLoading, setIsLoading] = useState(false);
 
-  const {
-    control,
-    handleSubmit,
-    setError,
-    formState: { errors },
-  } = useForm<FormValues>({
-    defaultValues: {
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: "",
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues:{
+      currentPassword:"",
+      newPassword:"",
+      confirmPassword:"",
     },
   });
 
-  const onSubmit = (data: FormValues) => {
-    if (data.newPassword !== data.confirmPassword) {
-      setError("confirmPassword", {
-        type: "manual",
-        message: "Passwords do not match",
-      });
-      return;
+  useEffect(() => {
+    if (user){
+      form.reset({
+        currentPassword:"",
+        newPassword:"",
+        confirmPassword:"",
+      })
     }
+  }, [user, form]);
 
-    // Simulate loading for demonstration
-    setIsLoading(true);
-    setTimeout(() => {
-      console.log("Form submitted:", data);
-      setIsLoading(false);
-    }, 1000);
-  };
+  const onSubmit = async (values: FormValues) => {
+    try {
+      if (!user?.id) {
+        throw new Error("User ID is missing");
+      }
+
+      setIsLoading(true);
+
+      const response = await fetch("/api/auth/update-password", { // haven't set it yet
+        method: 'PATCH',
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({id: user.id, ...values}),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error(error.message || "Failed to update Password.");
+      } else {
+        console.log("Password updated successfully");
+      }
+
+    } catch(error) {
+      console.error("Error updating password");
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
 
   return (
     <section className="bg-card p-10 lg:w-[800px] w-full rounded-md mx-auto">
-  <header className="mb-4 text-center lg:text-left">
-    <h1 className="text-xl font-bold">Update Password</h1>
-    <p className="text-xs text-muted-foreground italic">Update your account's password</p>
-  </header>
-  <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
-    <div className="p-4 grid grid-cols-1 gap-4">
-      {/* Current Password */}
-      <div className="col-span-1">
-        <Label>Current Password</Label>
-        <Controller
-          name="currentPassword"
-          control={control}
-          rules={{ required: "Current password is required." }}
-          render={({ field }) => (
-            <Input
-              {...field}
-              type="password"
-              placeholder="Enter current password"
-              disabled={isLoading}
-              className="lg:w-[400px] w-full"
-            />
-          )}
-        />
-        {errors.currentPassword && (
-          <p className="text-red-500 text-sm">{errors.currentPassword.message}</p>
-        )}
-      </div>
+      <header className="mb-4 text-center lg:text-left">
+        <h1 className="text-xl font-bold">Update Password</h1>
+        <p className="text-xs text-muted-foreground italic">
+          Update your account's password
+        </p>
+      </header>
 
-      {/* New Password */}
-      <div className="col-span-1">
-        <Label>New Password</Label>
-        <Controller
-          name="newPassword"
-          control={control}
-          rules={{ required: "New password is required." }}
-          render={({ field }) => (
-            <Input
-              {...field}
-              type="password"
-              placeholder="Enter new password"
-              disabled={isLoading}
-              className="lg:w-[400px] w-full"
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <div className="flex flex-col lg:w-[400px] w-full gap-4 p-4">
+            {/* Current Password */}
+            <FormField
+              control={form.control}
+              name="currentPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Current Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="password"
+                      placeholder="Enter current password"
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          )}
-        />
-        {errors.newPassword && (
-          <p className="text-red-500 text-sm">{errors.newPassword.message}</p>
-        )}
-      </div>
 
-      {/* Confirm Password */}
-      <div className="col-span-1 ">
-        <Label>Confirm Password</Label>
-        <Controller
-          name="confirmPassword"
-          control={control}
-          rules={{ required: "Confirm password is required." }}
-          render={({ field }) => (
-            <Input
-              {...field}
-              type="password"
-              placeholder="Confirm new password"
-              disabled={isLoading}
-              className="lg:w-[400px] w-full"
+            {/* New Password */}
+            <FormField
+              control={form.control}
+              name="newPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>New Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="password"
+                      placeholder="Enter new password"
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          )}
-        />
-        {errors.confirmPassword && (
-          <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
-        )}
-      </div>
-    </div>
-    <div className="flex justify-center md:justify-end">
-      <Button type="submit" disabled={isLoading} className="w-full md:w-auto">
-        {isLoading ? "Updating..." : "Save"}
-      </Button>
-    </div>
-  </form>
+
+            {/* Confirm Password */}
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="password"
+                      placeholder="Confirm new password"
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="flex justify-center md:justify-end">
+            <Button type="submit" disabled={isLoading} className="w-full md:w-auto">
+              {isLoading ? "Updating..." : "Save"}
+            </Button>
+          </div>
+        </form>
+      </Form>
     </section>
-
   );
 };
 
