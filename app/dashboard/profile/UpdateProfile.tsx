@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useSession, signIn } from "next-auth/react";
+import { useSession} from "next-auth/react";
 import { useEffect, useState } from "react";
 
 const formSchema = z.object({
@@ -65,17 +65,14 @@ const UpdateProfile = () => {
         const error = await response.json();
         console.error(error.message || "Failed to update profile.");
       } else {
+        console.log("Profile updated successfully");
+
+        //Ignore Troubleshooting
         const result = await response.json();
-        console.log("Profile updated successfully", result);
+        console.log("What should Show:", result);
 
-        // Update the form with the new data
-        form.reset({
-          name: result.user.name,
-          email: result.user.email,
-        });
+        console.log(user);
 
-        // Optionally revalidate session
-        await signIn("credentials", { redirect: false });
       }
     } catch (error) {
       console.error(error);
@@ -95,7 +92,7 @@ const UpdateProfile = () => {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+          <div className="flex flex-col lg:w-[400px] w-full gap-4 p-4">
             <FormField
               control={form.control}
               name="name"

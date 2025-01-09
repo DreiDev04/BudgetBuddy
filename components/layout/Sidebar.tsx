@@ -16,7 +16,7 @@ function Sidebar() {
   ];
 
   return (
-    <nav className="bg-card border-r lg:w-64 lg:min-h-screen fixed lg:relative bottom-0 left-0 w-full lg:flex lg:flex-col">
+    <nav className="bg-card border-r lg:w-64 lg:min-h-screen fixed lg:relative bottom-0 left-0 w-full lg:flex lg:flex-col z-10">
       {/* Desktop Sidebar */}
       <div className="hidden lg:block p-4">
         <h1 className="text-xl font-bold ">Budget Buddy</h1>
