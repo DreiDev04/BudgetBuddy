@@ -1,115 +1,69 @@
-import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
-import User from "@/models/User";
+import User from "@/models/User"; // Your Mongoose User model
+import { z } from "zod";
+import { NextResponse } from "next/server";
 
+// Schema for PATCH request validation
+const updateProfileSchema = z.object({
+  id: z.string().nonempty("User ID is required."),
+  name: z.string().min(1, "Name is required."),
+  email: z.string().email("Invalid email address."),
+});
+
+// GET handler
 export async function GET(req: Request) {
   try {
-    const { id } = await req.json();
-
     await dbConnect();
 
-    const user = await
-      User.findOne({ id }, { password: 0 });
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
 
-    if (!user) {
-      return NextResponse.json({ error: "User not found." }, { status: 404 });
+    if (!id) {
+      return NextResponse.json({ message: "User ID is required" }, { status: 400 });
     }
 
-    return NextResponse.json({ user });
-  }
-  catch (error) {
-    console.error("Error fetching profile:", error);
-    return NextResponse.json(
-      { error: "Something went wrong." },
-      { status: 500 }
-    );
+    const user = await User.findById(id).select("name email");
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ user }, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
 
-
+// PATCH handler
 export async function PATCH(req: Request) {
   try {
-    const { id, name, birthdate, gender } = await req.json();
-
-    // if (!email) {
-    //   return NextResponse.json({ error: "Email is required." }, { status: 400 });
-    // }
-
-    // console.log("Received request data:", { email, name, birthdate, gender });
-
     await dbConnect();
 
-    const existingUser = await User.findOne({ id });
+    const body = await req.json();
+    const { id, name, email } = updateProfileSchema.parse(body);
 
-    if (!existingUser) {
-      return NextResponse.json({ error: "User not found." }, { status: 404 });
-    }
-
-    const updatedBirthdate = birthdate ? new Date(birthdate) : undefined;
-
-    const updateFields: Record<string, any> = {
-      name,
-      gender,
-    };
-
-    if (updatedBirthdate) {
-      updateFields.birthdate = updatedBirthdate;
-    }
-
-    const updatedUser = await User.findOneAndUpdate(
-      { id },
-      { $set: updateFields },
-      { new: true }
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { name, email },
+      { new: true, runValidators: true }
     );
 
     if (!updatedUser) {
-      return NextResponse.json({ error: "User not found." }, { status: 404 });
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
-    console.log("Updated user document:", updatedUser);
-
-    return NextResponse.json({
-      message: "Profile updated successfully.",
-      user: updatedUser,
-    });
+    return NextResponse.json(
+      { message: "Profile updated successfully", user: updatedUser },
+      { status: 200 }
+    );
   } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ message: "Invalid input", errors: error.errors }, {
+        status: 400,
+      });
+    }
+
     console.error("Error updating profile:", error);
-    return NextResponse.json(
-      { error: "Something went wrong." },
-      { status: 500 }
-    );
-  }
-}
-
-export async function DELETE(req: Request) {
-  try {
-    const { id } = await req.json();
-
-    await dbConnect();
-
-    const existingUser = await User.findOne({ id });
-
-    if (!existingUser) {
-      return NextResponse.json({ error: "User not found." }, { status: 404 });
-    }
-
-    const deletedUser = await User.findOneAndDelete({ id });
-
-    if (!deletedUser) {
-      return NextResponse.json({ error: "User not found." }, { status: 404 });
-    }
-
-    console.log("Deleted user document:", deletedUser);
-
-    return NextResponse.json({
-      message: "Profile deleted successfully.",
-      user: deletedUser,
-    });
-  } catch (error) {
-    console.error("Error deleting profile:", error);
-    return NextResponse.json(
-      { error: "Something went wrong." },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
