@@ -11,7 +11,7 @@ function Sidebar() {
     { name: "Budget", href: "/dashboard/budget", icon: PiggyBank },
     { name: "Transaction", href: "/dashboard/transaction", icon: Receipt },
     { name: "Goals", href: "/dashboard/goals", icon: Goal },
-    { name: "Profile", href: "/dashboard/profile", icon: User }, //design system
+    { name: "Design", href: "/dashboard/Design", icon: User }, //design system
 
   ];
 
