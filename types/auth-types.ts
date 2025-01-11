@@ -1,3 +1,5 @@
+import {  Document } from "mongoose";
+
 // SignInResult type
 export interface SignInResult {
   ok?: boolean;
@@ -9,4 +11,11 @@ export interface SignInResult {
 export interface ErrorResponse {
   message: string;
   code?: number;
+}
+
+
+export interface IUser extends Document {
+  name: string;
+  email: string;
+  password: string;
 }
