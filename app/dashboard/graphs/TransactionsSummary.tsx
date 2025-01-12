@@ -9,11 +9,13 @@ import {
 } from "@/components/ui/card";
 
 const TransactionsSummary = () => {
+
+  //TODO: Route the show more
   return (
     <Card>
       <CardContent className="p-4">
-        <div className="text-lg font-semibold">Transactions</div>
-        <CardDescription>History of past transactions</CardDescription>
+        <div className="text-lg font-semibold">Last Records Overview</div>
+        <CardDescription>Last 30 Days</CardDescription>
       </CardContent>
     </Card>
   );
