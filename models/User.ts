@@ -1,12 +1,5 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
-
-export interface IUser extends Document {
-  name: string;
-  email: string;
-  password: string;
-  // birthdate?: Date;
-  // gender?: "Female" | "Male" | "Other";
-}
+import { IUser } from "@/types/auth-types";
+import mongoose, { Schema, Model } from "mongoose";
 
 const UserSchema: Schema<IUser> = new Schema(
   {
@@ -22,11 +15,10 @@ const UserSchema: Schema<IUser> = new Schema(
       required: true,
       minlength: [6, "Password must be at least 6 characters long"] 
     },
-    // birthdate: { type: Date }, // Optional
-    // gender: { type: String, enum: ["Female", "Male", "Other"] }, 
   },
   {
-    timestamps: true, 
+    timestamps: true,
+    collection: 'budget-buddy-users'
   }
 );
 

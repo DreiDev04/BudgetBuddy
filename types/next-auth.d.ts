@@ -6,8 +6,6 @@ declare module "next-auth" {
     id: string;
     name: string;
     email: string;
-    gender?: "Female" | "Male" | "Other";
-    birthdate?: Date;
   }
 
   interface Session {
@@ -15,8 +13,6 @@ declare module "next-auth" {
       id: string;
       name: string;
       email: string;
-      gender?: "Female" | "Male" | "Other";
-      birthdate?: Date;
     };
   }
 
@@ -24,7 +20,5 @@ declare module "next-auth" {
     id: string;
     name: string;
     email: string;
-    gender?: "Female" | "Male" | "Other";
-    birthdate?: Date;
   }
 }
