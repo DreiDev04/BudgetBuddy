@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Receipt, PiggyBank, User, Goal } from "lucide-react";
+import { LayoutDashboard, Receipt, PiggyBank, User, Goal, ShoppingCart } from "lucide-react";
 
 function Sidebar() {
   const pathname = usePathname();
@@ -11,6 +11,7 @@ function Sidebar() {
     { name: "Budget", href: "/dashboard/budget", icon: PiggyBank },
     { name: "Transaction", href: "/dashboard/transaction", icon: Receipt },
     { name: "Goals", href: "/dashboard/goals", icon: Goal },
+    { name: "Shoping List", href: "/dashboard/shoping-list", icon: ShoppingCart },
     { name: "Design", href: "/dashboard/Design", icon: User }, //design system
 
   ];
