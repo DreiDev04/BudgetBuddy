@@ -17,7 +17,8 @@ const UserSchema: Schema<IUser> = new Schema(
     },
   },
   {
-    timestamps: true, 
+    timestamps: true,
+    collection: 'budget-buddy-users'
   }
 );
 
