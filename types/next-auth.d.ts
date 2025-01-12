@@ -22,3 +22,7 @@ declare module "next-auth" {
     email: string;
   }
 }
+
+export type User = User;
+export type Session = Session;
+export type JWT = JWT;

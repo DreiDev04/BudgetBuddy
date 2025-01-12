@@ -13,19 +13,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useSession} from "next-auth/react";
 import { useEffect, useState } from "react";
+import { User } from "next-auth";
+import { updateProfile } from "./action";
+import { signIn } from "next-auth/react";
+
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
 });
 
-type FormValues = z.infer<typeof formSchema>;
+export type FormValues = z.infer<typeof formSchema>;
 
-const UpdateProfile = () => {
-  const { data: session } = useSession();
-  const user = session?.user;
+const UpdateProfile = ({ user }: { user: User }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<FormValues>({
@@ -50,30 +51,8 @@ const UpdateProfile = () => {
       if (!user?.id) {
         throw new Error("User ID is missing");
       }
-
       setIsLoading(true);
-
-      const response = await fetch("/api/auth/update-profile", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: user.id, ...values }),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        console.error(error.message || "Failed to update profile.");
-      } else {
-        console.log("Profile updated successfully");
-
-        //Ignore Troubleshooting
-        const result = await response.json();
-        console.log("What should Show:", result);
-
-        console.log(user);
-
-      }
+      await updateProfile(values);
     } catch (error) {
       console.error(error);
     } finally {
@@ -132,7 +111,11 @@ const UpdateProfile = () => {
           </div>
 
           <div className="flex justify-center md:justify-end">
-            <Button type="submit" disabled={isLoading} className="w-full md:w-auto">
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="w-full md:w-auto"
+            >
               {isLoading ? "Updating..." : "Save"}
             </Button>
           </div>
