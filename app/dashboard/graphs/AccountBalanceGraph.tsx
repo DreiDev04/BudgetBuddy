@@ -1,5 +1,4 @@
-"use client"
-
+"use client";
 import * as React from "react"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 
@@ -120,7 +119,6 @@ const chartData = [
   { date: "2024-06-29", income: 66000, expenses: 48000 },
   { date: "2024-06-30", income: 67000, expenses: 49000 },
 ]
-
 
 const chartConfig = {
   visitors: {
