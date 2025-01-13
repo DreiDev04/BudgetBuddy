@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import React from "react";
 import {
   Card,
@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-const TransactionsSummary = () => {
+const LastRecords = () => {
 
   //TODO: Route the show more
   return (
@@ -21,4 +21,4 @@ const TransactionsSummary = () => {
   );
 };
 
-export default TransactionsSummary;
+export default LastRecords;

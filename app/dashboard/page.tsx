@@ -2,11 +2,11 @@ import GoalsGraph from "./graphs/GoalsGraph";
 import Categories from "./graphs/Categories";
 import AccountBalanceGraph from "./graphs/AccountBalanceGraph";
 import { AccountBalanceCard } from "./graphs/AccountBalanceGraph";
-import TransactionsSummary from "./graphs/TransactionsSummary";
+import LastRecords from "./graphs/LastRecords";
 
 export default function Home() {
   return (
-    <section className="grid grid-cols-12 gap-5 pb-[80px]">
+    <section className="grid grid-cols-12 gap-5">
       {/* Area Chart */}
       <div className="bg-card rounded-md col-span-12 lg:col-span-8 lg:row-span-2">
         <AccountBalanceGraph />
@@ -19,7 +19,7 @@ export default function Home() {
 
       {/* Transactions */}
       <div className="bg-card rounded-md col-span-12 lg:col-span-4 lg:row-span-2 md:col-span-6 md:row-span-2">
-        <TransactionsSummary />
+        <LastRecords />
       </div>
 
       {/* Bar Chart */}

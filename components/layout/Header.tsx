@@ -1,7 +1,5 @@
 import React from "react";
 import { ModeToggle } from "../ui/mode-toggle";
-import { Button } from "../ui/button";
-import { ChevronDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,7 +8,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -42,7 +39,7 @@ const Header = async () => {
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <SignOutButton>
-              <div className="w-full text-start flex"> 
+              <div className="w-full text-start flex">
                 <button>Sign out</button>
               </div>
             </SignOutButton>
