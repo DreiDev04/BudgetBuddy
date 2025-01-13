@@ -1,5 +1,5 @@
 "use client";
-import { AppSidebar } from "@/components/ui/app-sidebar";
+import { AppSidebar } from "@/components/layout/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
@@ -8,6 +8,9 @@ import {
 } from "@/components/ui/sidebar";
 import { Breadcrumb, BreadcrumbPage } from "@/components/ui/breadcrumb";
 import { usePathname } from "next/navigation";
+import { ModeToggle } from "@/components/ui/mode-toggle";
+import { Button } from "@/components/ui/button";
+import {Plus} from "lucide-react";
 
 export default function DashboardLayout({
   children,
@@ -16,20 +19,19 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname();
 
-  // Extract the last segment of the pathname
   const currentPage = pathname
     .split("/")
-    .filter((segment) => segment) // Remove empty segments
-    .pop() // Get the last segment
-    ?.replace(/-/g, " ") // Replace dashes with spaces
-    ?.replace(/^\w/, (c) => c.toUpperCase()); // Capitalize the first letter
+    .filter((segment) => segment)
+    .pop()
+    ?.replace(/-/g, " ")
+    ?.replace(/^\w/, (c) => c.toUpperCase());
 
   return (
     <div className="min-h-screen flex lg:flex-row flex-col-reverse">
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
-          <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+          <header className="flex justify-between h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
             <div className="flex items-center gap-2 px-4">
               <SidebarTrigger className="-ml-1" />
               <Separator orientation="vertical" className="mr-2 h-4" />
@@ -37,9 +39,20 @@ export default function DashboardLayout({
                 <BreadcrumbPage>{currentPage || "Dashboard"}</BreadcrumbPage>
               </Breadcrumb>
             </div>
+            <div className="flex items-center gap-2 px-4">
+              <ModeToggle />
+            </div>
           </header>
           <div className="flex-1">
-            <main className="p-6">{children}</main>
+            <main className="p-6 relative">
+              {children}
+              <Button
+                className="fixed bottom-6 right-6 p-4 py-6 rounded-full z-10 shadow-lg"
+                variant={'default'}
+              >
+                <Plus />
+              </Button>
+            </main>
           </div>
         </SidebarInset>
       </SidebarProvider>
