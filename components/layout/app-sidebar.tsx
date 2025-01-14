@@ -3,7 +3,6 @@
 import { useUser } from "@clerk/nextjs";
 import {
   LayoutDashboard,
-  Receipt,
   PiggyBank,
   User,
   Goal,
@@ -23,15 +22,12 @@ import { NavUser } from "@/components/ui/nav-user";
 import Logo from "../custom/Logo.png";
 import Image from "next/image";
 
-
-
 export function AppSidebar() {
 
   const { user } = useUser();
   const navigation = [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { name: "Budget", href: "/dashboard/budget", icon: PiggyBank },
-    { name: "Transaction", href: "/dashboard/transaction", icon: Receipt },
     { name: "Goals", href: "/dashboard/goals", icon: Goal },
     { name: "Shopping List", href: "/dashboard/shopping-list", icon: ShoppingCart },
     { name: "Design", href: "/dashboard/Design", icon: User }, // Design system
