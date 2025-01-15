@@ -1,42 +1,40 @@
+import { Schema, model, models, Model } from "mongoose";
 import { IBudget } from "@/types/budget-types";
-import mongoose, { Schema, Model } from "mongoose";
 
-const UserSchema: Schema<IBudget> = new Schema(
+
+const ColorSchema = new Schema({
+  name: { type: String, required: true },
+  hex: { type: String, required: true },
+});
+
+
+const CategorySchema = new Schema({
+  name: { type: String, required: true },
+  color: { type: ColorSchema, required: true },
+});
+
+const ExpenseSchema = new Schema({
+  name: { type: String, required: true },
+  amount: { type: Number, required: true },
+  category: { type: CategorySchema, required: true },
+  date: { type: Date, required: true },
+});
+
+
+const BudgetSchema = new Schema<IBudget>(
   {
-    title: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    budget: {
-      type: Number,
-      required: true,
-    },
-    color: {
-      type: Array,
-      required: true,
-    },
-    currency: {
-      type: Array,
-      required: true,
-    },
-    categories: {
-      type: Array,
-      required: true,
-    },
-    expenses: {
-      type: Array,
-      required: true,
-    },
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    budget: { type: Number, required: true },
+    color: { type: [ColorSchema], required: true },
+    categories: { type: [CategorySchema], required: true },
+    expenses: { type: [ExpenseSchema], required: true },
   },
-  {
-    timestamps: true, 
-  }
+  { timestamps: true }
 );
 
-const Budget: Model<IBudget> = mongoose.models.Budget || mongoose.model<IBudget>("Budget", UserSchema);
+
+const Budget: Model<IBudget> =
+  models.Budget || model<IBudget>("Budget", BudgetSchema);
 
 export default Budget;
