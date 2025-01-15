@@ -25,7 +25,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-// Define form schema
 const goalsSchema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string().optional(),
@@ -43,11 +42,11 @@ type FormValues = z.infer<typeof goalsSchema>;
 
 const fields: { id: keyof FormValues; label: string; type: string }[] = [
   { id: "name", label: "Name", type: "text" },
-  { id: "description", label: "Description", type: "text" },
-  { id: "targetGoal", label: "Target Goal", type: "number" },
-  { id: "currentGoal", label: "Current Goal", type: "number" },
-  { id: "targetDate", label: "Target Date", type: "date" },
   { id: "note", label: "Note", type: "text" },
+  // { id: "description", label: "Description", type: "text" },
+  { id: "targetGoal", label: "Target Goal", type: "number" },
+  // { id: "currentGoal", label: "Current Goal", type: "number" },
+  { id: "targetDate", label: "Target Date", type: "date" },
   { id: "icon", label: "Icon", type: "text" },
   { id: "color", label: "Color", type: "text" },
   { id: "currency", label: "Currency", type: "text" },
