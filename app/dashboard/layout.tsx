@@ -39,9 +39,6 @@ export default function DashboardLayout({
                 <BreadcrumbPage>{currentPage || "Dashboard"}</BreadcrumbPage>
               </Breadcrumb>
             </div>
-            <div className="flex items-center gap-2 px-4">
-              <ModeToggle />
-            </div>
           </header>
           <div className="flex-1">
             <main className="p-6">
