@@ -53,34 +53,64 @@ export async function POST(req: Request) {
   // For this guide, log payload to console
   const { id } = evt.data;
   const eventType = evt.type;
-  // console.log(`Received webhook with ID ${id} and event type of ${eventType}`)
-  // console.log('Webhook payload:', body)
 
-  if (evt.type === "user.created") {
-    console.log("userId:", evt.data.id);
-    // Do something with the user created event
-    try {
-      await dbConnect();
-      const isUser = await User.findOne({ userId: evt.data.id });
-      if (!isUser) {
-        const user = new User({
-          userId: evt.data.id,
-          email: evt.data.email_addresses[0].email_address,
-          firstName: evt.data.first_name,
-          lastName: evt.data.last_name,
-          username: evt.data.username,
-          createdAt: evt.data.created_at,
-          updatedAt: evt.data.updated_at,
-        });
-        await user.save();
-      }
-    } catch (err) {
-      console.error("Error: Could not save user:", err);
-      return new Response("Error: Could not save user", {
-        status: 500,
-      });
+  try {
+    await dbConnect(); // Connect to the database
+
+    switch (eventType) {
+      case "user.created":
+        console.log("User Created:", id);
+        const existingUser = await User.findOne({ userId: id });
+        if (!existingUser) {
+          const newUser = new User({
+            userId: id,
+            email: evt.data.email_addresses?.[0]?.email_address || "",
+            firstName: evt.data.first_name || "",
+            lastName: evt.data.last_name || "",
+            username: evt.data.username || `user_${id}`, // Fallback for username
+            createdAt: evt.data.created_at,
+            updatedAt: evt.data.updated_at,
+          });
+          await newUser.save();
+        }
+        break;
+
+      case "user.updated":
+        console.log("User Updated:", id);
+        const updatedUser = await User.findOneAndUpdate(
+          { userId: id },
+          {
+            email: evt.data.email_addresses?.[0]?.email_address || "",
+            firstName: evt.data.first_name || "",
+            lastName: evt.data.last_name || "",
+            username: evt.data.username || `user_${id}`, // Fallback for username
+            updatedAt: evt.data.updated_at,
+          },
+          { new: true } // Return the updated document
+        );
+        if (!updatedUser) {
+          console.error("Error: User not found for update");
+          return new Response("Error: User not found for update", { status: 404 });
+        }
+        break;
+
+      case "user.deleted":
+        console.log("User Deleted:", id);
+        const deletedUser = await User.findOneAndDelete({ userId: id });
+        if (!deletedUser) {
+          console.error("Error: User not found for deletion");
+          return new Response("Error: User not found for deletion", { status: 404 });
+        }
+        break;
+
+      default:
+        console.warn(`Unhandled event type: ${eventType}`);
+        break;
     }
+  } catch (err) {
+    console.error("Error handling webhook event:", err);
+    return new Response("Error processing webhook event", { status: 500 });
   }
 
-  return new Response("Webhook received", { status: 200 });
+  return new Response("Webhook processed successfully", { status: 200 });
 }
