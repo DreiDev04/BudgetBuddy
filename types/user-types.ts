@@ -1,6 +1,11 @@
 import { Document } from "mongoose";
 
 export interface IClerkUserId extends Document {
-  clerkUserId: string;
-  role: string;
+  userId: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  createdAt: string;
+  updatedAt: string;
 }
