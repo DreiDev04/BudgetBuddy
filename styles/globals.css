@@ -92,9 +92,9 @@ body {
   }
 } */
 
-*{
-  /* border: solid red 1px; */
-}
+/* *{
+  border: solid red 1px;
+} */
 
 
 @layer base {
@@ -177,4 +177,8 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.user-profile-custom {
+  @apply bg-gray-100 p-6 rounded-lg shadow-lg;
 }

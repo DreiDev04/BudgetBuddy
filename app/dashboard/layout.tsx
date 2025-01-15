@@ -39,19 +39,10 @@ export default function DashboardLayout({
                 <BreadcrumbPage>{currentPage || "Dashboard"}</BreadcrumbPage>
               </Breadcrumb>
             </div>
-            <div className="flex items-center gap-2 px-4">
-              <ModeToggle />
-            </div>
           </header>
           <div className="flex-1">
-            <main className="p-6 relative">
+            <main className="p-6">
               {children}
-              <Button
-                className="fixed bottom-6 right-6 p-4 py-6 rounded-full z-10 shadow-lg"
-                variant={'default'}
-              >
-                <Plus />
-              </Button>
             </main>
           </div>
         </SidebarInset>

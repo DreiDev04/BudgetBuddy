@@ -6,6 +6,7 @@ import LastRecords from "../graphs/LastRecords";
 import { useEffect } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { getUserBudget } from "./actions";
+import BudgetModal from "@/components/custom/BudgetModal";
 
 const page = () => {
   const { user } = useUser();
@@ -27,7 +28,12 @@ const page = () => {
         </div>
       </Card>
       <AccountBalanceGraph />
+      {/* Last Records Overview */}
       <LastRecords />
+      {/* Modal for Budget */}
+      <div className="fixed bottom-6 right-6 p-4 py-6 z-10 ">
+        <BudgetModal  />
+      </div>
     </section>
   );
 };

@@ -3,7 +3,6 @@
 import { useUser } from "@clerk/nextjs";
 import {
   LayoutDashboard,
-  Receipt,
   PiggyBank,
   User,
   Goal,
@@ -22,8 +21,7 @@ import { NavMain } from "@/components/ui/nav-main";
 import { NavUser } from "@/components/ui/nav-user";
 import Logo from "../custom/Logo.png";
 import Image from "next/image";
-
-
+import LightToggle from "@/components/custom/LightToggle"
 
 export function AppSidebar() {
 
@@ -31,7 +29,6 @@ export function AppSidebar() {
   const navigation = [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { name: "Budget", href: "/dashboard/budget", icon: PiggyBank },
-    { name: "Transaction", href: "/dashboard/transaction", icon: Receipt },
     { name: "Goals", href: "/dashboard/goals", icon: Goal },
     { name: "Shopping List", href: "/dashboard/shopping-list", icon: ShoppingCart },
     { name: "Design", href: "/dashboard/Design", icon: User }, // Design system
@@ -59,23 +56,20 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
        <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <a href="/dashboard" >
-                <div className="flex aspect-square size-8 items-center justify-center text-sidebar-primary-foreground">
-                    <Image src={Logo} alt="Logo" />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">BUDGET BUDDY</span>
-                </div>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <SidebarMenuButton size="lg" asChild>
+          <a href="/dashboard" >
+            <div className="flex aspect-square size-8 items-center justify-center text-sidebar-primary-foreground">
+                <Image src={Logo} alt="Logo" />
+            </div>
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <span className="truncate font-semibold">BUDGET BUDDY</span>
+            </div>
+          </a>
+        </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={navMain} />
+        <LightToggle />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={userData} />
