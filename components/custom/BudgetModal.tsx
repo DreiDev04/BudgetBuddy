@@ -25,16 +25,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-type FormValues = {
-  title: string;
-  description: string | null;
-  categories: string;
-  color: string | null;
-  currency: string;
-  budget: number;
-  expenses: number;
-};
-
 const budgetSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
@@ -44,6 +34,8 @@ const budgetSchema = z.object({
   budget: z.number().min(0, "Budget must be greater than or equal to 0"),
   expenses: z.number().min(0, "Expenses must be greater than or equal to 0"),
 });
+
+type FormValues = z.infer<typeof budgetSchema>;
 
 const fields: { id: keyof FormValues; label: string; type: string }[] = [
   { id: "title", label: "Title", type: "text" },
