@@ -1,8 +1,8 @@
-import GoalsGraph from "./graphs/GoalsGraph";
-import Categories from "./graphs/Categories";
-import AccountBalanceGraph from "./graphs/AccountBalanceGraph";
-import { AccountBalanceCard } from "./graphs/AccountBalanceGraph";
-import LastRecords from "./graphs/LastRecords";
+import GoalsGraph from "../../components/graphs/GoalsGraph";
+import Categories from "../../components/graphs/Categories";
+import AccountBalanceGraph from "../../components/graphs/AccountBalanceGraph";
+import { AccountBalanceCard } from "../../components/graphs/AccountBalanceGraph";
+import LastRecords from "../../components/graphs/LastRecords";
 
 export default function Home() {
   return (

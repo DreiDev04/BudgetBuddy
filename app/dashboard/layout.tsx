@@ -40,8 +40,8 @@ export default function DashboardLayout({
               </Breadcrumb>
             </div>
           </header>
-          <div className="flex-1">
-            <main className="p-6">
+          <div className="flex-1 overflow-hidden">
+            <main className="p-6 ">
               {children}
             </main>
           </div>

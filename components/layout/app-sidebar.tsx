@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/sidebar"
 import { NavMain } from "@/components/ui/nav-main";
 import { NavUser } from "@/components/ui/nav-user";
-import Logo from "../custom/Logo.png";
+import Logo from "@/public/logo/Logo.png"
 import Image from "next/image";
 import LightToggle from "@/components/custom/LightToggle"
 
@@ -44,7 +44,7 @@ export function AppSidebar() {
   const fallbackUser = {
     name: "Guest",
     email: "guest@example.com",
-    avatar: "/avatars/default-avatar.jpg",
+    avatar: "@/public/avatars/default.jpg",
   };
 
   const userData = {
