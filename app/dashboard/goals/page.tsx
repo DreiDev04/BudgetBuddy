@@ -33,8 +33,10 @@ const Page = () => {
   ];
 
   const [filteredGoals, setFilteredGoals] = React.useState(goals);
+  const [selectedCategory, setSelectedCategory] = React.useState("All Goals");
 
   const handleCategorySelect = (category: string) => {
+    setSelectedCategory(category);
     if (category === "All Goals") {
       setFilteredGoals(goals);
     } else {
@@ -59,7 +61,9 @@ const Page = () => {
           <CardTitle id="detailed-breakdown-title">Detailed Breakdown of Goals</CardTitle>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="default" className="w-[120px]">Categories</Button>
+              <Button variant="default" className="w-[120px]">
+                {selectedCategory}
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={() => handleCategorySelect("All Goals")}>

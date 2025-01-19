@@ -13,10 +13,10 @@ const page = () => {
 
   if (!user) return null;
 
-  useEffect(() => {
-    const userBudget = getUserBudget(user.id);
-    console.log(userBudget);
-  }, []);
+  // useEffect(() => {
+  //   const userBudget = getUserBudget(user.id);
+  //   console.log(userBudget);
+  // }, []);
 
   return (
     <section className="flex flex-col gap-4">
