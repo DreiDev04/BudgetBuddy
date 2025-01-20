@@ -17,7 +17,6 @@ interface Budget {
 
 const Page = () => {
   const { user } = useUser();
-
   const [userBudget, setUserBudget] = useState<Budget | null>(null);
 
   useEffect(() => {
@@ -26,7 +25,7 @@ const Page = () => {
     const fetchUserBudget = async () => {
       try {
         const budget = await getUserBudget(user.id);
-        setUserBudget(budget || null);
+        setUserBudget(budget || null);  // Set the budget to null if not found
       } catch (error) {
         console.error("Error fetching user budget:", error);
       }
@@ -35,7 +34,7 @@ const Page = () => {
     fetchUserBudget();
   }, [user]);
 
-  if (!user) return null;
+  if (!user) return null;  // Ensure user is available before rendering the component
 
   return (
     <section className="flex flex-col gap-4">
