@@ -1,14 +1,18 @@
-import { IGoal } from "@/types/goal-types";
-import mongoose, { Schema, Model } from "mongoose";
+// models/Goal.js
+import { Schema, model, models } from 'mongoose';
 
-const UserSchema: Schema<IGoal> = new Schema(
-  {},
+const GoalSchema = new Schema(
   {
-    timestamps: true,
-  }
+    title: { type: String, required: true },
+    target: { type: String, required: true },
+    progress: { type: Number, default: 0 },
+
+    // Reference to User
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true }
+  },
+  { timestamps: true }
 );
 
-const Goal: Model<IGoal> =
-  mongoose.models.Goal || mongoose.model<IGoal>("Goal", UserSchema);
+const Goal = models.Goal || model('Goal', GoalSchema);
 
 export default Goal;
