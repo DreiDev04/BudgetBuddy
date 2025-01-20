@@ -67,7 +67,8 @@ export async function POST(req: Request) {
             email: evt.data.email_addresses?.[0]?.email_address || "",
             firstName: evt.data.first_name || "",
             lastName: evt.data.last_name || "",
-            username: evt.data.username || `user_${id}`, // Fallback for username
+            username: evt.data.username || `user_${id}`,
+            isOnboardingCompleted: false,
             createdAt: evt.data.created_at,
             updatedAt: evt.data.updated_at,
           });
@@ -85,6 +86,7 @@ export async function POST(req: Request) {
             lastName: evt.data.last_name || "",
             username: evt.data.username || `user_${id}`, // Fallback for username
             updatedAt: evt.data.updated_at,
+            isOnboardingCompleted: evt.data.private_metadata?.isOnboardingCompleted || false,
           },
           { new: true } // Return the updated document
         );

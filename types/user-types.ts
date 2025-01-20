@@ -6,6 +6,7 @@ export interface IClerkUserId extends Document {
   firstName: string;
   lastName?: string;
   username?: string;
+  isOnboardingCompleted: boolean;
   createdAt: string;
   updatedAt: string;
 }
