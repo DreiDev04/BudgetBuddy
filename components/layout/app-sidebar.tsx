@@ -21,9 +21,11 @@ import {
 } from "@/components/ui/sidebar";
 import { NavMain } from "@/components/ui/nav-main";
 import { NavUser } from "@/components/ui/nav-user";
-import Logo from "../custom/Logo.png";
+import Logo from "@/public/logo/Logo.svg"
 import Image from "next/image";
-import LightToggle from "@/components/custom/LightToggle";
+import LightToggle from "@/components/custom/LightToggle"
+// import defaultprofile from "@/public/avatars/default-profile.jpg"
+
 
 export function AppSidebar() {
   const { user } = useUser();
@@ -49,8 +51,7 @@ export function AppSidebar() {
   const fallbackUser = {
     name: "Guest",
     email: "guest@example.com",
-    avatar: "https://cdn-icons-png.flaticon.com/128/149/149071.png",
-  };
+    avatar: "avatars/default-profile.jpg",
 
   const userData = {
     name: user?.firstName || fallbackUser.name,

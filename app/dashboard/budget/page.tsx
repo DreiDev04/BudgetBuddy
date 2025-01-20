@@ -1,8 +1,8 @@
 "use client";
 import { Pencil } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import AccountBalanceGraph from "../graphs/AccountBalanceGraph";
-import LastRecords from "../graphs/LastRecords";
+import AccountBalanceGraph from "../../../components/graphs/AccountBalanceGraph";
+import LastRecords from "../../../components/graphs/LastRecords";
 import { useEffect } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { getUserBudget } from "./actions";

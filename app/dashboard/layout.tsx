@@ -8,9 +8,6 @@ import {
 } from "@/components/ui/sidebar";
 import { Breadcrumb, BreadcrumbPage } from "@/components/ui/breadcrumb";
 import { usePathname } from "next/navigation";
-import { ModeToggle } from "@/components/ui/mode-toggle";
-import { Button } from "@/components/ui/button";
-import {Plus} from "lucide-react";
 
 export default function DashboardLayout({
   children,
@@ -40,8 +37,8 @@ export default function DashboardLayout({
               </Breadcrumb>
             </div>
           </header>
-          <div className="flex-1">
-            <main className="p-6">
+          <div className="flex-1 overflow-hidden">
+            <main className="p-6 ">
               {children}
             </main>
           </div>

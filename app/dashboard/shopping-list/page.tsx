@@ -1,175 +1,119 @@
-"use client"
+"use client";
 
-import React from "react"
+import React, { useState } from "react";
 import {
-  ColumnDef,
-  ColumnResizeMode,
-  SortingState,
-  flexRender,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table"
-import { Checkbox } from "@/components/ui/checkbox"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import ShoppingListModal from "@/components/custom/ShoppingListModal"
+  Card,
+  CardContent,
+  CardHeader,
+} from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import ShoppingListModal from "@/components/custom/ShoppingListModal";
 
 export type Item = {
-  id: string
-  title: string
-  link: string
-  price: number
-}
+  id: string;
+  title: string;
+  link: string;
+  price: number;
+};
 
 const data: Item[] = [
   { id: "1", title: "Item 1", link: "https://example.com/item1", price: 50 },
   { id: "2", title: "Item 2", link: "https://example.com/item2", price: 75 },
   { id: "3", title: "Item 3", link: "https://example.com/item3", price: 100 },
-]
-
-export const columns: ColumnDef<Item>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    size: 50,
-  },
-  {
-    accessorKey: "title",
-    header: () => <div className="text-center">Title</div>,
-    cell: ({ row }) => <div className="text-center">{row.getValue("title")}</div>,
-    size: 200,
-  },
-  {
-    accessorKey: "link",
-    header: () => <div className="text-center">Link</div>,
-    cell: ({ row }) => (
-      <a
-        href={row.getValue("link")}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-center block"
-      >
-        {row.getValue("link")}
-      </a>
-    ),
-    size: 300,
-  },
-  {
-    accessorKey: "price",
-    header: () => <div className="text-center">Price</div>,
-    cell: ({ row }) => {
-      const price = parseFloat(row.getValue("price"))
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(price)
-      return <div className="text-right font-medium">{formatted}</div>
-    },
-    size: 100,
-  },
-]
+  { id: "4", title: "Item 4", link: "https://example.com/item4", price: 150 },
+  { id: "5", title: "Item 5", link: "https://example.com/item5", price: 200 },
+  { id: "6", title: "Item 6", link: "https://example.com/item6", price: 20 },
+  { id: "7", title: "Item 7", link: "https://example.com/item7", price: 30 },
+  { id: "8", title: "Item 8", link: "https://example.com/item8", price: 80 },
+  { id: "9", title: "Item 9", link: "https://example.com/item9", price: 90 },
+  { id: "10", title: "Item 10", link: "https://example.com/item10", price: 820 },
+];
 
 const Page = () => {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [rowSelection, setRowSelection] = React.useState({})
-  const [columnResizeMode, setColumnResizeMode] =
-    React.useState<ColumnResizeMode>("onChange")
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filter, setFilter] = useState<string>("All Items");
 
-  const table = useReactTable({
-    data,
-    columns,
-    onSortingChange: setSorting,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    onRowSelectionChange: setRowSelection,
-    columnResizeMode,
-    state: {
-      sorting,
-      rowSelection,
-    },
-  })
+  // Filtered data based on search and filter
+  const filteredData = data.filter((item) => {
+    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesFilter =
+      filter === "All Items" ||
+      (filter === "Under $100" && item.price < 100) ||
+      (filter === "Over $100" && item.price >= 100);
+    return matchesSearch && matchesFilter;
+  });
+
+  const handleCategorySelect = (category: string) => {
+    setFilter(category);
+  };
 
   return (
-    <section className="h-auto rounded-md flex items-center justify-center">
-      <div className="bg-card rounded-md border w-full max-w-[1200px] md:w-[90%] lg:w-[85%] mx-auto">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} style={{ width: header.getSize() }}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      style={{ width: cell.column.getSize() }}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
+    <section className="flex flex-col gap-6 lg:px-10 px-4 items-center justify-center">
+      {/* Shopping List Card */}
+      <Card className="bg-card border rounded-md w-full h-[650px] shadow-lg overflow-hidden">
+          <CardHeader className="flex flex-row justify-between items-center gap-4 p-4">
+            <Input
+              className="lg:w-[300px] md:w-full border shadow-lg"
+              placeholder="Search Items"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="default" className="w-[120px]">{filter}</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => handleCategorySelect("All Items")}>
+                  All Items
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleCategorySelect("Under $100")}>
+                  Under $100
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleCategorySelect("Over $100")}>
+                  Over $100
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </CardHeader>
+          <ScrollArea className="h-[calc(100%-80px)]">
+            <CardContent className="flex flex-col space-y-4 px-4 overflow-y-auto">
+              {filteredData.length > 0 ? (
+                filteredData.map((item) => (
+                  <div
+                    key={item.id}
+                    className="rounded-md border w-full p-4 flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0 shadow-md"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <Checkbox />
+                      <Label className="text-sm">{item.title}</Label>
+                    </div>
+                    <Label className="text-primary underline">
+                      <a href={item.link} target="_blank" rel="noopener noreferrer">
+                        {item.link}
+                      </a>
+                    </Label>
+                    <Label className="text-right font-medium">${item.price.toFixed(2)}</Label>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center text-gray-500 py-8">
+                  No items match your search or filter.
+                </div>
+              )}
+            </CardContent>
+          </ScrollArea>
+        </Card>
+
 
       {/* Modal */}
       <ShoppingListModal />
     </section>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
