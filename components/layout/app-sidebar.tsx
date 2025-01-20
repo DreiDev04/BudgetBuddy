@@ -52,7 +52,8 @@ export function AppSidebar() {
     name: "Guest",
     email: "guest@example.com",
     avatar: "avatars/default-profile.jpg",
-
+  }
+  
   const userData = {
     name: user?.firstName || fallbackUser.name,
     email: user?.emailAddresses?.[0]?.emailAddress || fallbackUser.email,

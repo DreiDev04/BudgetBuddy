@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 
-export interface IClerkUserId extends Document {
+export interface IClerkUser extends Document {
   userId: string;
   email: string;
   firstName: string;

@@ -1,3 +1,4 @@
+
 import GoalsGraph from "../../components/graphs/GoalsGraph";
 import Categories from "../../components/graphs/Categories";
 import AccountBalanceGraph from "../../components/graphs/AccountBalanceGraph";
@@ -5,6 +6,7 @@ import { AccountBalanceCard } from "../../components/graphs/AccountBalanceGraph"
 import LastRecords from "../../components/graphs/LastRecords";
 
 export default function Home() {
+
   return (
     <section className="grid grid-cols-12 gap-5">
       {/* Area Chart */}

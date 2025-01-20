@@ -86,7 +86,6 @@ export async function POST(req: Request) {
             lastName: evt.data.last_name || "",
             username: evt.data.username || `user_${id}`, // Fallback for username
             updatedAt: evt.data.updated_at,
-            isOnboardingCompleted: evt.data.private_metadata?.isOnboardingCompleted || false,
           },
           { new: true } // Return the updated document
         );

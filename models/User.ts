@@ -1,5 +1,5 @@
 import  { Schema, model, models } from "mongoose";
-import { IClerkUserId } from "@/types/user-types";
+import { IClerkUser } from "@/types/user-types";
 import clientPromise from "@/lib/db";
 
 const UserSchema = new Schema({
@@ -12,7 +12,7 @@ const UserSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
-const User = models.User || model<IClerkUserId>("User", UserSchema);
+const User = models.User || model<IClerkUser>("User", UserSchema);
 
 export { User };
 
