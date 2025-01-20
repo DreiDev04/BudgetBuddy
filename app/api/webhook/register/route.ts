@@ -72,7 +72,7 @@ export async function POST(req: Request) {
             createdAt: evt.data.created_at,
             updatedAt: evt.data.updated_at,
           });
-          const userBudget = await newUser.createBudget();
+          // const userBudget = await newUser.createBudget();
           await newUser.save();
         }
         break;

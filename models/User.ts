@@ -1,10 +1,8 @@
-// models/User.js
-import { Schema, model, models } from 'mongoose';
-import Budget from './Budget';
-import Goal from './Goal';
-import ShoppingList from './ShoppingList';
+// models/User.ts
+import { Schema, model, models } from "mongoose";
+import { IClerkUser } from "@/types/user-types";
 
-const UserSchema = new Schema(
+const UserSchema = new Schema<IClerkUser>(
   {
     userId: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
@@ -12,17 +10,13 @@ const UserSchema = new Schema(
     lastName: { type: String },
     username: { type: String },
     isOnboardingCompleted: { type: Boolean, default: false },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
-
-    // References to other collections
-    budget: { type: Schema.Types.ObjectId, ref: 'Budget' },
-    goal: { type: Schema.Types.ObjectId, ref: 'Goal' },
-    shoppingList: { type: Schema.Types.ObjectId, ref: 'ShoppingList' }
+    budget: { type: Schema.Types.ObjectId, ref: "Budget" },
+    goal: { type: Schema.Types.ObjectId, ref: "Goal" },
+    shoppingList: { type: Schema.Types.ObjectId, ref: "ShoppingList" },
   },
   { timestamps: true }
 );
 
-const User = models.User || model('User', UserSchema);
+const User = models.User || model<IClerkUser>("User", UserSchema);
 
 export { User };
