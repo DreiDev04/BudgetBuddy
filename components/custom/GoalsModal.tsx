@@ -88,10 +88,10 @@ const GoalsModal = () => {
           <Plus />
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-full md:w-[500px] m-auto">
+      <DialogContent className="w-full md:w-[500px] m-auto" aria-describedby="description">
         <DialogHeader>
           <DialogTitle>Goals</DialogTitle>
-          <DialogDescription>Set your goals</DialogDescription>
+          <DialogDescription id="description">Set your goals</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

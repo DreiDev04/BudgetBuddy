@@ -6,6 +6,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  CardDescription
 } from "@/components/ui/card"
 import {
   ChartConfig,
@@ -56,14 +57,15 @@ const Categories = () => {
   }, [])
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col"> {/* Match height with GoalsGraph */}
       <CardHeader className="items-center pb-0">
         <CardTitle>Spending Categories</CardTitle>
+        <CardDescription>Visualizing spending by categories</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
+          className="mx-auto aspect-square max-h-[235px]"
         >
           <PieChart>
             <ChartTooltip
@@ -90,7 +92,7 @@ const Categories = () => {
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
+                          className="fill-foreground text-xl font-bold"
                         >
                           ${totalAmount.toLocaleString()}
                         </tspan>
@@ -113,5 +115,6 @@ const Categories = () => {
     </Card>
   )
 }
+
 
 export default Categories

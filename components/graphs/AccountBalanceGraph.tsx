@@ -213,7 +213,7 @@ export default function AccountBalanceGraph() {
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[250px] w-full"
+          className="aspect-auto h-[300px] w-full"
         >
           <AreaChart data={filteredData}>
             <defs>

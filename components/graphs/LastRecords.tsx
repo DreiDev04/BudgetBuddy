@@ -77,7 +77,7 @@ const LastRecords = () => {
   };
 
   return (
-    <Card className="shadow-md rounded-lg h-[540px]">
+    <Card className="shadow-md rounded-lg lg:h-[600px] md:h-[750px] ">
       <CardHeader className="flex flex-row justify-between items-center ">
         <CardTitle>Last Records Overview</CardTitle>
         <DropdownMenu>

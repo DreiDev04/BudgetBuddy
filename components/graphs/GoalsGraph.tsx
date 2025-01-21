@@ -64,14 +64,13 @@ export function GoalsGraph() {
         <CardDescription>Visualizing progress towards financial goals</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer config={chartConfig} >
           <BarChart
             accessibilityLayer
             data={chartData}
             layout="vertical"
-            margin={{
-              right: 16,
-            }}
+            height={500}
+            margin={{ right: 16 }}
           >
             <CartesianGrid horizontal={false} />
             <YAxis
@@ -80,7 +79,7 @@ export function GoalsGraph() {
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value} // Displays full goal name
+              tickFormatter={(value) => value}
               hide
             />
             <XAxis dataKey="progress" type="number" domain={[0, 100]} hide />
@@ -92,7 +91,6 @@ export function GoalsGraph() {
               dataKey="progress"
               layout="vertical"
               radius={4}
-            //   fill={(entry) => entry.fill} // Using custom colors from `chartData`
             >
               <LabelList
                 dataKey="goal"
@@ -115,5 +113,6 @@ export function GoalsGraph() {
     </Card>
   )
 }
+
 
 export default GoalsGraph

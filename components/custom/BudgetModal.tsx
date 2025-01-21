@@ -79,10 +79,10 @@ export const BudgetModal = () => {
           <Plus />
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-full md:w-[500px] m-auto">
+      <DialogContent className="w-full md:w-[500px] m-auto" aria-describedby="description">
         <DialogHeader>
           <DialogTitle>Add Budget</DialogTitle>
-          <DialogDescription>Add a budget to track your expenses</DialogDescription>
+          <DialogDescription id="description">Add a budget to track your expenses</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

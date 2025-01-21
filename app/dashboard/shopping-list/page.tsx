@@ -55,7 +55,7 @@ const Page = () => {
   return (
     <section className="flex flex-col gap-6 lg:px-10 px-4 items-center justify-center">
       {/* Shopping List Card */}
-      <Card className="bg-card border rounded-md w-full h-[650px] shadow-lg overflow-hidden">
+      <Card className="bg-card border rounded-md w-full lg:h-[650px] h-[750px] shadow-lg overflow-hidden">
           <CardHeader className="flex flex-row justify-between items-center gap-4 p-4">
             <Input
               className="lg:w-[300px] md:w-full border shadow-lg"

@@ -26,7 +26,6 @@ import {
 } from "@/components/ui/sidebar";
 import { SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
-import { ModeToggle } from "../ui/mode-toggle";
 
 export function NavUser({
   user,
