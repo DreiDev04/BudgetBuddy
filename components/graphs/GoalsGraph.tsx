@@ -17,14 +17,13 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
-// Updated data for goals
-const chartData = [
-  { goal: "Savings", progress: 80, fill: "var(--color-savings)" },
-  { goal: "Investments", progress: 60, fill: "var(--color-investments)" },
-  { goal: "Debt Repayment", progress: 50, fill: "var(--color-debt)" },
-  { goal: "Emergency", progress: 30, fill: "var(--color-emergency)" },
-  { goal: "Travel", progress: 20, fill: "var(--color-travel)" },
-]
+interface GoalsProps {
+  data: {
+    goal: string,
+    progress: number,
+    fill: string
+  }[]
+}
 
 // Updated chart config with old color palette
 const chartConfig = {
@@ -56,7 +55,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function GoalsGraph() {
+const GoalsGraph:React.FC<GoalsProps> = ({data}) => {
   return (
     <Card>
       <CardHeader>
@@ -67,7 +66,7 @@ export function GoalsGraph() {
         <ChartContainer config={chartConfig} >
           <BarChart
             accessibilityLayer
-            data={chartData}
+            data={data}
             layout="vertical"
             height={500}
             margin={{ right: 16 }}

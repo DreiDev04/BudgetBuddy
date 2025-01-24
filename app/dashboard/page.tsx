@@ -37,6 +37,35 @@ const SpendingData = [
   { category: "Utilities", amount: 150, fill: "var(--color-utilities)" },
 ]
 
+const SpendingRecords = [
+  // Last 7 days
+  { id: 1, label: "Record 1", category: "foods", value: 10, date: new Date("2025-01-12").getTime() },
+  { id: 2, label: "Record 2", category: "transport", value: 15, date: new Date("2025-01-14").getTime() },
+  { id: 3, label: "Record 3", category: "entertainment", value: 20, date: new Date("2025-01-16").getTime() },
+  { id: 4, label: "Record 4", category: "groceries", value: 25, date: new Date("2025-01-17").getTime() },
+
+  // Last 3 months (excluding last 7 days)
+  { id: 5, label: "Record 5", category: "clothing", value: 50, date: new Date("2024-12-15").getTime() },
+  { id: 6, label: "Record 6", category: "groceries", value: 35, date: new Date("2024-12-01").getTime() },
+  { id: 7, label: "Record 7", category: "foods", value: 40, date: new Date("2024-11-20").getTime() },
+  { id: 8, label: "Record 8", category: "utilities", value: 60, date: new Date("2024-11-05").getTime() },
+  { id: 9, label: "Record 9", category: "entertainment", value: 75, date: new Date("2024-10-25").getTime() },
+  { id: 10, label: "Record 10", category: "foods", value: 90, date: new Date("2024-10-15").getTime() },
+
+  // Older than 3 months
+  { id: 11, label: "Record 11", category: "transport", value: 20, date: new Date("2024-09-01").getTime() },
+  { id: 12, label: "Record 12", category: "clothing", value: 80, date: new Date("2024-08-15").getTime() },
+  { id: 13, label: "Record 13", category: "groceries", value: 100, date: new Date("2024-08-01").getTime() },
+];
+
+const GoalsRecords =[
+  { goal: "Savings", progress: 80, fill: "var(--color-savings)" },
+  { goal: "Investments", progress: 60, fill: "var(--color-investments)" },
+  { goal: "Debt Repayment", progress: 50, fill: "var(--color-debt)" },
+  { goal: "Emergency", progress: 30, fill: "var(--color-emergency)" },
+  { goal: "Travel", progress: 20, fill: "var(--color-travel)" },
+]
+
 
   return (
     <section className="grid grid-cols-12 gap-5">
@@ -52,12 +81,12 @@ const SpendingData = [
 
       {/* Transactions */}
       <div className="col-span-12 lg:col-span-4 lg:row-span-2 md:col-span-6 md:row-span-2">
-        <LastRecords />
+        <LastRecords data={SpendingRecords} />
       </div>
 
       {/* Bar Chart */}
       <div className="col-span-12 md:col-span-6 lg:col-span-4">
-        <GoalsGraph />
+        <GoalsGraph data={GoalsRecords} />
       </div>
 
       {/* Pie Chart */}
