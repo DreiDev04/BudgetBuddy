@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import UpdateGoal from "@/components/custom/UpdateGoal";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { GoalsRecords } from "@/components/data/data";
 
 const Page = () => {
   const goals = [
@@ -52,7 +53,7 @@ const Page = () => {
     >
       {/* Goals Progress Graph */}
       <article className="lg:col-span-1 md:col-span-2 sm:col-span-1">
-        <GoalsGraph />
+        <GoalsGraph data={GoalsRecords}/>
       </article>
 
       {/* Detailed Breakdown */}
