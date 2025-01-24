@@ -15,14 +15,13 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
-// Updated data for spending categories
-const chartData = [
-  { category: "Rent", amount: 1200, fill: "var(--color-rent)" },
-  { category: "Groceries", amount: 800, fill: "var(--color-groceries)" },
-  { category: "Transportation", amount: 300, fill: "var(--color-transportation)" },
-  { category: "Entertainment", amount: 200, fill: "var(--color-entertainment)" },
-  { category: "Utilities", amount: 150, fill: "var(--color-utilities)" },
-]
+interface CategoriesProps {
+  data: {
+    category: string,
+    amount: number,
+    fill: string
+  }[];
+}
 
 // Updated config for spending categories
 const chartConfig = {
@@ -51,10 +50,10 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-const Categories = () => {
+const Categories: React.FC<CategoriesProps> = ({ data }) => {
   const totalAmount = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.amount, 0)
-  }, [])
+    return data.reduce((acc, curr) => acc + curr.amount, 0);
+  }, [data]);
 
   return (
     <Card className="flex flex-col"> {/* Match height with GoalsGraph */}
@@ -73,7 +72,7 @@ const Categories = () => {
               content={<ChartTooltipContent hideLabel />}
             />
             <Pie
-              data={chartData}
+              data={data}
               dataKey="amount"
               nameKey="category"
               innerRadius={60}
@@ -104,7 +103,7 @@ const Categories = () => {
                           Total
                         </tspan>
                       </text>
-                    )
+                    );
                   }
                 }}
               />
@@ -113,8 +112,7 @@ const Categories = () => {
         </ChartContainer>
       </CardContent>
     </Card>
-  )
-}
-
+  );
+};
 
 export default Categories

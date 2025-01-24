@@ -29,6 +29,14 @@ export default function Home() {
   { date: "2024-04-20", income: 10000, expenses: 5500 },
 ];
 
+const SpendingData = [
+  { category: "Rent", amount: 1200, fill: "var(--color-rent)" },
+  { category: "Groceries", amount: 800, fill: "var(--color-groceries)" },
+  { category: "Transportation", amount: 300, fill: "var(--color-transportation)" },
+  { category: "Entertainment", amount: 200, fill: "var(--color-entertainment)" },
+  { category: "Utilities", amount: 150, fill: "var(--color-utilities)" },
+]
+
 
   return (
     <section className="grid grid-cols-12 gap-5">
@@ -54,7 +62,7 @@ export default function Home() {
 
       {/* Pie Chart */}
       <div className="col-span-12 md:col-span-6 lg:col-span-4">
-        <Categories />
+        <Categories data={SpendingData}/>
       </div>
     </section>
   );
