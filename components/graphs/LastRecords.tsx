@@ -22,8 +22,9 @@ interface LastRecordProps{
     id: number,
     label: string,
     category: string,
-    value: number,
-    date: number
+    amount: number,
+    date: number,
+    fill: string
   }[];
 }
 
@@ -100,7 +101,7 @@ const LastRecords: React.FC<LastRecordProps> = ({data}) => {
                 {recent.label}
               </Label>
               <Label className="">{recent.category}</Label>
-              <Label className="text-sm">${recent.value}</Label>
+              <Label className="text-sm">${recent.amount}</Label>
             </div>
           ))}
         </CardContent>

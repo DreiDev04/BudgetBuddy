@@ -42,7 +42,7 @@ export default function DashboardLayout({
             </div>
           </header>
           <div className="flex-1 overflow-hidden">
-            <main className="p-6 ">
+            <main className="px-6 py-2">
               {children}
             </main>
           </div>
