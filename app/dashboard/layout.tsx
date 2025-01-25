@@ -5,9 +5,11 @@ import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { Breadcrumb, BreadcrumbPage } from "@/components/ui/breadcrumb";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 export default function DashboardLayout({
   children,
@@ -15,6 +17,8 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+
+
 
   const currentPage = pathname
     .split("/")
@@ -38,7 +42,7 @@ export default function DashboardLayout({
             </div>
           </header>
           <div className="flex-1 overflow-hidden">
-            <main className="p-6 ">
+            <main className="px-6 py-2">
               {children}
             </main>
           </div>

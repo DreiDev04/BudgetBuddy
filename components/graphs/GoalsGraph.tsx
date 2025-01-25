@@ -17,14 +17,13 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
-// Updated data for goals
-const chartData = [
-  { goal: "Savings", progress: 80, fill: "var(--color-savings)" },
-  { goal: "Investments", progress: 60, fill: "var(--color-investments)" },
-  { goal: "Debt Repayment", progress: 50, fill: "var(--color-debt)" },
-  { goal: "Emergency", progress: 30, fill: "var(--color-emergency)" },
-  { goal: "Travel", progress: 20, fill: "var(--color-travel)" },
-]
+interface GoalsProps {
+  data: {
+    title: string,
+    progress: number,
+    fill: string
+  }[]
+}
 
 // Updated chart config with old color palette
 const chartConfig = {
@@ -56,7 +55,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function GoalsGraph() {
+const GoalsGraph:React.FC<GoalsProps> = ({data}) => {
   return (
     <Card>
       <CardHeader>
@@ -64,23 +63,22 @@ export function GoalsGraph() {
         <CardDescription>Visualizing progress towards financial goals</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer config={chartConfig} >
           <BarChart
             accessibilityLayer
-            data={chartData}
+            data={data}
             layout="vertical"
-            margin={{
-              right: 16,
-            }}
+            height={500}
+            margin={{ right: 16 }}
           >
             <CartesianGrid horizontal={false} />
             <YAxis
-              dataKey="goal"
+              dataKey="title"
               type="category"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value} // Displays full goal name
+              tickFormatter={(value) => value}
               hide
             />
             <XAxis dataKey="progress" type="number" domain={[0, 100]} hide />
@@ -92,21 +90,20 @@ export function GoalsGraph() {
               dataKey="progress"
               layout="vertical"
               radius={4}
-            //   fill={(entry) => entry.fill} // Using custom colors from `chartData`
             >
               <LabelList
-                dataKey="goal"
+                dataKey="title"
                 position="insideLeft"
                 offset={8}
                 className="fill-[--color-label]"
-                fontSize={12}
+                fontSize={10}
               />
               <LabelList
                 dataKey="progress"
                 position="right"
                 offset={8}
                 className="fill-foreground"
-                fontSize={12}
+                fontSize={10}
               />
             </Bar>
           </BarChart>
@@ -115,5 +112,6 @@ export function GoalsGraph() {
     </Card>
   )
 }
+
 
 export default GoalsGraph

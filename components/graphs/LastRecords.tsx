@@ -17,35 +17,25 @@ import {
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
 
-const LastRecords = () => {
-  const records = [
-    // Last 7 days
-    { id: 1, label: "Record 1", category: "foods", value: "$10", date: "2025-01-12" },
-    { id: 2, label: "Record 2", category: "transport", value: "$15", date: "2025-01-14" },
-    { id: 3, label: "Record 3", category: "entertainment", value: "$20", date: "2025-01-16" },
-    { id: 4, label: "Record 4", category: "groceries", value: "$25", date: "2025-01-17" },
+interface LastRecordProps{
+  data: {
+    id: number,
+    label: string,
+    category: string,
+    amount: number,
+    date: number,
+    fill: string
+  }[];
+}
 
-    // Last 3 months (excluding last 7 days)
-    { id: 5, label: "Record 5", category: "clothing", value: "$50", date: "2024-12-15" },
-    { id: 6, label: "Record 6", category: "groceries", value: "$35", date: "2024-12-01" },
-    { id: 7, label: "Record 7", category: "foods", value: "$40", date: "2024-11-20" },
-    { id: 8, label: "Record 8", category: "utilities", value: "$60", date: "2024-11-05" },
-    { id: 9, label: "Record 9", category: "entertainment", value: "$75", date: "2024-10-25" },
-    { id: 10, label: "Record 10", category: "foods", value: "$90", date: "2024-10-15" },
-
-    // Older than 3 months
-    { id: 11, label: "Record 11", category: "transport", value: "$20", date: "2024-09-01" },
-    { id: 12, label: "Record 12", category: "clothing", value: "$80", date: "2024-08-15" },
-    { id: 13, label: "Record 13", category: "groceries", value: "$100", date: "2024-08-01" },
-  ];
-
+const LastRecords: React.FC<LastRecordProps> = ({data}) => {
 
   const [filter, setFilter] = useState<string>("All Items");
 
   const getFilteredRecords = () => {
     const now = new Date();
-    return records.filter((record) => {
-      const recordDate = new Date(record.date);
+    return data.filter((data) => {
+      const recordDate = new Date(data.date);
       if (filter === "All Items") return true;
 
       if (filter === "Last 3 months") {
@@ -77,7 +67,7 @@ const LastRecords = () => {
   };
 
   return (
-    <Card className="shadow-md rounded-lg h-[540px]">
+    <Card className="shadow-md rounded-lg lg:h-[600px] md:h-[750px] min-h-[600px]">
       <CardHeader className="flex flex-row justify-between items-center ">
         <CardTitle>Last Records Overview</CardTitle>
         <DropdownMenu>
@@ -111,7 +101,7 @@ const LastRecords = () => {
                 {recent.label}
               </Label>
               <Label className="">{recent.category}</Label>
-              <Label className="text-sm">{recent.value}</Label>
+              <Label className="text-sm">${recent.amount}</Label>
             </div>
           ))}
         </CardContent>

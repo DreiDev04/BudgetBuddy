@@ -13,33 +13,15 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ShoppingListModal from "@/components/custom/ShoppingListModal";
+import { ShoppingListRecords } from "@/components/data/data";
 
-export type Item = {
-  id: string;
-  title: string;
-  link: string;
-  price: number;
-};
-
-const data: Item[] = [
-  { id: "1", title: "Item 1", link: "https://example.com/item1", price: 50 },
-  { id: "2", title: "Item 2", link: "https://example.com/item2", price: 75 },
-  { id: "3", title: "Item 3", link: "https://example.com/item3", price: 100 },
-  { id: "4", title: "Item 4", link: "https://example.com/item4", price: 150 },
-  { id: "5", title: "Item 5", link: "https://example.com/item5", price: 200 },
-  { id: "6", title: "Item 6", link: "https://example.com/item6", price: 20 },
-  { id: "7", title: "Item 7", link: "https://example.com/item7", price: 30 },
-  { id: "8", title: "Item 8", link: "https://example.com/item8", price: 80 },
-  { id: "9", title: "Item 9", link: "https://example.com/item9", price: 90 },
-  { id: "10", title: "Item 10", link: "https://example.com/item10", price: 820 },
-];
 
 const Page = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState<string>("All Items");
 
   // Filtered data based on search and filter
-  const filteredData = data.filter((item) => {
+  const filteredData = ShoppingListRecords.filter((item) => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesFilter =
       filter === "All Items" ||
@@ -55,7 +37,7 @@ const Page = () => {
   return (
     <section className="flex flex-col gap-6 lg:px-10 px-4 items-center justify-center">
       {/* Shopping List Card */}
-      <Card className="bg-card border rounded-md w-full h-[650px] shadow-lg overflow-hidden">
+      <Card className="bg-card border rounded-md w-full lg:h-[650px] h-[750px] shadow-lg overflow-hidden">
           <CardHeader className="flex flex-row justify-between items-center gap-4 p-4">
             <Input
               className="lg:w-[300px] md:w-full border shadow-lg"
@@ -108,7 +90,6 @@ const Page = () => {
             </CardContent>
           </ScrollArea>
         </Card>
-
 
       {/* Modal */}
       <ShoppingListModal />

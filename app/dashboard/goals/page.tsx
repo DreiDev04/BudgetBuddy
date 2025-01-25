@@ -21,38 +21,32 @@ import {
 } from "@/components/ui/dropdown-menu";
 import UpdateGoal from "@/components/custom/UpdateGoal";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { GoalsRecords } from "@/components/data/data";
+
 
 const Page = () => {
-  const goals = [
-    { id: 1, title: "Car", progress: 50, category: "car", target: "$10,000", note: "short note", color: "bg-green-700", date: "2025-12-31" },
-    { id: 2, title: "Vacation", progress: 20, category: "Vacation", target: "$5,000", note: "short note", color: "bg-blue-600", date: "2025-06-15" },
-    { id: 3, title: "Emergency Fund", progress: 70, category: "Emergency", target: "$20,000", note: "short note", color: "bg-red-600", date: "2025-10-01" },
-    { id: 4, title: "Home Renovation", progress: 40, category: "Renovation", target: "$50,000", note: "short note", color: "bg-yellow-600", date: "2026-01-01" },
-    { id: 5, title: "Backyard Renovation", progress: 40, category: "Renovation", target: "$50,000", note: "short note", color: "bg-purple-600", date: "2026-01-01" },
-    { id: 6, title: "Garage Renovation", progress: 40, category: "Renovation", target: "$50,000", note: "short note", color: "bg-purple-600", date: "2026-01-01" },
-  ];
 
-  const [filteredGoals, setFilteredGoals] = React.useState(goals);
+  const [filteredGoals, setFilteredGoals] = React.useState(GoalsRecords);
   const [selectedCategory, setSelectedCategory] = React.useState("All Goals");
 
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
     if (category === "All Goals") {
-      setFilteredGoals(goals);
+      setFilteredGoals(GoalsRecords);
     } else {
-      const filtered = goals.filter((goal) => goal.category === category);
+      const filtered = GoalsRecords.filter((goal) => goal.category === category);
       setFilteredGoals(filtered);
     }
   };
 
   return (
     <section
-      className="h-auto grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4 p-4"
+      className="h-auto grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4"
       aria-labelledby="goals-section"
     >
       {/* Goals Progress Graph */}
       <article className="lg:col-span-1 md:col-span-2 sm:col-span-1">
-        <GoalsGraph />
+        <GoalsGraph data={GoalsRecords}/>
       </article>
 
       {/* Detailed Breakdown */}
@@ -69,7 +63,7 @@ const Page = () => {
               <DropdownMenuItem onClick={() => handleCategorySelect("All Goals")}>
                 All Goals
               </DropdownMenuItem>
-              {[...new Set(goals.map((goal) => goal.category))].map((category, index) => (
+              {[...new Set(GoalsRecords.map((goal) => goal.category))].map((category, index) => (
                 <DropdownMenuItem
                   key={index}
                   onClick={() => handleCategorySelect(category)}
@@ -96,7 +90,7 @@ const Page = () => {
                     value={goal.progress}
                     className="w-full lg:w-[40%] flex-grow my-2"
                   />
-                  <Label>{goal.target}</Label>
+                  <Label>${goal.target}</Label>
                   <Label>{goal.date}</Label>
                   <UpdateGoal />
                 </div>
