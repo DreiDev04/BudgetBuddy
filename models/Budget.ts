@@ -1,25 +1,8 @@
-import { Schema, model, models, Model } from "mongoose";
+import { Schema, model, models, Types } from "mongoose";
 import { IBudget } from "@/types/budget-types";
-
-
-const ColorSchema = new Schema({
-  name: { type: String, required: true },
-  hex: { type: String, required: true },
-});
-
-
-const CategorySchema = new Schema({
-  name: { type: String, required: true },
-  color: { type: ColorSchema, required: true },
-});
-
-const ExpenseSchema = new Schema({
-  name: { type: String, required: true },
-  amount: { type: Number, required: true },
-  category: { type: CategorySchema, required: true },
-  date: { type: Date, required: true },
-});
-
+import ColorSchema from "./shared/ColorSchema";
+import CategorySchema from "./shared/CategorySchema";
+import ExpenseSchema from "./shared/ExpensesSchema";
 
 const BudgetSchema = new Schema<IBudget>(
   {
@@ -29,12 +12,11 @@ const BudgetSchema = new Schema<IBudget>(
     color: { type: [ColorSchema], required: true },
     categories: { type: [CategorySchema], required: true },
     expenses: { type: [ExpenseSchema], required: true },
+    user: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
   { timestamps: true }
 );
 
-
-const Budget: Model<IBudget> =
-  models.Budget || model<IBudget>("Budget", BudgetSchema);
+const Budget = models.Budget || model<IBudget>("Budget", BudgetSchema);
 
 export default Budget;

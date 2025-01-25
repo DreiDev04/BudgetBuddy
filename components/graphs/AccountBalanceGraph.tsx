@@ -34,6 +34,7 @@ interface AccountBalanceGraphProps {
   }[];
 }
 
+
 const chartConfig = {
   visitors: {
     label: "Visitors",

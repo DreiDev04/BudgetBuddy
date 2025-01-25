@@ -1,12 +1,15 @@
-import { Document } from "mongoose";
+import { Types, Document } from "mongoose";
 
-export interface IClerkUserId extends Document {
+export interface IClerkUser extends Document {
   userId: string;
   email: string;
-  firstName: string;
+  firstName?: string;
   lastName?: string;
   username?: string;
   isOnboardingCompleted: boolean;
-  createdAt: string;
-  updatedAt: string;
+  budget?: Types.ObjectId; // Updated
+  goal?: Types.ObjectId; // Updated
+  shoppingList?: Types.ObjectId; // Updated
+  createdAt?: Date;
+  updatedAt?: Date;
 }

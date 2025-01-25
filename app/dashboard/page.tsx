@@ -1,3 +1,4 @@
+
 import GoalsGraph from "../../components/graphs/GoalsGraph";
 import Categories from "../../components/graphs/Categories";
 import AccountBalanceGraph from "../../components/graphs/AccountBalanceGraph";

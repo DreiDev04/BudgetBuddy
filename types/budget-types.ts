@@ -1,21 +1,7 @@
-import { Document } from "mongoose";
-
-export interface IColor {
-  name: string;
-  hex: string;
-}
-
-export interface ICategory {
-  name: string;
-  color: IColor;
-}
-
-export interface IExpense {
-  name: string;
-  amount: number;
-  category: ICategory;
-  date: Date;
-}
+// types/budget-types.ts
+import { Document, Types } from "mongoose";
+import { IColor, ICategory } from "./shared-types";
+import { IExpense } from "./expense-types";
 
 export interface IBudget extends Document {
   title: string;
@@ -24,4 +10,5 @@ export interface IBudget extends Document {
   color: IColor[];
   categories: ICategory[];
   expenses: IExpense[];
+  user: Types.ObjectId; // Add this field
 }

@@ -1,17 +1,26 @@
 "use client";
+
 import { Pencil } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import AccountBalanceGraph from "../../../components/graphs/AccountBalanceGraph";
-import LastRecords from "../../../components/graphs/LastRecords";
+import AccountBalanceGraph from "@/components/graphs/AccountBalanceGraph";
+import LastRecords from "@/components/graphs/LastRecords";
+import { useEffect, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { AccountData, SpendingData } from "@/components/data/data";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import BudgetModal from "@/components/custom/BudgetModal";
 
-const page = () => {
+interface Budget {
+  id: string;
+  title: string;
+  amount: number;
+}
+
+const Page = () => {
   const { user } = useUser();
   const [accountBalance, setAccountBalance] = useState<number>(0);
+  const [userBudget, setUserBudget] = useState<Budget | null>(null);
 
   useEffect(() => {
     if (AccountData.length > 0) {
@@ -25,9 +34,28 @@ const page = () => {
   }, []);
 
   if (!user) return null;
+  
+
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchUserBudget = async () => {
+      try {
+        const budget = await getUserBudget(user.id);
+        setUserBudget(budget || null);  // Set the budget to null if not found
+      } catch (error) {
+        console.error("Error fetching user budget:", error);
+      }
+    };
+
+    fetchUserBudget();
+  }, [user]);
+
+  if (!user) return null;  // Ensure user is available before rendering the component
 
   return (
     <section className="flex flex-col gap-4">
+      <pre>{JSON.stringify(userBudget, null, 2)}</pre>
       <Card className="flex items-center gap-4 border-b p-5 justify-center lg:justify-end sm:flex-row">
         <div className="flex items-center gap-2">
           <h3 className="text-xl font-semibold">Balance Today:</h3>
@@ -51,4 +79,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
