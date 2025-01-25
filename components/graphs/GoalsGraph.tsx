@@ -19,7 +19,7 @@ import {
 
 interface GoalsProps {
   data: {
-    goal: string,
+    title: string,
     progress: number,
     fill: string
   }[]
@@ -73,7 +73,7 @@ const GoalsGraph:React.FC<GoalsProps> = ({data}) => {
           >
             <CartesianGrid horizontal={false} />
             <YAxis
-              dataKey="goal"
+              dataKey="title"
               type="category"
               tickLine={false}
               tickMargin={10}
@@ -92,18 +92,18 @@ const GoalsGraph:React.FC<GoalsProps> = ({data}) => {
               radius={4}
             >
               <LabelList
-                dataKey="goal"
+                dataKey="title"
                 position="insideLeft"
                 offset={8}
                 className="fill-[--color-label]"
-                fontSize={12}
+                fontSize={10}
               />
               <LabelList
                 dataKey="progress"
                 position="right"
                 offset={8}
                 className="fill-foreground"
-                fontSize={12}
+                fontSize={10}
               />
             </Bar>
           </BarChart>

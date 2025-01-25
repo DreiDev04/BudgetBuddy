@@ -67,7 +67,7 @@ const LastRecords: React.FC<LastRecordProps> = ({data}) => {
   };
 
   return (
-    <Card className="shadow-md rounded-lg lg:h-[600px] md:h-[750px] ">
+    <Card className="shadow-md rounded-lg lg:h-[600px] md:h-[750px] min-h-[600px]">
       <CardHeader className="flex flex-row justify-between items-center ">
         <CardTitle>Last Records Overview</CardTitle>
         <DropdownMenu>

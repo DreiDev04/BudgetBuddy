@@ -1,5 +1,4 @@
-// src/data.ts
-
+// for accounts (e.g., bank accounts, credit cards, etc.)
 export const AccountData = [
     { date: "2024-04-01", income: 10000, expenses: 5000 },
     { date: "2024-04-02", income: 8000, expenses: 4500 },
@@ -23,6 +22,7 @@ export const AccountData = [
     { date: "2024-04-20", income: 10000, expenses: 5500 },
   ];
 
+  // spending records (e.g., groceries, entertainment, etc.)
   export const SpendingData = [
     { id: 1, label: "Record 1", category: "foods", amount: 10, date: new Date("2025-01-12").getTime(), fill: "var(--color-rent)" },
     { id: 2, label: "Record 2", category: "transport", amount: 15, date: new Date("2025-01-14").getTime(), fill: "var(--color-transportation)" },
@@ -39,12 +39,14 @@ export const AccountData = [
     { id: 13, label: "Record 13", category: "groceries", amount: 100, date: new Date("2024-08-01").getTime(), fill: "var(--color-groceries)" },
   ];
 
+  //goals records (e.g., saving money, paying off debt, etc.)
   export const GoalsRecords = [
-    { goal: "Savings", progress: 80, fill: "var(--color-savings)" },
-    { goal: "Investments", progress: 60, fill: "var(--color-investments)" },
-    { goal: "Debt Repayment", progress: 50, fill: "var(--color-debt)" },
-    { goal: "Emergency", progress: 30, fill: "var(--color-emergency)" },
-    { goal: "Travel", progress: 20, fill: "var(--color-travel)" },
+    { id: 1, title: "Car", progress: 50, category: "Savings", target: 10000, note: "short note", color: "bg-blue-600", fill: "var(--color-savings)", date: "2025-12-31" },
+    { id: 2, title: "Vacation", progress: 20, category: "Travel", target: 5000, note: "short note", color: "bg-emerald-500",fill: "var(--color-investments)", date: "2025-06-15" },
+    { id: 3, title: "Emergency Fund", progress: 70, category: "Emergency", target: 20000, note: "short note", color: "bg-purple-600",fill: "var(--color-emergency)", date: "2025-10-01" },
+    { id: 4, title: "Home Renovation", progress: 40, category: "Investments", target: 50000, note: "short note", color: "bg-emerald-500",fill: "var(--color-investments)", date: "2026-01-01" },
+    { id: 5, title: "Backyard Renovation", progress: 40, category: "Investments", target: 50000, note: "short note", color: "bg-emerald-500",fill: "var(--color-investments)", date: "2026-01-01" },
+    { id: 6, title: "Debt Repayment", progress: 40, category: "Debt", target: 50000, note: "short note", color: "bg-yellow-600",fill: "var(--color-debt)", date: "2026-01-01" },
   ];
 
   //needed for Spending Categories Graph
@@ -70,3 +72,18 @@ export const AccountData = [
 
     return acc;
   }, []);
+
+
+  // Shopping Lists
+  export const ShoppingListRecords =[
+    { id: "1", title: "Item 1", link: "https://example.com/item1", price: 50 },
+    { id: "2", title: "Item 2", link: "https://example.com/item2", price: 75 },
+    { id: "3", title: "Item 3", link: "https://example.com/item3", price: 100 },
+    { id: "4", title: "Item 4", link: "https://example.com/item4", price: 150 },
+    { id: "5", title: "Item 5", link: "https://example.com/item5", price: 200 },
+    { id: "6", title: "Item 6", link: "https://example.com/item6", price: 20 },
+    { id: "7", title: "Item 7", link: "https://example.com/item7", price: 30 },
+    { id: "8", title: "Item 8", link: "https://example.com/item8", price: 80 },
+    { id: "9", title: "Item 9", link: "https://example.com/item9", price: 90 },
+    { id: "10", title: "Item 10", link: "https://example.com/item10", price: 820 },
+  ]
