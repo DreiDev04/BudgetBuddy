@@ -6,9 +6,8 @@ import AccountBalanceGraph from "@/components/graphs/AccountBalanceGraph";
 import LastRecords from "@/components/graphs/LastRecords";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
-import { AccountData, SpendingData } from "@/components/data/data";
+import { useAccountData, useSpendingData } from "@/app/dashboard/page";
 import { Input } from "@/components/ui/input";
-import { useState, useEffect } from "react";
 import BudgetModal from "@/components/custom/BudgetModal";
 
 interface Budget {
@@ -19,13 +18,15 @@ interface Budget {
 
 const Page = () => {
   const { user } = useUser();
+  const [accountData] = useAccountData();
+  const [spendingData] = useSpendingData();
   const [accountBalance, setAccountBalance] = useState<number>(0);
   const [userBudget, setUserBudget] = useState<Budget | null>(null);
 
   useEffect(() => {
-    if (AccountData.length > 0) {
+    if (accountData.length > 0) {
       // Calculate the total account balance
-      const totalBalance = AccountData.reduce((acc, record) => {
+      const totalBalance = accountData.reduce((acc, record) => {
         return acc + record.income - record.expenses;
       }, 0);
 
@@ -34,7 +35,6 @@ const Page = () => {
   }, []);
 
   if (!user) return null;
-  
 
   useEffect(() => {
     if (!user) return;
@@ -68,9 +68,9 @@ const Page = () => {
           <Pencil className="w-5 h-5" aria-hidden="true" />
         </div>
       </Card>
-      <AccountBalanceGraph data={AccountData} />
+      <AccountBalanceGraph data={accountData} />
       {/* Last Records Overview */}
-      <LastRecords data={SpendingData} />
+      <LastRecords data={spendingData} />
       {/* Modal for Budget */}
       <div className="fixed bottom-6 right-6 p-4 py-6 z-10 ">
         <BudgetModal />

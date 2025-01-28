@@ -21,20 +21,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import UpdateGoal from "@/components/custom/UpdateGoal";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { GoalsRecords } from "@/components/data/data";
+import { useGoalsData } from "@/app/dashboard/page";
 
 
 const Page = () => {
+  const [goalsData] = useGoalsData();
 
-  const [filteredGoals, setFilteredGoals] = React.useState(GoalsRecords);
+  const [filteredGoals, setFilteredGoals] = React.useState(goalsData);
   const [selectedCategory, setSelectedCategory] = React.useState("All Goals");
 
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
     if (category === "All Goals") {
-      setFilteredGoals(GoalsRecords);
+      setFilteredGoals(goalsData);
     } else {
-      const filtered = GoalsRecords.filter((goal) => goal.category === category);
+      const filtered = goalsData.filter((goal) => goal.category === category);
       setFilteredGoals(filtered);
     }
   };
@@ -46,7 +47,7 @@ const Page = () => {
     >
       {/* Goals Progress Graph */}
       <article className="lg:col-span-1 md:col-span-2 sm:col-span-1">
-        <GoalsGraph data={GoalsRecords}/>
+        <GoalsGraph data={goalsData}/>
       </article>
 
       {/* Detailed Breakdown */}
@@ -63,7 +64,7 @@ const Page = () => {
               <DropdownMenuItem onClick={() => handleCategorySelect("All Goals")}>
                 All Goals
               </DropdownMenuItem>
-              {[...new Set(GoalsRecords.map((goal) => goal.category))].map((category, index) => (
+              {[...new Set(goalsData.map((goal) => goal.category))].map((category, index) => (
                 <DropdownMenuItem
                   key={index}
                   onClick={() => handleCategorySelect(category)}
