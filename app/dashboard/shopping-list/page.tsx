@@ -13,15 +13,16 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ShoppingListModal from "@/components/custom/ShoppingListModal";
-import { ShoppingListRecords } from "@/components/data/data";
+import { useShoppingListData } from "@/app/dashboard/page";
 
 
 const Page = () => {
+  const [shoppingList] = useShoppingListData();
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState<string>("All Items");
 
   // Filtered data based on search and filter
-  const filteredData = ShoppingListRecords.filter((item) => {
+  const filteredData = shoppingList.filter((item) => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesFilter =
       filter === "All Items" ||
