@@ -9,40 +9,24 @@ import { useUser } from "@clerk/clerk-react";
 import { useAccountData, useSpendingData } from "@/app/dashboard/page";
 import { Input } from "@/components/ui/input";
 import BudgetModal from "@/components/custom/BudgetModal";
-
-interface Budget {
-  id: string;
-  title: string;
-  amount: number;
-}
+import { IBudget } from "@/types/budget-types";
 
 const Page = () => {
   const { user } = useUser();
-  const [accountData] = useAccountData();
-  const [spendingData] = useSpendingData();
-  const [accountBalance, setAccountBalance] = useState<number>(0);
-  const [userBudget, setUserBudget] = useState<Budget | null>(null);
-
-  useEffect(() => {
-    if (accountData.length > 0) {
-      // Calculate the total account balance
-      const totalBalance = accountData.reduce((acc, record) => {
-        return acc + record.income - record.expenses;
-      }, 0);
-
-      setAccountBalance(totalBalance);
-    }
-  }, []);
-
-  if (!user) return null;
+  const [userBudget, setUserBudget] = useState<IBudget[] | null>(null);
 
   useEffect(() => {
     if (!user) return;
-
     const fetchUserBudget = async () => {
       try {
-        const budget = await getUserBudget(user.id);
-        setUserBudget(budget || null);  // Set the budget to null if not found
+        const response = await fetch(`/api/budget/${user.id}`);
+        if (!response.ok) {
+          console.error("Error fetching user budget:", response.statusText);
+          return;
+        }
+        const data = await response.json();
+        setUserBudget(data);
+        console.log("User budget data:", data);
       } catch (error) {
         console.error("Error fetching user budget:", error);
       }
@@ -51,7 +35,7 @@ const Page = () => {
     fetchUserBudget();
   }, [user]);
 
-  if (!user) return null;  // Ensure user is available before rendering the component
+  if (!user) return null; 
 
   return (
     <section className="flex flex-col gap-4">
@@ -59,19 +43,17 @@ const Page = () => {
       <Card className="flex items-center gap-4 border-b p-5 justify-center lg:justify-end sm:flex-row">
         <div className="flex items-center gap-2">
           <h3 className="text-xl font-semibold">Balance Today:</h3>
-          <Input
+          {/* <Input
             className="text-xl font-medium w-28"
-            placeholder={`$${accountBalance.toLocaleString()}`}
+            placeholder={`$${userBudget?.budget.toLocaleString()}`}
             value={`$${accountBalance.toLocaleString()}`}
             readOnly
-          />
+          /> */}
           <Pencil className="w-5 h-5" aria-hidden="true" />
         </div>
       </Card>
-      <AccountBalanceGraph data={accountData} />
-      {/* Last Records Overview */}
-      <LastRecords data={spendingData} />
-      {/* Modal for Budget */}
+      {/* <AccountBalanceGraph data={accountData} /> */}
+      {/* <LastRecords data={spendingData} /> */}
       <div className="fixed bottom-6 right-6 p-4 py-6 z-10 ">
         <BudgetModal />
       </div>
