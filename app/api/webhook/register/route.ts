@@ -63,7 +63,7 @@ export async function POST(req: Request) {
         const existingUser = await User.findOne({ userId: id });
         if (!existingUser) {
           const newUser = new User({
-            userId: id,
+            clerkId: id,
             email: evt.data.email_addresses?.[0]?.email_address || "",
             firstName: evt.data.first_name || "",
             lastName: evt.data.last_name || "",
@@ -80,7 +80,7 @@ export async function POST(req: Request) {
       case "user.updated":
         console.log("User Updated:", id);
         const updatedUser = await User.findOneAndUpdate(
-          { userId: id },
+          { clerkId: id },
           {
             email: evt.data.email_addresses?.[0]?.email_address || "",
             firstName: evt.data.first_name || "",
@@ -98,7 +98,7 @@ export async function POST(req: Request) {
 
       case "user.deleted":
         console.log("User Deleted:", id);
-        const deletedUser = await User.findOneAndDelete({ userId: id });
+        const deletedUser = await User.findOneAndDelete({ clerkId: id });
         if (!deletedUser) {
           console.error("Error: User not found for deletion");
           return new Response("Error: User not found for deletion", { status: 404 });
