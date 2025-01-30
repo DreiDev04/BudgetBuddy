@@ -11,4 +11,5 @@ export interface IBudget extends Document {
   categories: ICategory[];
   expenses: IExpense[];
   user: Types.ObjectId; // Add this field
+  createdAt: Date;// delete after
 }

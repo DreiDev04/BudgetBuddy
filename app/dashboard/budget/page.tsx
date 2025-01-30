@@ -10,6 +10,7 @@ import { useAccountData, useSpendingData } from "@/app/dashboard/page";
 import { Input } from "@/components/ui/input";
 import BudgetModal from "@/components/custom/BudgetModal";
 import { IBudget } from "@/types/budget-types";
+import Budget from "@/models/Budget";
 
 const Page = () => {
   const { user } = useUser();
@@ -35,7 +36,20 @@ const Page = () => {
     fetchUserBudget();
   }, [user]);
 
-  if (!user) return null; 
+  if (!user) return null;
+
+  const accountBalance = userBudget?.reduce((sum, amount) => sum + amount.budget, 0) ?? 0;
+
+  const accountData = (userBudget || []).map((budget) => ({
+    date: new Date(budget.createdAt).toISOString().split("T")[0],
+    income: budget.budget,
+    expenses: budget.expenses ? budget.expenses.reduce((sum, exp) => sum + exp.amount, 0) : 0,
+  }));
+
+  const spendingData = (userBudget || []).map((budget) => ({
+
+  }));
+
 
   return (
     <section className="flex flex-col gap-4">
@@ -43,16 +57,16 @@ const Page = () => {
       <Card className="flex items-center gap-4 border-b p-5 justify-center lg:justify-end sm:flex-row">
         <div className="flex items-center gap-2">
           <h3 className="text-xl font-semibold">Balance Today:</h3>
-          {/* <Input
+          <Input
             className="text-xl font-medium w-28"
-            placeholder={`$${userBudget?.budget.toLocaleString()}`}
+            // placeholder={`$${userBudget?.budget.toLocaleString()}`}
             value={`$${accountBalance.toLocaleString()}`}
             readOnly
-          /> */}
+          />
           <Pencil className="w-5 h-5" aria-hidden="true" />
         </div>
       </Card>
-      {/* <AccountBalanceGraph data={accountData} /> */}
+      <AccountBalanceGraph data={accountData} />
       {/* <LastRecords data={spendingData} /> */}
       <div className="fixed bottom-6 right-6 p-4 py-6 z-10 ">
         <BudgetModal />
