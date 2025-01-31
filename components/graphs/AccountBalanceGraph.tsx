@@ -34,7 +34,6 @@ interface AccountBalanceGraphProps {
   }[];
 }
 
-
 const chartConfig = {
   visitors: {
     label: "Visitors",
@@ -55,8 +54,7 @@ const AccountBalanceGraph: React.FC<AccountBalanceGraphProps> = ({ data }) => {
   // Filter data based on the selected time range
   const filteredData = data.filter((item) => {
     const date = new Date(item.date);
-    // const referenceDate = new Date();
-    const referenceDate = new Date("2024-06-30");
+    const referenceDate = new Date();
     let daysToSubtract = 90;
 
     if (timeRange === "30d") {

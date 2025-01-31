@@ -4,6 +4,7 @@ import { IColor, ICategory } from "./shared-types";
 import { IExpense } from "./expense-types";
 
 export interface IBudget extends Document {
+  _id: string; //added
   title: string;
   description: string;
   budget: number;
@@ -11,5 +12,5 @@ export interface IBudget extends Document {
   categories: ICategory[];
   expenses: IExpense[];
   user: Types.ObjectId; // Add this field
-  createdAt: Date;// delete after
+  createdAt: Date;// added
 }

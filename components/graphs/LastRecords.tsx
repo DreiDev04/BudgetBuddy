@@ -19,11 +19,11 @@ import { ScrollArea } from "../ui/scroll-area";
 
 interface LastRecordProps{
   data: {
-    id: number,
+    id: string,
     label: string,
     category: string,
     amount: number,
-    date: number,
+    date: string,
     fill: string
   }[];
 }
@@ -95,13 +95,14 @@ const LastRecords: React.FC<LastRecordProps> = ({data}) => {
           {filteredData.map((recent) => (
             <div
               key={recent.id}
-              className="grid grid-cols-3 text-center justify-between p-4 rounded-lg shadow-md border"
+              className="grid grid-cols-4 lg:grid-cols-2 gap-4 text-center p-4 rounded-lg shadow-md border"
             >
-              <Label className="text-sm bg-primary rounded-md">
+              <Label className="text-sm bg-primary rounded-sm p-2">
                 {recent.label}
               </Label>
-              <Label className="">{recent.category}</Label>
-              <Label className="text-sm">${recent.amount}</Label>
+              <Label className="text-sm p-2">{recent.category}</Label>
+              <Label className="text-sm p-2">${recent.amount}</Label>
+              <Label className="text-sm p-2">{recent.date}</Label>
             </div>
           ))}
         </CardContent>

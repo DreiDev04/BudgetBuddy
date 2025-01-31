@@ -1,20 +1,26 @@
 "use client";
 
 import { Pencil } from "lucide-react";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import AccountBalanceGraph from "@/components/graphs/AccountBalanceGraph";
 import LastRecords from "@/components/graphs/LastRecords";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
-import { useAccountData, useSpendingData } from "@/app/dashboard/page";
 import { Input } from "@/components/ui/input";
 import BudgetModal from "@/components/custom/BudgetModal";
 import { IBudget } from "@/types/budget-types";
-import Budget from "@/models/Budget";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Page = () => {
   const { user } = useUser();
   const [userBudget, setUserBudget] = useState<IBudget[] | null>(null);
+  const [selectedBudgetId, setSelectedBudgetId] = useState<string | null>("all");
 
   useEffect(() => {
     if (!user) return;
@@ -25,7 +31,7 @@ const Page = () => {
           console.error("Error fetching user budget:", response.statusText);
           return;
         }
-        const data = await response.json();
+        const data: IBudget[] = await response.json();
         setUserBudget(data);
         console.log("User budget data:", data);
       } catch (error) {
@@ -36,20 +42,42 @@ const Page = () => {
     fetchUserBudget();
   }, [user]);
 
-  if (!user) return null;
+  if (!user || !userBudget) return null;
 
-  const accountBalance = userBudget?.reduce((sum, amount) => sum + amount.budget, 0) ?? 0;
+  // Get selected budget or all budgets
+  const selectedBudget =
+    selectedBudgetId === "all"
+      ? userBudget
+      : userBudget.filter((budget) => budget._id === selectedBudgetId);
 
-  const accountData = (userBudget || []).map((budget) => ({
-    date: new Date(budget.createdAt).toISOString().split("T")[0],
-    income: budget.budget,
-    expenses: budget.expenses ? budget.expenses.reduce((sum, exp) => sum + exp.amount, 0) : 0,
-  }));
+  // Get total balance
+  const accountBalance =
+    selectedBudget?.reduce((sum, budget) => sum + (budget.budget || 0), 0) ?? 0;
 
-  const spendingData = (userBudget || []).map((budget) => ({
+  // Process data for graphs
+  const accountData =
+    selectedBudget?.map((budget) => ({
+      date: new Date(budget.createdAt).toISOString().split("T")[0],
+      income: budget.budget || 0,
+      expenses:
+        budget.expenses?.reduce((sum, exp) => sum + exp.amount, 0) ?? 0,
+    })) ?? [];
 
-  }));
-
+  const spendingData =
+    selectedBudget?.flatMap((budget) =>
+      budget.expenses?.map((expense) => ({
+        id: `${budget._id}-${expense._id}`,
+        label: expense.name,
+        category: expense.category?.name || "Uncategorized",
+        amount: expense.amount,
+        date: new Date(expense.date).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }),
+        fill: expense.category?.color?.hex || "#ccc",
+      })) ?? []
+    ) ?? [];
 
   return (
     <section className="flex flex-col gap-4">
@@ -65,9 +93,32 @@ const Page = () => {
           />
           <Pencil className="w-5 h-5" aria-hidden="true" />
         </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button>
+                {selectedBudgetId === "all"
+                  ? "All Budgets"
+                  : userBudget.find((b) => b._id === selectedBudgetId)?.title ||
+                    "Select Budget"}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => setSelectedBudgetId("all")}>
+                All Budgets
+              </DropdownMenuItem>
+              {userBudget.map((budget) => (
+                <DropdownMenuItem
+                  key={String(budget._id)}
+                  onClick={() => setSelectedBudgetId(String(budget._id))}
+                >
+                  {budget.title}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
       </Card>
       <AccountBalanceGraph data={accountData} />
-      {/* <LastRecords data={spendingData} /> */}
+      <LastRecords data={spendingData} />
       <div className="fixed bottom-6 right-6 p-4 py-6 z-10 ">
         <BudgetModal />
       </div>
