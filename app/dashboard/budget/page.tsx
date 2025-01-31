@@ -86,11 +86,16 @@ const Page = () => {
         <div className="flex items-center gap-2">
           <h3 className="text-xl font-semibold">Balance Today:</h3>
           <Input
-            className="text-xl font-medium w-28"
-            // placeholder={`$${userBudget?.budget.toLocaleString()}`}
-            value={`$${accountBalance.toLocaleString()}`}
-            readOnly
-          />
+              className="text-xl font-medium w-28"
+              // placeholder={`$$userBudget?.budget.toLocaleString()`}
+              placeholder={`$${(
+                selectedBudgetId === "all"
+                  ? userBudget.reduce((sum, b) => sum + b.budget, 0) // Sum all budgets
+                  : userBudget.find((b) => b._id === selectedBudgetId)?.budget || 0 // Find selected budget
+              ).toLocaleString()}`}
+              value={`$${accountBalance.toLocaleString()}`}
+              readOnly
+            />
           <Pencil className="w-5 h-5" aria-hidden="true" />
         </div>
           <DropdownMenu>
