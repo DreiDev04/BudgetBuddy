@@ -98,6 +98,7 @@ const Page = () => {
             />
           <Pencil className="w-5 h-5" aria-hidden="true" />
         </div>
+        {/* Drop down for selecting budget */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button>
