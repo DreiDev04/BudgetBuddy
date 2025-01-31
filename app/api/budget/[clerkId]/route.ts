@@ -9,7 +9,7 @@ export const GET = async (
   { params }: { params: { clerkId: string } }
 ) => {
   try {
-    // const { clerkId } = params; // I guess what I did is right or no?
+    // const { clerkId } = params;
 
     // Since magiiba to sa account mo, comment out muna yung sa taas.
     // Balik mo nalang kapag di na nagdedebug sa front end
