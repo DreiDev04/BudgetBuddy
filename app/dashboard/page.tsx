@@ -34,19 +34,19 @@ export const useAccountData = () =>
 // Spending data (stateful)
 export const useSpendingData = () =>
   useState([
-    { id: 1, label: "Record 1", category: "foods", amount: 10, date: new Date("2025-01-12").getTime(), fill: "var(--color-rent)" },
-    { id: 2, label: "Record 2", category: "transport", amount: 15, date: new Date("2025-01-14").getTime(), fill: "var(--color-transportation)" },
-    { id: 3, label: "Record 3", category: "entertainment", amount: 20, date: new Date("2025-01-16").getTime(), fill: "var(--color-entertainment)" },
-    { id: 4, label: "Record 4", category: "utilities", amount: 25, date: new Date("2025-01-17").getTime(), fill: "var(--color-utilities)" },
-    { id: 5, label: "Record 5", category: "utilities", amount: 50, date: new Date("2024-12-15").getTime(), fill: "var(--color-utilities)" },
-    { id: 6, label: "Record 6", category: "groceries", amount: 35, date: new Date("2024-12-01").getTime(), fill: "var(--color-groceries)" },
-    { id: 7, label: "Record 7", category: "foods", amount: 40, date: new Date("2024-11-20").getTime(), fill: "var(--color-rent)" },
-    { id: 8, label: "Record 8", category: "utilities", amount: 60, date: new Date("2024-11-05").getTime(), fill: "var(--color-utilities)" },
-    { id: 9, label: "Record 9", category: "entertainment", amount: 75, date: new Date("2024-10-25").getTime(), fill: "var(--color-entertainment)" },
-    { id: 10, label: "Record 10", category: "foods", amount: 90, date: new Date("2024-10-15").getTime(), fill: "var(--color-rent)" },
-    { id: 11, label: "Record 11", category: "transport", amount: 20, date: new Date("2024-09-01").getTime(), fill: "var(--color-transportation)" },
-    { id: 12, label: "Record 12", category: "utilities", amount: 80, date: new Date("2024-08-15").getTime(), fill: "var(--color-utilities)" },
-    { id: 13, label: "Record 13", category: "groceries", amount: 100, date: new Date("2024-08-01").getTime(), fill: "var(--color-groceries)" },
+    { id: '1', label: "Record 1", category: "foods", amount: 10, date: new Date("2025-01-12").getTime(), fill: "var(--color-rent)" },
+    { id: '2', label: "Record 2", category: "transport", amount: 15, date: new Date("2025-01-14").getTime(), fill: "var(--color-transportation)" },
+    { id: '3', label: "Record 3", category: "entertainment", amount: 20, date: new Date("2025-01-16").getTime(), fill: "var(--color-entertainment)" },
+    { id: '4', label: "Record 4", category: "utilities", amount: 25, date: new Date("2025-01-17").getTime(), fill: "var(--color-utilities)" },
+    { id: '5', label: "Record 5", category: "utilities", amount: 50, date: new Date("2024-12-15").getTime(), fill: "var(--color-utilities)" },
+    { id: '6', label: "Record 6", category: "groceries", amount: 35, date: new Date("2024-12-01").getTime(), fill: "var(--color-groceries)" },
+    { id: '7', label: "Record 7", category: "foods", amount: 40, date: new Date("2024-11-20").getTime(), fill: "var(--color-rent)" },
+    { id: '8', label: "Record 8", category: "utilities", amount: 60, date: new Date("2024-11-05").getTime(), fill: "var(--color-utilities)" },
+    { id: '9', label: "Record 9", category: "entertainment", amount: 75, date: new Date("2024-10-25").getTime(), fill: "var(--color-entertainment)" },
+    { id: '10', label: "Record 10", category: "foods", amount: 90, date: new Date("2024-10-15").getTime(), fill: "var(--color-rent)" },
+    { id: '11', label: "Record 11", category: "transport", amount: 20, date: new Date("2024-09-01").getTime(), fill: "var(--color-transportation)" },
+    { id: '12', label: "Record 12", category: "utilities", amount: 80, date: new Date("2024-08-15").getTime(), fill: "var(--color-utilities)" },
+    { id: '13', label: "Record 13", category: "groceries", amount: 100, date: new Date("2024-08-01").getTime(), fill: "var(--color-groceries)" },
   ]);
 
 // Goals data (stateful)

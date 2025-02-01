@@ -11,10 +11,9 @@ export const GET = async (
   try {
     // const { clerkId } = params;
 
-    // Since magiiba to sa account mo, comment out muna yung sa taas. 
+    // Since magiiba to sa account mo, comment out muna yung sa taas.
     // Balik mo nalang kapag di na nagdedebug sa front end
     const clerkId = "user_2sHqdLaiBpIyeLFNKOwgTY4rX6w"; // Clerk ID nung account ko
-
 
     await dbConnect();
 
@@ -41,4 +40,3 @@ export const GET = async (
     );
   }
 };
-
