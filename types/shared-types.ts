@@ -8,3 +8,8 @@ export interface ICategory {
   name: string;
   color: IColor;
 }
+
+export interface IAccountType {
+  value: string;
+  label: string;
+}
