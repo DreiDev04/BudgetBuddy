@@ -18,8 +18,6 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname();
 
-
-
   const currentPage = pathname
     .split("/")
     .filter((segment) => segment)
