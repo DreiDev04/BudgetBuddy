@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import { ThemeProvider } from "@/components/provider/theme-provider";
 // import { ModeToggle } from "@/components/ui/mode-toggle";
+import { Toaster } from "@/components/ui/toaster"
 import {
   ClerkProvider,
 } from "@clerk/nextjs";
@@ -41,6 +42,7 @@ export default function RootLayout({
           >
             {children}
             <div className="fixed bottom-4 right-4">{/* <ModeToggle /> */}</div>
+            <Toaster />
           </ThemeProvider>
         </body>
       </html>

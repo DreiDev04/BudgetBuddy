@@ -7,6 +7,6 @@ export interface IAccount extends Document {
   _id: string;
   accountName: string;
   type: IAccountType;
-  initalValue: number;
+  initialValue: number;
   user: Types.ObjectId;
 }

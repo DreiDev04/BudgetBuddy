@@ -6,7 +6,7 @@ const AccountSchema = new Schema<IAccount>(
   {
     accountName: { type: String, required: true },
     type: { type: String, required: true },
-    initalValue: { type: Number, required: true },
+    initialValue: { type: Number, required: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true }

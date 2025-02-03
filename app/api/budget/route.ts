@@ -6,18 +6,15 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
   req: NextRequest,
-  { params }: { params: { clerkId: string } }
 ) => {
   try {
-    // const { clerkId } = params;
-
-    // Since magiiba to sa account mo, comment out muna yung sa taas.
-    // Balik mo nalang kapag di na nagdedebug sa front end
-    const clerkId = "user_2sHqdLaiBpIyeLFNKOwgTY4rX6w"; // Clerk ID nung account ko
+    // const { userId } = await auth()
+    // console.log(userId);
+    const userId = "user_2sHqdLaiBpIyeLFNKOwgTY4rX6w"; 
 
     await dbConnect();
 
-    const dbUser = await User.findOne({ clerkId: clerkId });
+    const dbUser = await User.findOne({ clerkId: userId });
 
     if (!dbUser) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });

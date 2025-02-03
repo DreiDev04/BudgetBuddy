@@ -23,7 +23,14 @@ import { Input } from "@/components/ui/input";
 import { accountTypes } from "@/helper/helper";
 import z from "zod";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod"
+import { zodResolver } from "@hookform/resolvers/zod";
+
+
+const AccountSchema = z.object({
+  accountName: z.string().min(1, "Account name is required"),
+  type: z.string().min(1, "Account type is required"),
+  initialValue: z.number().min(0, "Initial value must be positive"),
+});
 import {
   Form,
   FormControl,
@@ -32,37 +39,37 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-
-const AccountSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  type: z.string().min(1, "Type is required"),
-  value: z.number().min(1, "Value is required")
-})
+} from "@/components/ui/form";
 import { IAccount } from "@/types/account-types";
-import { useUser } from "@clerk/nextjs";
-
+import { useToast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
+import { Router } from "next/router";
 
 const page = () => {
   const [Accounts, setAccounts] = useState<IAccount[]>([]);
-
-  const { user } = useUser();
+  const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
-    if (user?.id) {
-      console.log("fetching accounts");
-      const fetchAccounts = async () => {
-        const response = await fetch(`/api/accounts/${user.id}`);
+    const fetchAccounts = async () => {
+      try {
+        const response = await fetch(`/api/accounts/`);
         const data = await response.json();
         setAccounts(data);
-      };
-      fetchAccounts();
-    }
-  }, [user?.id]);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to fetch accounts. Please try again later.",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchAccounts();
+  }, []);
 
-  if (!user) {
-    return <div>Loading...</div>;
-  }
   return (
     <div className="p-4">
       <section className="p-2 flex justify-between items-center rounded">
@@ -74,36 +81,92 @@ const page = () => {
           <SelectContent>
             <SelectGroup>
               <SelectItem value="all-account">All Account</SelectItem>
-              <SelectItem value="cash">Cash</SelectItem>
-              <SelectItem value="savings">Savings</SelectItem>
+              {Accounts.map((account, index) => (
+                <SelectItem key={index} value={account._id}>
+                  {account.accountName}
+                </SelectItem>
+              ))}
               <SelectLabel>
-                <Dialog>
-                  <DialogTrigger>Add Account</DialogTrigger>
-                  <DialogForm />
+                <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button variant="ghost" className="w-full justify-start">
+                      Add Account
+                    </Button>
+                  </DialogTrigger>
+                  <DialogForm
+                    setAccounts={setAccounts}
+                    setDialogOpen={setDialogOpen}
+                  />
                 </Dialog>
               </SelectLabel>
             </SelectGroup>
           </SelectContent>
         </Select>
       </section>
-      <pre>{JSON.stringify(Accounts, null, 2)}</pre>
+      {isLoading ? (
+        <div className="flex justify-center items-center h-40">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+      ) : (
+        <pre>{JSON.stringify(Accounts, null, 2)}</pre>
+      )}
     </div>
   );
 };
 
-const DialogForm = () => {
+const DialogForm = ({
+  setAccounts,
+  setDialogOpen,
+}: {
+  setAccounts: React.Dispatch<React.SetStateAction<IAccount[]>>;
+  setDialogOpen: (open: boolean) => void;
+}) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof AccountSchema>>({
+  const form = useForm({
     resolver: zodResolver(AccountSchema),
     defaultValues: {
-      name: "",
+      accountName: "",
       type: "",
-      value: 0,
+      initialValue: 0,
     },
-  })
+  });
 
-  const onSubmit = (data: z.infer<typeof AccountSchema>) => {
-    console.log("Form Submitted", data);
+  const onSubmit = async (data: any) => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/accounts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add account");
+      }
+
+      const newAccount = await response.json();
+      setAccounts((prev) => [...prev, newAccount]);
+
+      toast({
+        title: "Success",
+        description: "Account added successfully!",
+      });
+
+      setDialogOpen(false);
+      form.reset();
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to add account. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -118,12 +181,12 @@ const DialogForm = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
-            name="name"
+            name="accountName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Account Name</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input disabled={isSubmitting} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -136,7 +199,11 @@ const DialogForm = () => {
               <FormItem>
                 <FormLabel>Type</FormLabel>
                 <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select
+                    disabled={isSubmitting}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select Type" />
                     </SelectTrigger>
@@ -155,17 +222,25 @@ const DialogForm = () => {
           />
           <FormField
             control={form.control}
-            name="value"
+            name="initialValue"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Initial Value</FormLabel>
                 <FormControl>
                   <Input
-                    {...field}
+                    disabled={isSubmitting}
                     type="number"
                     min="0"
                     step="1"
-                    onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                    name={field.name}
+                    value={field.value}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (/^0\d/.test(value)) {
+                        e.target.value = value.replace(/^0+/, "");
+                      }
+                      field.onChange(parseFloat(e.target.value) || 0);
+                    }}
                     onKeyDown={(e) => {
                       if (e.key === "-" || e.key === "e") {
                         e.preventDefault();
@@ -177,7 +252,16 @@ const DialogForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Add Account</Button>
+          <Button disabled={isSubmitting} type="submit">
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Adding...
+              </>
+            ) : (
+              "Add Account"
+            )}
+          </Button>
         </form>
       </Form>
     </DialogContent>
