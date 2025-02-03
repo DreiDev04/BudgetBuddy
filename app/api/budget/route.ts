@@ -41,7 +41,6 @@ export const GET = async (req: NextRequest) => {
 export const POST = async (req: NextRequest) => {
   try {
     const body = await req.json();
-    console.log("Received Data:", body); // 🔍 Debugging
 
     const userId = "user_2sHqdLaiBpIyeLFNKOwgTY4rX6w";
     await dbConnect();

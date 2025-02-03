@@ -99,7 +99,10 @@ const AddBudgetForm = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4  mx-[40px]"
+      >
         {/* Title Field */}
         <FormField
           control={form.control}
@@ -108,7 +111,10 @@ const AddBudgetForm = ({
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input disabled={isSubmitting} {...field} />
+                <Input
+                  disabled={isSubmitting}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -123,7 +129,10 @@ const AddBudgetForm = ({
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input disabled={isSubmitting} {...field} />
+                <Input
+                  disabled={isSubmitting}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -205,9 +214,12 @@ const AddBudgetForm = ({
           )}
         />
 
-
         {/* Submit Button */}
-        <Button disabled={isSubmitting} type="submit">
+        <Button
+          disabled={isSubmitting}
+          type="submit"
+          className="w-full "
+        >
           {isSubmitting ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
