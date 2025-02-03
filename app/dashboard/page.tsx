@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -21,8 +21,29 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { accountTypes } from "@/helper/helper";
+import { IAccount } from "@/types/account-types";
+import { useUser } from "@clerk/nextjs";
 
 const page = () => {
+  const [Accounts, setAccounts] = useState<IAccount[]>([]);
+
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (user?.id) {
+      console.log("fetching accounts");
+      const fetchAccounts = async () => {
+        const response = await fetch(`/api/accounts/${user.id}`);
+        const data = await response.json();
+        setAccounts(data);
+      };
+      fetchAccounts();
+    }
+  }, [user?.id]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="p-4">
       <section className=" p-2 flex justify-between items-center rounded">
@@ -46,6 +67,7 @@ const page = () => {
           </SelectContent>
         </Select>
       </section>
+      <pre>{JSON.stringify(Accounts, null, 2)}</pre>
     </div>
   );
 };
