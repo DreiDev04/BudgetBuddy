@@ -41,14 +41,12 @@ export const GET = async (req: NextRequest) => {
 export const POST = async (req: NextRequest) => {
   try {
     const body = await req.json();
-    // const { userId } = await auth()
-    // console.log(userId);
-    const userId = "user_2sHqdLaiBpIyeLFNKOwgTY4rX6w"; // Clerk ID nung account ko
+    console.log("Received Data:", body); // 🔍 Debugging
 
+    const userId = "user_2sHqdLaiBpIyeLFNKOwgTY4rX6w";
     await dbConnect();
 
     const user = await User.findOne({ clerkId: userId });
-
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
@@ -61,15 +59,9 @@ export const POST = async (req: NextRequest) => {
     await budget.save();
     revalidatePath("/dashboard/budget");
 
-    return NextResponse.json(
-      { message: "Budget created successfully" },
-      { status: 201 }
-    );
-  } catch (error) {
-    console.error("Error processing request:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Budget created successfully" }, { status: 201 });
+  } catch (error: any) {
+    console.error("Error saving budget:", error.message || error);
+    return NextResponse.json({ error: error.message || "Internal server error" }, { status: 500 });
   }
 };

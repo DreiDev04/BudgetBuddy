@@ -24,10 +24,15 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import ProfileForm from '@/components/custom/AddBudgetForm'
+import { IBudget } from "@/types/budget-types";
 
 const page = () => {
   const [open, setOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [budgets, setBudgets] = useState<IBudget[]>([]);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+
 
   if (isDesktop) {
     return (
@@ -48,7 +53,10 @@ const page = () => {
               {/* <DialogDescription>
               </DialogDescription> */}
             </DialogHeader>
-            <ProfileForm />
+            <ProfileForm
+            setBudgets={setBudgets}
+            setDialogOpen={setDialogOpen}
+          />
           </DialogContent>
         </Dialog>
       </section>
@@ -70,10 +78,13 @@ const page = () => {
           <DrawerHeader className="text-left">
             <DrawerTitle>Create Budget</DrawerTitle>
             {/* <DrawerDescription>
-              
+
             </DrawerDescription> */}
           </DrawerHeader>
-          <ProfileForm className="px-4" />
+          <ProfileForm
+            setBudgets={setBudgets}
+            setDialogOpen={setDialogOpen}
+          />
           <DrawerFooter className="pt-2">
             <DrawerClose asChild>
               <Button variant="outline">Cancel</Button>
@@ -81,32 +92,11 @@ const page = () => {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
+      <pre>{JSON.stringify(budgets, null, 2)}</pre>
+
     </section>
   );
 };
 
-function ProfileForm({ className }: React.ComponentProps<"form">) {
-  return (
-    <form className={cn("grid items-start gap-4", className)}>
-      <div className="grid gap-2">
-        <Label htmlFor="name">Name</Label>
-        <Input type="text" id="name" />
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="description">Description</Label>
-        <Input id="description" />
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="description">Description</Label>
-        <Input id="description" />
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="description">Description</Label>
-        <Input id="description" />
-      </div>
-      <Button type="submit">Save changes</Button>
-    </form>
-  );
-}
 
 export default page;
