@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import UpdateGoal from "@/components/custom/UpdateGoal";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useGoalsData } from "@/app/dashboard/page";
+import { useGoalsData } from "@/app/dashboard/page-old";
 
 
 const Page = () => {

@@ -13,7 +13,7 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ShoppingListModal from "@/components/custom/ShoppingListModal";
-import { useShoppingListData } from "@/app/dashboard/page";
+import { useShoppingListData } from "@/app/dashboard/page-old";
 
 
 const Page = () => {
