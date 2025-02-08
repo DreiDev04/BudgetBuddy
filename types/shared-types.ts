@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 // types/shared-types.ts
 export interface IColor {
   name: string;
@@ -6,10 +8,5 @@ export interface IColor {
 
 export interface ICategory {
   name: string;
-  color: IColor;
-}
-
-export interface IAccountType {
-  value: string;
-  label: string;
+  user: Types.ObjectId;
 }
