@@ -5,9 +5,10 @@ import mongoose from "mongoose";
 const AccountSchema = new Schema<IAccount>(
   {
     accountName: { type: String, required: true },
-    type: { type: String, required: true },
-    initialValue: { type: Number, required: true },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    type: { type: String, required: true, default: "Cash" },
+    currency: { type: String, required: true, default: "USD" },
+    budgetLimit: { type: Number, required: true, default: 0 }, 
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   },
   { timestamps: true }
 );

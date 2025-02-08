@@ -105,7 +105,7 @@ const page = () => {
             filteredAccounts.map((account, index) => (
               <div key={index} className="space-y-2">
                 <h2 className="font-bold">{account.accountName}</h2>
-                <p>Initial Value: ${account.initialValue}</p>
+                {/* <p>Initial Value: ${account.initialValue}</p> */}
               </div>
             ))
           ) : (

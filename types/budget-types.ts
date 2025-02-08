@@ -7,7 +7,7 @@ export interface IBudget extends Document {
   _id: string; //added
   title: string;
   description: string;
-  budget: number;
+  budgetLimit: number;
   color: IColor[];
   categories: ICategory[];
   expenses: IExpense[];

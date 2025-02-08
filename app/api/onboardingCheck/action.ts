@@ -7,7 +7,7 @@ import { IClerkUser } from "@/types/user-types";
 export async function getUserData(_userId: string) {
   try {
     await dbConnect();
-    const user = await User.findOne({ userId: _userId });
+    const user = await User.findOne({ clerkId: _userId });
 
     if (!user) {
       throw new Error("Error: User not found");

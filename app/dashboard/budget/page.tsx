@@ -31,6 +31,7 @@ import {
 import ProfileForm from "@/components/custom/AddBudgetForm";
 import { IBudget } from "@/types/budget-types";
 import { useToast } from "@/hooks/use-toast";
+import Link from "next/link";
 
 const page = () => {
   const [open, setOpen] = useState(false);
@@ -100,7 +101,7 @@ const page = () => {
                 <CardDescription>{budget.description}</CardDescription>
               </CardHeader>
               <CardContent>
-                <p>Budget: ${budget.budget}</p>
+                {/* <p>Budget: ${budget.budget}</p> */}
                 <p style={{ color: budget.color[0]?.hex }}>Color: {budget.color[0]?.name}</p>
               </CardContent>
             </Card>
@@ -138,6 +139,7 @@ const page = () => {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
+      
 
       <div className="col-span-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {budgets.map((budget) => (
@@ -147,7 +149,7 @@ const page = () => {
                 <CardDescription>{budget.description}</CardDescription>
               </CardHeader>
               <CardContent>
-                <p>Budget: ${budget.budget}</p>
+                {/* <p>Budget: ${budget.budget}</p> */}
                 <p style={{ color: budget.color[0]?.hex }}>Color: {budget.color[0]?.name}</p>
               </CardContent>
             </Card>
