@@ -7,5 +7,7 @@ export interface IAccount extends Document {
   _id: string;
   accountName: string;
   type: string;
+  currency: string;
+  budgetLimit: number;
   user: Types.ObjectId;
 }

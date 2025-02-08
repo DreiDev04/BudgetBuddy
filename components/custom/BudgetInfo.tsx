@@ -63,4 +63,6 @@ const BudgetInfo: React.FC<BudgetInfoProps> = ({ income, expenses, balance }) =>
   );
 };
 
+
+
 export default BudgetInfo;
