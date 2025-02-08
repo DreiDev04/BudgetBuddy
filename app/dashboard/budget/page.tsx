@@ -92,18 +92,23 @@ const page = () => {
           </DialogContent>
         </Dialog>
 
-          {budgets.map((budget) => (
-            <Card key={budget._id} className="col-span-1 ">
+        {/* Budgets list */}
+        {budgets.map((budget) => (
+          <Link key={budget._id} href={`/dashboard/budget/${budget._id}`}>
+            <Card className="col-span-1 max-h-48">
               <CardHeader>
                 <CardTitle>{budget.title}</CardTitle>
                 <CardDescription>{budget.description}</CardDescription>
               </CardHeader>
               <CardContent>
                 <p>Budget: ${budget.budgetLimit}</p>
-                <p style={{ color: budget.color[0]?.hex }}>Color: {budget.color[0]?.name}</p>
+                <p style={{ color: budget.color[0]?.hex }}>
+                  Color: {budget.color[0]?.name}
+                </p>
               </CardContent>
             </Card>
-          ))}
+          </Link>
+        ))}
 
       </section>
     );
@@ -138,18 +143,23 @@ const page = () => {
         </DrawerContent>
       </Drawer>
 
-          {budgets.map((budget) => (
-            <Card key={budget._id} className="col-span-1">
+        {/* Budgets list */}
+        {budgets.map((budget) => (
+          <Link key={budget._id} href={`/dashboard/budget/${budget._id}`}>
+            <Card className="col-span-1 max-h-48">
               <CardHeader>
                 <CardTitle>{budget.title}</CardTitle>
                 <CardDescription>{budget.description}</CardDescription>
               </CardHeader>
               <CardContent>
                 <p>Budget: ${budget.budgetLimit}</p>
-                <p style={{ color: budget.color[0]?.hex }}>Color: {budget.color[0]?.name}</p>
+                <p style={{ color: budget.color[0]?.hex }}>
+                  Color: {budget.color[0]?.name}
+                </p>
               </CardContent>
             </Card>
-          ))}
+          </Link>
+        ))}
 
     </section>
   );
