@@ -28,7 +28,7 @@ import { IBudget } from "@/types/budget-types";
 const BudgetSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "Description is required"),
-  budget: z.number().min(1, "Budget must be at least 1"),
+  budgetLimit: z.number().min(1, "Budget must be at least 1"),
   color: z.object({
     name: z.string().min(1, "Color name is required"),
     hex: z.string().min(1, "Color hex is required"),
@@ -50,7 +50,7 @@ const AddBudgetForm = ({
     defaultValues: {
       title: "",
       description: "",
-      budget: 0,
+      budgetLimit: 0,
       color: { name: "", hex: "" },
     },
   });
@@ -142,7 +142,7 @@ const AddBudgetForm = ({
         {/* Budget Field */}
         <FormField
           control={form.control}
-          name="budget"
+          name="budgetLimit"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Budget</FormLabel>

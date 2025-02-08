@@ -75,13 +75,13 @@ const page = () => {
           <DialogTrigger asChild>
             <Button
               variant="outline"
-              className="col-span-1 min-h-32 flex flex-col"
+              className="col-span-1 min-h-44 flex flex-col"
             >
               <PlusIcon size={20} />
               Create Budget
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[425px] ">
             <DialogHeader>
               <DialogTitle>Create Budget</DialogTitle>
             </DialogHeader>
@@ -92,27 +92,25 @@ const page = () => {
           </DialogContent>
         </Dialog>
 
-
-        <div className="col-span-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {budgets.map((budget) => (
-            <Card key={budget._id} className="col-span-1">
+            <Card key={budget._id} className="col-span-1 ">
               <CardHeader>
                 <CardTitle>{budget.title}</CardTitle>
                 <CardDescription>{budget.description}</CardDescription>
               </CardHeader>
               <CardContent>
-                {/* <p>Budget: ${budget.budget}</p> */}
+                <p>Budget: ${budget.budgetLimit}</p>
                 <p style={{ color: budget.color[0]?.hex }}>Color: {budget.color[0]?.name}</p>
               </CardContent>
             </Card>
           ))}
-        </div>
+
       </section>
     );
   }
 
   return (
-    <section className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-5">
+    <section className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-5">
       {/* Drawer to create a new budget */}
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
@@ -139,9 +137,7 @@ const page = () => {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
-      
 
-      <div className="col-span-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {budgets.map((budget) => (
             <Card key={budget._id} className="col-span-1">
               <CardHeader>
@@ -149,12 +145,12 @@ const page = () => {
                 <CardDescription>{budget.description}</CardDescription>
               </CardHeader>
               <CardContent>
-                {/* <p>Budget: ${budget.budget}</p> */}
+                <p>Budget: ${budget.budgetLimit}</p>
                 <p style={{ color: budget.color[0]?.hex }}>Color: {budget.color[0]?.name}</p>
               </CardContent>
             </Card>
           ))}
-        </div>
+
     </section>
   );
 };

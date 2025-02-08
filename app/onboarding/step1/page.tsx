@@ -28,6 +28,18 @@ import {
   Coins,
   CircleEllipsis,
 } from "lucide-react";
+import {
+  useFormField,
+  Form,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+  FormField,
+} from '@/components/ui/form'
+import { useForm } from "react-hook-form";
+import z from "zod";
 
 const AccountSetup = () => {
   const [accountType, setAccountType] = useState("Cash");

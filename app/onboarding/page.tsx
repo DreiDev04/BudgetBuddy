@@ -1,13 +1,20 @@
 import React from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 const page = () => {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <Card className="w-full max-w-md mx-auto">
+      <Card className="w-full max-w-md mx-auto relative">
+        {/* Floating Back Button */}
+        <Link href="/dashboard" className="absolute -left-6 top-4 z-10">
+          <Button className="font-semibold">
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+        </Link>
+
         <CardHeader className="space-y-6 text-center">
           <div className="w-32 h-32 mx-auto relative">
             <div className="w-full h-full rounded-full bg-primary/10 flex items-center justify-center">
@@ -23,8 +30,7 @@ const page = () => {
               Welcome to Budget Buddy
             </h1>
             <p className="text-muted-foreground">
-              Your personal finance journey starts here. Let's set up your account
-              together.
+              Your personal finance journey starts here. Let's set up your account together.
             </p>
           </div>
         </CardHeader>
@@ -90,10 +96,7 @@ const page = () => {
 
         <CardFooter className="flex justify-center pb-8">
           <Link href="/onboarding/step1" className="w-full max-w-xs">
-            <Button
-              className="w-full font-semibold"
-              size="lg"
-            >
+            <Button className="w-full font-semibold" size="lg">
               Let's get started
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
