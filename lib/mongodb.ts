@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
-// console.log("MONGODB_URI", MONGODB_URI);
+console.log("MONGODB_URI", MONGODB_URI);
 
 
 declare global {
@@ -11,6 +11,8 @@ declare global {
 if (!MONGODB_URI) {
   throw new Error("Please define the MONGODB_URI environment variable in .env.local");
 }
+
+
 
 let cached = global.mongoose as { conn: mongoose.Connection | null; promise: Promise<mongoose.Connection> | null };
 
