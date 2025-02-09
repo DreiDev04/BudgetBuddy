@@ -1,21 +1,10 @@
 "use client";
-
-import React from "react";
-import { z } from "zod";
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Plus } from "lucide-react";
+import * as z from "zod";
 import {
   Form,
   FormControl,
@@ -24,101 +13,127 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { IBudget } from "@/types/budget-types";
+import { useToast } from "@/hooks/use-toast";
 
-const budgetSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  description: z.string().optional(),
-  categories: z.string().min(1, "Category is required"),
-  color: z.string().optional(),
-  currency: z.string().min(1, "Currency is required"),
-  budget: z.number().min(0, "Budget must be greater than or equal to 0"),
-  expenses: z.number().min(0, "Expenses must be greater than or equal to 0"),
+// Schema for form validation
+const formSchema = z.object({
+  transactionType: z.enum(["income", "expense"]),
+  amount: z.preprocess((val) => Number(val), z.number().min(1, "Amount must be at least 1")),
 });
 
-type FormValues = z.infer<typeof budgetSchema>;
+type FormData = z.infer<typeof formSchema>;
 
-const fields: { id: keyof FormValues; label: string; type: string }[] = [
-  { id: "title", label: "Title", type: "text" },
-  { id: "description", label: "Description", type: "text" },
-  { id: "categories", label: "Categories", type: "text" },
-  { id: "color", label: "Color", type: "text" },
-  { id: "currency", label: "Currency", type: "text" },
-  { id: "budget", label: "Budget", type: "number" },
-  { id: "expenses", label: "Expenses", type: "number" },
-];
+interface BudgetModalProps {
+  budget: IBudget | null;
+  setBudgets: React.Dispatch<React.SetStateAction<IBudget | null>>;
+  setDialogOpen: (open: boolean) => void;
+}
 
-export const BudgetModal = () => {
-  const form = useForm<FormValues>({
-    resolver: zodResolver(budgetSchema),
+const BudgetModal = ({ budget, setBudgets, setDialogOpen }: BudgetModalProps) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
+  const form = useForm<FormData>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      categories: "",
-      color: "",
-      currency: "",
-      budget: 0,
-      expenses: 0,
+      transactionType: "income",
+      amount: 0,
     },
   });
 
-  // Handle number fields separately to ensure they are treated as numbers
-  const handleNumberChange = (field: keyof FormValues) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const parsedValue = value ? parseFloat(value) : 0;
-    form.setValue(field, parsedValue); // Update the form value with a number
-  };
+  const onSubmit = async (data: FormData) => {
+    if (!budget) {
+      toast({ title: "Error", description: "No budget selected", variant: "destructive" });
+      return;
+    }
 
-  const onSubmit = (data: FormValues) => {
-    console.log("Form submitted:", data);
+    setIsSubmitting(true);
+    try {
+      const updatedBudgetLimit =
+        data.transactionType === "income"
+          ? budget.budgetLimit + data.amount
+          : budget.budgetLimit - data.amount;
+
+      const response = await fetch(`/api/budget/${budget._id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ budgetLimit: updatedBudgetLimit }),
+      });
+
+      if (!response.ok) throw new Error("Failed to update budget");
+
+      // Update the UI
+      setBudgets({ ...budget, budgetLimit: updatedBudgetLimit });  //Argument of type 'IBudget' is not assignable to parameter of type 'SetStateAction<IBudget | null>'.
+
+      toast({
+        title: "Budget Updated",
+        description: `₱${data.amount} ${
+          data.transactionType === "income" ? "added to" : "subtracted from"
+        } your budget.`,
+      });
+
+      setDialogOpen(false);
+      form.reset();
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button className="fixed bottom-6 right-6 p-4 py-6 rounded-full z-10 shadow-lg">
-          <Plus />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mx-[40px]">
+        {/* Toggle for Income/Expense */}
+        <FormField
+          control={form.control}
+          name="transactionType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Transaction Type</FormLabel>
+              <ToggleGroup type="single" value={field.value} onValueChange={field.onChange}>
+                <ToggleGroupItem value="income">Income</ToggleGroupItem>
+                <ToggleGroupItem value="expense">Expense</ToggleGroupItem>
+              </ToggleGroup>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Amount Input */}
+        <FormField
+          control={form.control}
+          name="amount"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Amount</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  placeholder="Enter amount"
+                  min={1}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (/^0\d/.test(value)) e.target.value = value.replace(/^0+/, "");
+                    field.onChange(parseFloat(e.target.value) || 0);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "-" || e.key === "e") e.preventDefault();
+                  }}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit" className="w-full" disabled={isSubmitting}>
+          {isSubmitting ? "Updating..." : "Submit"}
         </Button>
-      </DialogTrigger>
-      <DialogContent className="w-full md:w-[500px] m-auto" aria-describedby="description">
-        <DialogHeader>
-          <DialogTitle>Add Budget</DialogTitle>
-          <DialogDescription id="description">Add a budget to track your expenses</DialogDescription>
-        </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            {fields.map((field) => (
-              <FormField
-                key={field.id}
-                control={form.control}
-                name={field.id}
-                render={({ field: controllerField }) => (
-                  <FormItem>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <FormLabel htmlFor={field.id} className="text-right col-span-1">
-                        {field.label}
-                      </FormLabel>
-                      <FormControl className="col-span-3">
-                        <Input
-                          {...controllerField}
-                          id={field.id}
-                          type={field.type}
-                          value={controllerField.value ?? ""}
-                          onChange={field.id === "budget" || field.id === "expenses" ? handleNumberChange(field.id) : controllerField.onChange}
-                        />
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            ))}
-            <DialogFooter>
-              <Button type="submit">Save</Button>
-            </DialogFooter>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+      </form>
+    </Form>
   );
 };
 

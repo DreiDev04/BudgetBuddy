@@ -6,11 +6,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Label } from '../ui/label';
 import { Switch } from "@/components/ui/switch"
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Label } from '../ui/label';
-
 
 const LightToggle = () => {
   const { setTheme, resolvedTheme } = useTheme();
@@ -35,10 +34,12 @@ const LightToggle = () => {
         <SidebarMenuItem>
           <SidebarMenuButton tooltip={modeLabel} onClick={toggleTheme} asChild>
             <div className='flex items-center gap-2'>
+              {/* side bar icons */}
               <Sun className={`h-[1.2rem] w-[1.2rem] transition-all ${isDark ? 'rotate-90 scale-0' : 'rotate-0 scale-100'}`}/>
               <Moon className={`absolute h-[1.2rem] w-[1.2rem] transition-all ${isDark ? 'rotate-0 scale-100' : 'rotate-90 scale-0'}`}/>
               <span className="sr-only">Toggle theme</span>
-              {/* <Label>{modeLabel}</Label> */}
+
+              <Label>{modeLabel}</Label>
               <Switch checked={isDark} onCheckedChange={toggleTheme} />
             </div>
           </SidebarMenuButton>
