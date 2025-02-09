@@ -58,7 +58,8 @@ export const POST = async (req: NextRequest) => {
     await budget.save();
     revalidatePath("/dashboard/budget");
 
-    return NextResponse.json({ message: "Budget created successfully" }, { status: 201 });
+    // Return the full budget object (or you can call toObject() or toJSON() if needed)
+    return NextResponse.json(budget, { status: 201 });
   } catch (error: any) {
     console.error("Error saving budget:", error.message || error);
     return NextResponse.json({ error: error.message || "Internal server error" }, { status: 500 });

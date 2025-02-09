@@ -102,7 +102,7 @@ const page = () => {
               </CardHeader>
               <CardContent>
                 <p>Budget: ${budget.budgetLimit}</p>
-                <p style={{ color: budget.color[0]?.hex }}>
+                <p style={{ color: budget.color[0]?.hex }}> {/* error here */}
                   Color: {budget.color[0]?.name}
                 </p>
               </CardContent>

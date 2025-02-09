@@ -45,6 +45,7 @@ const AddBudgetForm = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
+  // Initialize form
   const form = useForm({
     resolver: zodResolver(BudgetSchema),
     defaultValues: {
@@ -55,12 +56,25 @@ const AddBudgetForm = ({
     },
   });
 
+  // Fetch updated budget list after adding a new budget
+  const fetchBudgets = async () => {
+    try {
+      const response = await fetch("/api/budget");
+      if (!response.ok) throw new Error("Failed to fetch budgets");
+
+      const budgets = await response.json();
+      setBudgets(budgets);
+    } catch (error) {
+      console.error("Error fetching budgets:", error);
+    }
+  };
+
   const onSubmit = async (data: any) => {
     setIsSubmitting(true);
     try {
       const payload = {
         ...data,
-        color: [data.color],
+        color: [data.color], // Ensure color is stored as an array
         categories: [],
         expenses: [],
       };
@@ -76,8 +90,8 @@ const AddBudgetForm = ({
         throw new Error(errorData.error || "Failed to add budget");
       }
 
-      const newBudget = await response.json();
-      setBudgets((prev) => [...prev, newBudget]);
+      // Instead of updating state directly, fetch updated budgets
+      await fetchBudgets();
 
       toast({
         title: "Success",
@@ -101,7 +115,7 @@ const AddBudgetForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4  mx-[40px]"
+        className="space-y-4 mx-[40px]"
       >
         {/* Title Field */}
         <FormField
@@ -111,10 +125,7 @@ const AddBudgetForm = ({
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input
-                  disabled={isSubmitting}
-                  {...field}
-                />
+                <Input disabled={isSubmitting} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -129,10 +140,7 @@ const AddBudgetForm = ({
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input
-                  disabled={isSubmitting}
-                  {...field}
-                />
+                <Input disabled={isSubmitting} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -156,14 +164,12 @@ const AddBudgetForm = ({
                   value={field.value}
                   onChange={(e) => {
                     const value = e.target.value;
-                    // Prevent leading zeros
                     if (/^0\d/.test(value)) {
                       e.target.value = value.replace(/^0+/, "");
                     }
                     field.onChange(parseFloat(e.target.value) || 0);
                   }}
                   onKeyDown={(e) => {
-                    // Prevent invalid characters
                     if (e.key === "-" || e.key === "e") {
                       e.preventDefault();
                     }
@@ -215,11 +221,7 @@ const AddBudgetForm = ({
         />
 
         {/* Submit Button */}
-        <Button
-          disabled={isSubmitting}
-          type="submit"
-          className="w-full "
-        >
+        <Button disabled={isSubmitting} type="submit" className="w-full">
           {isSubmitting ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
