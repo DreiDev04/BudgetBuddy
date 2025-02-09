@@ -27,6 +27,7 @@ import { ArrowLeft, Pencil } from "lucide-react";
 import BudgetModal from "@/components/custom/BudgetModal";
 import { IBudget } from "@/types/budget-types";
 import { useToast } from "@/hooks/use-toast";
+import AccountBalanceGraph from "@/components/graphs/AccountBalanceGraph";
 
 const BudgetInfo = () => {
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -59,6 +60,14 @@ const BudgetInfo = () => {
 
     fetchBudget();
   }, [budgetId]);
+
+  const graphData = [
+    { date: "2025-02-05", income: 800, expenses: 600 },
+    { date: "2025-02-06", income: 850, expenses: 550 },
+    { date: "2025-02-07", income: 900, expenses: 650 },
+    { date: "2025-02-08", income: 950, expenses: 700 },
+  ];
+
 
   if (loading) return <p>Loading budget...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
@@ -93,6 +102,9 @@ const BudgetInfo = () => {
             </CardTitle>
           </CardHeader>
         </Card>
+
+        <AccountBalanceGraph data={graphData} />
+
       </section>
     );
   }
