@@ -22,6 +22,7 @@ import { get } from "http";
 import { getCurrencySymbol } from "@/helper/helper";
 import AccountBalanceGraph from "@/components/graphs/AccountBalanceGraph";
 import { AccountOverviewGraph } from "@/components/graphs/AccountOverviewGraph";
+import OverviewModal from "@/components/custom/OverviewModal";
 
 const chartData = [
   { date: "2024-04-01", income: 222, expenses: 0 },
@@ -214,6 +215,7 @@ const page = () => {
           <AccountOverviewGraph data={chartData}  />
         </div>
       </article>
+      <OverviewModal />
     </section>
   );
 };

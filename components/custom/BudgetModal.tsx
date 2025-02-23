@@ -16,6 +16,7 @@ import {
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { IBudget } from "@/types/budget-types";
 import { useToast } from "@/hooks/use-toast";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 // Schema for form validation
 const formSchema = z.object({
@@ -84,19 +85,24 @@ const BudgetModal = ({ budget, setBudgets, setDialogOpen }: BudgetModalProps) =>
   };
 
   return (
-    <Form {...form}>
+    <div>
+      <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mx-[40px]">
-        {/* Toggle for Income/Expense */}
+        {/* Tabs for Income/Expense */}
         <FormField
           control={form.control}
           name="transactionType"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Transaction Type</FormLabel>
-              <ToggleGroup type="single" value={field.value} onValueChange={field.onChange}>
-                <ToggleGroupItem value="income">Income</ToggleGroupItem>
-                <ToggleGroupItem value="expense">Expense</ToggleGroupItem>
-              </ToggleGroup>
+              <Tabs value={field.value} onValueChange={field.onChange} defaultValue="income">
+                <div className="flex justify-center">
+                  <TabsList className="flex space-x-4">
+                    <TabsTrigger value="income">Income</TabsTrigger>
+                    <TabsTrigger value="expense">Expense</TabsTrigger>
+                  </TabsList>
+                </div>
+              </Tabs>
               <FormMessage />
             </FormItem>
           )}
@@ -134,6 +140,7 @@ const BudgetModal = ({ budget, setBudgets, setDialogOpen }: BudgetModalProps) =>
         </Button>
       </form>
     </Form>
+    </div>
   );
 };
 
