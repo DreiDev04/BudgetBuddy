@@ -13,10 +13,11 @@ import { useToast } from "@/hooks/use-toast";
 
 // Define schema with zod
 const shoppingItemSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  link: z.string().url("Invalid URL").optional(),
+  title: z.string().min(1, "Name is required"),
+  link: z.string().url("Invalid URL").or(z.literal("")).optional(), // Allow empty string
   price: z.number().min(0, "Price must be 0 or more"),
 });
+
 
 // Form values type
 type ShoppingItemFormValues = z.infer<typeof shoppingItemSchema>;
@@ -44,6 +45,7 @@ const ShoppingListModal = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
+
         throw new Error(errorData.error || "Failed to add item");
       }
 
@@ -75,7 +77,7 @@ const ShoppingListModal = () => {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input disabled={isSubmitting} {...field} />
                   </FormControl>
