@@ -23,6 +23,9 @@ import { getCurrencySymbol } from "@/helper/helper";
 import AccountBalanceGraph from "@/components/graphs/AccountBalanceGraph";
 import { AccountOverviewGraph } from "@/components/graphs/AccountOverviewGraph";
 import OverviewModal from "@/components/custom/OverviewModal";
+import RecordsOverview from "@/components/graphs/RecordsOverview";
+import ReportsGraph from "@/components/graphs/ReportsGraph";
+import CategoriesGraph from "@/components/graphs/CategoriesGraph";
 
 const chartData = [
   { date: "2024-04-01", income: 222, expenses: 0 },
@@ -77,8 +80,35 @@ const chartData = [
   { date: "2024-05-20", income: 177, expenses: 230 },
   { date: "2024-05-21", income: 82, expenses: 140 },
   { date: "2024-05-22", income: 81, expenses: 120 },
-
 ]
+
+export const useSpendingData = () =>
+  useState([
+    { id: '1', label: "Income", category: 'rent', amount: 1200, date: "2024-05-22", fill: 'var(--color-rent)' },
+    { id: '2', label: "Expense", category: 'groceries', amount: 350, date: "2024-05-22", fill: 'var(--color-groceries)' },
+    { id: '3', label: "Expense", category: 'transportation', amount: 150, date: "2024-05-22", fill: 'var(--color-transportation)' },
+    { id: '4', label: "Expense", category: 'entertainment', amount: 200, date: "2024-05-22", fill: 'var(--color-entertainment)' },
+    { id: '5', label: "Income", category: 'utilities', amount: 100, date: "2024-05-22", fill: 'var(--color-utilities)' },
+  ]);
+
+  export const useAggregatedSpendingData = (spendingData: any[]) =>
+    useState(() =>
+      spendingData.reduce((acc: any[], record) => {
+        const existingCategory = acc.find(item => item.category === record.category);
+
+        if (existingCategory) {
+          existingCategory.amount += record.amount;
+        } else {
+          acc.push({
+            category: record.category,
+            amount: record.amount,
+            fill: record.fill,
+          });
+        }
+
+        return acc;
+      }, [])
+    );
 
 const page = () => {
   const [accounts, setAccounts] = useState<IAccount[]>([]);
@@ -86,6 +116,9 @@ const page = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  const [spendingData] = useSpendingData();
+  const [aggregatedSpendingData] = useAggregatedSpendingData(spendingData);
 
   useEffect(() => {
     const fetchAccounts = async () => {
@@ -177,7 +210,7 @@ const page = () => {
     //   )}
     //   <pre>{JSON.stringify(accounts, null, 2)}</pre>
     // </div>
-    <section className="min-h-screen flex flex-col p-4">
+    <section className="min-h-screen flex flex-col lg:p-4 md:p-2">
       <article className="w-full bg-card rounded-md p-4 border space-y-4">
         <header className="flex items-center gap-4">
           <figure className="flex-shrink-0">
@@ -211,9 +244,24 @@ const page = () => {
             </p>
           </div>
         </div> */}
-        <div className="">
-          <AccountOverviewGraph data={chartData}  />
-        </div>
+        <section className="grid grid-cols-12 gap-5">
+          <div className="col-span-12 lg:col-span-12 lg:row-span-1">
+            <AccountOverviewGraph data={chartData}  />
+          </div>
+
+          <div className="col-span-12 lg:col-span-6 lg:row-span-4 md:col-span-6 md:row-span-4">
+            <RecordsOverview data={spendingData} />
+          </div>
+
+          <div className="col-span-12 lg:col-span-6 lg:row-span-2 md:col-span-6 md:row-span-2">
+            <CategoriesGraph data={aggregatedSpendingData} />
+          </div>
+
+          <div className="col-span-12 lg:col-span-6 lg:row-span-2 md:col-span-6 md:row-span-2">
+            <ReportsGraph reportsData={chartData} />
+          </div>
+
+        </section>
       </article>
       <OverviewModal />
     </section>

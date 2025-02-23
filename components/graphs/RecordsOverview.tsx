@@ -6,6 +6,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  CardDescription,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import {
@@ -17,7 +18,7 @@ import {
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
 
-interface LastRecordProps{
+interface RecordsOverviewProps{
   data: {
     id: string,
     label: string,
@@ -28,7 +29,7 @@ interface LastRecordProps{
   }[];
 }
 
-const LastRecords: React.FC<LastRecordProps> = ({data}) => {
+const RecordsOverview: React.FC<RecordsOverviewProps> = ({data}) => {
 
   const [filter, setFilter] = useState<string>("All Items");
 
@@ -67,9 +68,12 @@ const LastRecords: React.FC<LastRecordProps> = ({data}) => {
   };
 
   return (
-    <Card className="shadow-md rounded-lg lg:h-[600px] md:h-[750px] min-h-[600px]">
+    <Card className="shadow-md rounded-lg lg:h-[680px] md:h-[750px] min-h-[600px]">
       <CardHeader className="flex flex-row justify-between items-center ">
-        <CardTitle>Last Records Overview</CardTitle>
+        <div>
+          <CardTitle>Records Overview</CardTitle>
+          <CardDescription>Spending and Income Overview</CardDescription>
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="default" className="w-[120px]">{filter}</Button>
@@ -102,7 +106,9 @@ const LastRecords: React.FC<LastRecordProps> = ({data}) => {
               </Label>
               <Label className='text-sm p-2'>{recent.category}</Label>
               <Label className="text-sm p-2">${recent.amount}</Label>
-              <Label className="text-sm p-2">{recent.date}</Label>
+              <Label className="text-sm p-2">
+                {new Date(recent.date).toLocaleDateString("en-GB")}
+              </Label>
             </div>
           ))}
         </CardContent>
@@ -111,4 +117,4 @@ const LastRecords: React.FC<LastRecordProps> = ({data}) => {
   );
 };
 
-export default LastRecords;
+export default RecordsOverview;
