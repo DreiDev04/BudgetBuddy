@@ -28,15 +28,15 @@ const CompleteOnboarding = () => {
           }),
         });
 
-        // if (response.ok) {
-        //   localStorage.removeItem("accountType");
-        //   localStorage.removeItem("budgetLimit");
-        //   localStorage.removeItem("accountName");
-        //   localStorage.removeItem("currency");
-        //   router.push("/dashboard");
-        // } else {
-        //   console.error("Failed to complete onboarding");
-        // }
+        if (response.ok) {
+          localStorage.removeItem("accountType");
+          localStorage.removeItem("budgetLimit");
+          localStorage.removeItem("accountName");
+          localStorage.removeItem("currency");
+          router.push("/dashboard");
+        } else {
+          console.error("Failed to complete onboarding");
+        }
       } catch (error) {
         console.error("Error:", error);
       } finally {
@@ -62,8 +62,8 @@ const CompleteOnboarding = () => {
               </p>
             </div>
           ) : (
-            <p className="text-red-500">
-              Something went wrong. Please try again.
+            <p className="text-green-500">
+              You Successfully Completed the Onboarding Process
             </p>
           )}
         </CardContent>

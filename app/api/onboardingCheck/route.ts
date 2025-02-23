@@ -5,13 +5,12 @@ import { redirect } from "next/navigation";
 
 export const GET = async (req: NextRequest) => {
   try {
-    // const { userId } = await auth();
-    const userId = "user_2sHqdLaiBpIyeLFNKOwgTY4rX6w";
+    const { userId } = await auth();
+
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-
-
+    
     const user = await getUserData(userId);
 
     const isOnboardingComplete = user?.isOnboardingCompleted;
