@@ -8,9 +8,7 @@ import { revalidatePath } from "next/cache";
 
 export const GET = async (req: NextRequest) => {
   try {
-    // const { userId } = await auth()
-    // console.log(userId);
-    const userId = "user_2sHqdLaiBpIyeLFNKOwgTY4rX6w"; // Clerk ID nung account ko
+    const { userId } = await auth();
 
     await dbConnect();
 
@@ -28,6 +26,7 @@ export const GET = async (req: NextRequest) => {
     const formattedAccounts = accounts.map((account) => {
       return {
         // _id: account._id,
+        ...account.toJSON(),
         accountName: account.accountName,
         type: account.type,
         initialValue: account.initialValue,
@@ -63,7 +62,6 @@ export const POST = async (req: NextRequest) => {
 
     await account.save();
     revalidatePath("/dashboard");
-
 
     return NextResponse.json(
       { message: "Account created successfully" },

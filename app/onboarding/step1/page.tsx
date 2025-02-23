@@ -4,7 +4,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -35,25 +40,29 @@ import {
   FormDescription,
   FormMessage,
 } from "@/components/ui/form";
-
-// Currency options
-const currencies = [
-  { code: "PHP", symbol: "₱", name: "Philippine Peso" },
-  { code: "USD", symbol: "$", name: "US Dollar" },
-  { code: "EUR", symbol: "€", name: "Euro" },
-  { code: "GBP", symbol: "£", name: "British Pound" },
-  { code: "JPY", symbol: "¥", name: "Japanese Yen" },
-  { code: "AUD", symbol: "A$", name: "Australian Dollar" },
-  { code: "CAD", symbol: "C$", name: "Canadian Dollar" },
-  { code: "CHF", symbol: "Fr", name: "Swiss Franc" },
-  { code: "CNY", symbol: "¥", name: "Chinese Yuan" },
-];
+import { currencies, getCurrencySymbol } from "@/helper/helper";
 
 // Zod schema for validation. Here, the budgetLimit is required to be a positive number.
 const accountFormSchema = z.object({
   accountName: z.string().nonempty({ message: "Account name is required" }),
-  accountType: z.enum(["Cash", "Savings", "Investment", "Credit Card", "Other"]),
-  currency: z.enum(["PHP", "USD", "EUR", "GBP", "JPY", "AUD", "CAD", "CHF", "CNY"]),
+  accountType: z.enum([
+    "Cash",
+    "Savings",
+    "Investment",
+    "Credit Card",
+    "Other",
+  ]),
+  currency: z.enum([
+    "PHP",
+    "USD",
+    "EUR",
+    "GBP",
+    "JPY",
+    "AUD",
+    "CAD",
+    "CHF",
+    "CNY",
+  ]),
   budgetLimit: z.preprocess(
     (a) => (typeof a === "string" && a.trim() === "" ? undefined : Number(a)),
     z.number({ required_error: "Budget limit is required" }).positive({
@@ -102,10 +111,6 @@ const AccountSetup = () => {
     }
   };
 
-  const getCurrencySymbol = (code: string) => {
-    return currencies.find((c) => c.code === code)?.symbol || code;
-  };
-
   const onSubmit = (data: AccountFormValues) => {
     // Extra manual checks (in addition to Zod validations)
     if (!data.accountName.trim()) {
@@ -138,7 +143,8 @@ const AccountSetup = () => {
                   Account Setup
                 </h2>
                 <p className="text-sm text-muted-foreground mt-2">
-                  Let's set up your first account and budget. You can adjust these settings later.
+                  Let's set up your first account and budget. You can adjust
+                  these settings later.
                 </p>
               </div>
             </CardHeader>
@@ -156,9 +162,7 @@ const AccountSetup = () => {
                   name="accountName"
                   render={({ field }) => (
                     <FormItem className="space-y-2">
-                      <FormLabel htmlFor="accountName">
-                        Account Name
-                      </FormLabel>
+                      <FormLabel htmlFor="accountName">Account Name</FormLabel>
                       <FormControl>
                         <Input
                           id="accountName"
@@ -179,11 +183,12 @@ const AccountSetup = () => {
                   name="accountType"
                   render={({ field }) => (
                     <FormItem className="space-y-2">
-                      <FormLabel htmlFor="accountType">
-                        Account Type
-                      </FormLabel>
+                      <FormLabel htmlFor="accountType">Account Type</FormLabel>
                       <FormControl>
-                        <Select value={field.value} onValueChange={field.onChange}>
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
                           <SelectTrigger id="accountType" className="w-full">
                             <SelectValue placeholder="Select account type">
                               <div className="flex items-center">
@@ -237,11 +242,12 @@ const AccountSetup = () => {
                   name="currency"
                   render={({ field }) => (
                     <FormItem className="space-y-2">
-                      <FormLabel htmlFor="currency">
-                        Account Currency
-                      </FormLabel>
+                      <FormLabel htmlFor="currency">Account Currency</FormLabel>
                       <FormControl>
-                        <Select value={field.value} onValueChange={field.onChange}>
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
                           <SelectTrigger id="currency" className="w-full">
                             <SelectValue placeholder="Select currency">
                               <div className="flex items-center">
