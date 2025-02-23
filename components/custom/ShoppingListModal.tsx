@@ -1,30 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useToast } from "@/hooks/use-toast";
 
 // Define schema with zod
 const shoppingItemSchema = z.object({
@@ -33,16 +18,12 @@ const shoppingItemSchema = z.object({
   price: z.number().min(0, "Price must be 0 or more"),
 });
 
-// Define form values type
+// Form values type
 type ShoppingItemFormValues = z.infer<typeof shoppingItemSchema>;
 
-const fields: { id: keyof ShoppingItemFormValues; label: string; type: string }[] = [
-  { id: "title", label: "Title", type: "text" },
-  { id: "link", label: "Link", type: "text" },
-  { id: "price", label: "Price", type: "number" },
-];
-
 const ShoppingListModal = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
   const form = useForm<ShoppingItemFormValues>({
     resolver: zodResolver(shoppingItemSchema),
     defaultValues: {
@@ -52,15 +33,27 @@ const ShoppingListModal = () => {
     },
   });
 
-  // Fix for number input: ensure price is treated as a number
-  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const parsedValue = value ? parseFloat(value) : 0;
-    form.setValue("price", parsedValue); // Update the form value with a number
-  };
+  const onSubmit = async (data: ShoppingItemFormValues) => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/shopping", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-  const onSubmit = (data: ShoppingItemFormValues) => {
-    console.log("Form data:", data);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to add item");
+      }
+
+      toast({ title: "Item added", description: "The item has been added to your shopping list" });
+      form.reset();
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message || "Failed to add item", variant: "destructive" });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -77,34 +70,65 @@ const ShoppingListModal = () => {
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            {fields.map((field) => (
-              <FormField
-                key={field.id}
-                control={form.control}
-                name={field.id}
-                render={({ field: controllerField }) => (
-                  <FormItem>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <FormLabel className="text-right col-span-1" htmlFor={field.id}>
-                        {field.label}
-                      </FormLabel>
-                      <FormControl className="col-span-3">
-                        <Input
-                          {...controllerField}
-                          id={field.id}
-                          type={field.type}
-                          value={controllerField.value ?? ""}
-                          onChange={field.id === "price" ? handlePriceChange : controllerField.onChange}
-                        />
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            ))}
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Title</FormLabel>
+                  <FormControl>
+                    <Input disabled={isSubmitting} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="link"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Link</FormLabel>
+                  <FormControl>
+                    <Input disabled={isSubmitting} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Price</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={isSubmitting}
+                      type="number"
+                      min="0"
+                      step="1"
+                      {...field}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^0\d/.test(value)) {
+                          e.target.value = value.replace(/^0+/, "");
+                        }
+                        field.onChange(parseFloat(e.target.value) || 0);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "-" || e.key === "e") e.preventDefault();
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <DialogFooter>
-              <Button type="submit">Add Item</Button>
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Adding..." : "Add Item"}
+              </Button>
             </DialogFooter>
           </form>
         </Form>
