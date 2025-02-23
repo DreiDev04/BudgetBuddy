@@ -76,7 +76,7 @@ const chartData = [
   { date: "2024-05-20", income: 177, expenses: 230 },
   { date: "2024-05-21", income: 82, expenses: 140 },
   { date: "2024-05-22", income: 81, expenses: 120 },
- 
+
 ]
 
 const page = () => {
@@ -176,24 +176,29 @@ const page = () => {
     //   )}
     //   <pre>{JSON.stringify(accounts, null, 2)}</pre>
     // </div>
-    <div className="min-h-screen flex flex-col p-4 ">
-      <div className="w-full bg-card rounded-md p-4 border space-y-4">
-        <div className="flex items-center gap-2 ">
-          <Image
-            src="https://cdn-icons-png.flaticon.com/128/781/781831.png"
-            alt="Personal Finance"
-            width={75}
-            height={75}
-            className="bg-blue-400 rounded-sm p-3"
-          />
-          {accounts.map((account, index) => (
-            <div key={index}>
-              <h2 className="font-bold text-">{account.accountName}</h2>
-              <p className="text-card-foreground">{account.type}</p>
-            </div>
-          ))}
-        </div>
-        {/* <div className="w-full flex justify-between items-center">
+    <section className="min-h-screen flex flex-col p-4">
+      <article className="w-full bg-card rounded-md p-4 border space-y-4">
+        <header className="flex items-center gap-4">
+          <figure className="flex-shrink-0">
+            <Image
+              src="https://cdn-icons-png.flaticon.com/128/781/781831.png"
+              alt=""
+              width={75}
+              height={75}
+              className="bg-blue-400 rounded-sm p-3 max-w-[75px] w-full"
+              aria-hidden="true"
+            />
+          </figure>
+          <ul className="space-y-1">
+            {accounts.map((account, index) => (
+              <li key={index}>
+                <h2 className="font-bold text-lg">{account.accountName}</h2>
+                <p className="text-card-foreground text-sm">{account.type}</p>
+              </li>
+            ))}
+          </ul>
+        </header>
+            {/* <div className="w-full flex justify-between items-center">
           <div>
             <h2 className="text-card-foreground text-sm">Today</h2>
             <p className="text-primary text-3xl font-bold">
@@ -207,10 +212,9 @@ const page = () => {
         </div> */}
         <div className="">
           <AccountOverviewGraph data={chartData}  />
-          
         </div>
-      </div>
-    </div>
+      </article>
+    </section>
   );
 };
 
