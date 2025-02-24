@@ -36,16 +36,18 @@ export default function ShoppingList() {
     fetchShoppingList();
   }, []);
 
+  // say refreshes the ui when an item is added or deleted
+  // callBack function
   const handleItemAddedorDeleted = () => {
     fetchShoppingList();
   };
 
   return (
-    <div className="px-12">
-      <Card className="px-4 py-2 bg-transparent ">
+    <section >
+      <Card className="px-4 bg-transparent ">
         {isLoading ? <p>Loading...</p> : <DataTable columns={columns(handleItemAddedorDeleted)} data={shoppingList} />}
       </Card>
       <ShoppingListModal onItemAdded={handleItemAddedorDeleted} />
-    </div>
+    </section>
   );
 }

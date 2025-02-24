@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import DeleteButton from "../custom/DeleteButton";
 import { Label } from "../ui/label";
+import { Button } from "../ui/button";
 
 export type ShoppingItem = {
   _id: string;
@@ -26,14 +27,15 @@ export const columns = (onItemDeleted: () => void): ColumnDef<ShoppingItem>[] =>
     accessorKey: "link",
     header: "Link",
     cell: ({ row }) => (
-      <a
-        href={row.getValue("link")}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-blue-500 underline"
-      >
-        View Item
-      </a>
+      <Button variant={'link'}>
+          <a
+          href={row.getValue("link")}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View Item
+        </a>
+      </Button>
     ),
   },
   {

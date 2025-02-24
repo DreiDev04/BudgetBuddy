@@ -82,6 +82,7 @@ const chartData = [
   { date: "2024-05-22", income: 81, expenses: 120 },
 ]
 
+
 export const useSpendingData = () =>
   useState([
     { id: '1', label: "Income", category: 'rent', amount: 1200, date: "2024-05-22", fill: 'var(--color-rent)' },
@@ -89,6 +90,8 @@ export const useSpendingData = () =>
     { id: '3', label: "Expense", category: 'transportation', amount: 150, date: "2024-05-22", fill: 'var(--color-transportation)' },
     { id: '4', label: "Expense", category: 'entertainment', amount: 200, date: "2024-05-22", fill: 'var(--color-entertainment)' },
     { id: '5', label: "Income", category: 'utilities', amount: 100, date: "2024-05-22", fill: 'var(--color-utilities)' },
+    { id: '6', label: "Income", category: 'rent', amount: 1800, date: "2024-05-22", fill: 'var(--color-rent)' },
+
   ]);
 
   export const useAggregatedSpendingData = (spendingData: any[]) =>
@@ -109,6 +112,7 @@ export const useSpendingData = () =>
         return acc;
       }, [])
     );
+
 
 const page = () => {
   const [accounts, setAccounts] = useState<IAccount[]>([]);

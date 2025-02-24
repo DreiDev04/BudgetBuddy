@@ -99,7 +99,7 @@ const RecordsOverview: React.FC<RecordsOverviewProps> = ({data}) => {
           {filteredData.map((recent) => (
             <div
               key={recent.id}
-              className="grid grid-cols-2 gap-4 text-center p-4 rounded-lg shadow-md border"
+              className="grid grid-cols-2 lg:grid-cols-4  md:grid-cols-2 gap-4 text-center p-4 rounded-lg shadow-md border"
             >
               <Label className="text-sm bg-primary rounded-sm p-2">
                 {recent.label}

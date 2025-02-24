@@ -89,7 +89,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="w-full sm:w-auto">
+            <Button className="w-full sm:w-auto">
               {priceFilter} <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
@@ -153,7 +153,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
       <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 py-4">
         <div className="space-x-2">
           <Button
-            variant="outline"
+
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
@@ -161,7 +161,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
             Previous
           </Button>
           <Button
-            variant="outline"
+
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
