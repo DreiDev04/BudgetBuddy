@@ -41,14 +41,16 @@ export const POST = async (req: NextRequest) => {
         await dbConnect();
 
         const user = await User.findOne({ clerkId: userId });
+
         if (!user) {
+            console.log("User not found");
             return NextResponse.json({ error: "User not found" }, { status: 404 });
         }
 
         const newItem = new ShoppingList({
             ...body,
             user: user._id,
-        })
+        });
 
         await newItem.save();
 

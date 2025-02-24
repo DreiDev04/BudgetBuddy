@@ -16,9 +16,10 @@ import { useToast } from "@/hooks/use-toast";
 
 interface DeleteButtonProps {
   id: string;
+  onItemDeleted?: () => void; // Add callback prop
 }
 
-const DeleteButton: React.FC<DeleteButtonProps> = ({ id }) => {
+const DeleteButton: React.FC<DeleteButtonProps> = ({ id, onItemDeleted }) => {
   const { toast } = useToast();
   const [open, setOpen] = React.useState(false);
 
@@ -38,6 +39,9 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ id }) => {
       });
 
       setOpen(false);
+
+      // Trigger the parent page update
+      if (onItemDeleted) onItemDeleted();
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -52,7 +56,6 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ id }) => {
       <DialogTrigger asChild>
         <Button variant="ghost" className="flex items-center">
           <Trash2Icon size={16} />
-          Delete
         </Button>
       </DialogTrigger>
       <DialogContent>

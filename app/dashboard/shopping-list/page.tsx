@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { DataTable } from "@/components/dataTable/data-table";
 import { columns } from "@/components/dataTable/columns";
+import { Card } from "@/components/ui/card";
 import ShoppingListModal from "@/components/custom/ShoppingListModal";
 
 export default function ShoppingList() {
@@ -35,10 +36,16 @@ export default function ShoppingList() {
     fetchShoppingList();
   }, []);
 
+  const handleItemAddedorDeleted = () => {
+    fetchShoppingList();
+  };
+
   return (
     <div className="px-12">
-      {isLoading ? <p>Loading...</p> : <DataTable columns={columns} data={shoppingList} />}
-      <ShoppingListModal />
+      <Card className="px-4 py-2 bg-transparent ">
+        {isLoading ? <p>Loading...</p> : <DataTable columns={columns(handleItemAddedorDeleted)} data={shoppingList} />}
+      </Card>
+      <ShoppingListModal onItemAdded={handleItemAddedorDeleted} />
     </div>
   );
 }

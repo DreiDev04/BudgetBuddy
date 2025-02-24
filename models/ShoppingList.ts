@@ -4,7 +4,7 @@ import { IShoppingList } from "@/types/shoppingList-types";
 
 const ShoppingListSchema = new Schema<IShoppingList>(
   {
-    name: { type: String, required: true },
+    title: { type: String, required: true },
     link: { type: String },
     price: { type: Number, required: true },
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
