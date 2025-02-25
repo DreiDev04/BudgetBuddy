@@ -10,7 +10,6 @@ import {
   CardDescription
 } from "@/components/ui/card"
 import {
-  // ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent
@@ -22,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select"
+import { Colors } from "@/helper/categoriesColor"
 
 // Define types for the chart config
 interface ChartConfig {
@@ -39,70 +39,28 @@ interface CategoriesProps {
   }[]
 }
 
-// Chart configuration for categories
-const chartConfig = {
-  amount: {
-    label: "Amount",
-  },
-  rent: {
-    label: "Rent",
-    color: "hsl(var(--chart-1))",
-  },
-  groceries: {
-    label: "Groceries",
-    color: "hsl(var(--chart-2))",
-  },
-  transportation: {
-    label: "Transportation",
-    color: "hsl(var(--chart-3))",
-  },
-  entertainment: {
-    label: "Entertainment",
-    color: "hsl(var(--chart-4))",
-  },
-  utilities: {
-    label: "Utilities",
-    color: "hsl(var(--chart-5))",
-  },
-  healthcare: {
-    label: "Healthcare",
-    color: "hsl(var(--chart-6))",
-  },
-  dining: {
-    label: "Dining Out",
-    color: "hsl(var(--chart-7))",
-  },
-  subscriptions: {
-    label: "Subscriptions",
-    color: "hsl(var(--chart-8))",
-  },
-  savings: {
-    label: "Savings",
-    color: "hsl(var(--chart-9))",
-  },
-  misc: {
-    label: "Miscellaneous",
-    color: "hsl(var(--chart-10))",
-  },
-} satisfies ChartConfig;
+// Build chart configuration dynamically from Colors array
+const chartConfig = Colors.reduce((acc, item) => {
+  acc[item.value] = {
+    label: item.name,
+    color: item.color,
+  }
+  return acc
+}, {} as ChartConfig)
 
 const CategoriesGraph: React.FC<CategoriesProps> = ({ data }) => {
-  // State to track the active category
-  const [activeCategory, setActiveCategory] = React.useState(data[0].category)
+  const [activeCategory, setActiveCategory] = React.useState(data[0]?.category || "")
 
-  // Find the active category's index
   const activeIndex = React.useMemo(
     () => data.findIndex((item) => item.category === activeCategory),
     [activeCategory, data]
   )
 
-  // Calculate the total for the selected category
   const categoryTotal = React.useMemo(() => {
-    const categoryData = data.filter((item) => item.category === activeCategory);
-    return categoryData.reduce((acc, curr) => acc + curr.amount, 0);
+    const categoryData = data.filter((item) => item.category === activeCategory)
+    return categoryData.reduce((acc, curr) => acc + curr.amount, 0)
   }, [activeCategory, data])
 
-  // Get the unique list of categories
   const categories = React.useMemo(() => data.map((item) => item.category), [data])
 
   return (
@@ -112,34 +70,24 @@ const CategoriesGraph: React.FC<CategoriesProps> = ({ data }) => {
           <CardTitle>Spending Categories</CardTitle>
           <CardDescription>Visualizing spending by categories</CardDescription>
         </div>
-         {/* Category Select Dropdown */}
         <Select value={activeCategory} onValueChange={setActiveCategory}>
-          <SelectTrigger
-            className="ml-auto h-7 w-[130px] rounded-lg pl-2.5"
-            aria-label="Select a category"
-          >
+          <SelectTrigger className="ml-auto h-7 w-auto rounded-lg pl-2.5" aria-label="Select a category">
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
           <SelectContent align="end" className="rounded-xl">
             {categories.map((key) => {
-              const config = chartConfig[key as keyof typeof chartConfig]
+              const config = chartConfig[key]
+              const colorItem = Colors.find((c) => c.value === key)
 
-              if (!config) {
-                return null
-              }
+              if (!config || !colorItem) return null
 
               return (
-                <SelectItem
-                  key={key}
-                  value={key}
-                  className="rounded-lg [&_span]:flex"
-                >
+                <SelectItem key={key} value={key} className="rounded-lg [&_span]:flex">
                   <div className="flex items-center gap-2 text-xs">
+                    {/* {colorItem.icon} */}
                     <span
                       className="flex h-3 w-3 shrink-0 rounded-sm"
-                      style={{
-                        backgroundColor: `var(--fill-${key})`,
-                      }}
+                      style={{ backgroundColor: colorItem.color }}
                     />
                     {config?.label}
                   </div>
@@ -150,39 +98,26 @@ const CategoriesGraph: React.FC<CategoriesProps> = ({ data }) => {
         </Select>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
-
-        {/* Chart Display */}
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[235px]"
-        >
+        <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[235px]">
           <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
             <Pie
-              data={data}
+              data={data.map((item) => ({
+                ...item,
+                fill: Colors.find((c) => c.value === item.category)?.color || "#ccc",
+              }))}
               dataKey="amount"
               nameKey="category"
               innerRadius={60}
               strokeWidth={5}
               activeIndex={activeIndex}
-              activeShape={({
-                outerRadius = 0,
-                ...props
-              }) => (
+              activeShape={({ outerRadius = 0, ...props }) => (
                 <g>
                   <Sector {...props} outerRadius={outerRadius + 10} />
-                  <Sector
-                    {...props}
-                    outerRadius={outerRadius + 25}
-                    innerRadius={outerRadius + 12}
-                  />
+                  <Sector {...props} outerRadius={outerRadius + 25} innerRadius={outerRadius + 12} />
                 </g>
               )}
             >
-              {/* Label showing total for the active category */}
               <Label
                 content={({ viewBox }) => {
                   if (viewBox && "cx" in viewBox && "cy" in viewBox) {
