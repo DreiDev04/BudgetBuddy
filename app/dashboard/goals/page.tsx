@@ -23,10 +23,8 @@ import UpdateGoal from "@/components/custom/UpdateGoal";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useGoalsData } from "@/app/dashboard/page-old";
 
-
 const Page = () => {
   const [goalsData] = useGoalsData();
-
   const [filteredGoals, setFilteredGoals] = React.useState(goalsData);
   const [selectedCategory, setSelectedCategory] = React.useState("All Goals");
 
@@ -42,21 +40,17 @@ const Page = () => {
 
   return (
     <section
-      className="h-auto grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4"
+      className="h-auto grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 gap-6"
       aria-labelledby="goals-section"
     >
-      {/* Goals Progress Graph */}
-      <article className="lg:col-span-1 md:col-span-2 sm:col-span-1">
-        <GoalsGraph data={goalsData}/>
-      </article>
-
-      {/* Detailed Breakdown */}
-      <Card className="lg:col-span-2 md:col-span-2 sm:col-span-1 bg-card border rounded-md h-[650px] overflow-hidden">
-        <CardHeader className="flex flex-row justify-between items-center px-4">
-          <CardTitle id="detailed-breakdown-title">Detailed Breakdown of Goals</CardTitle>
+      <Card className="col-span-2 bg-card border rounded-lg shadow-md h-[calc(100vh-100px)] overflow-hidden">
+        <CardHeader className="flex flex-row justify-between items-center py-4">
+          <CardTitle id="detailed-breakdown-title">
+            Detailed Breakdown of Goals
+          </CardTitle>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="default" className="w-[120px]">
+              <Button variant="default" className="w-[150px]">
                 {selectedCategory}
               </Button>
             </DropdownMenuTrigger>
@@ -76,26 +70,30 @@ const Page = () => {
           </DropdownMenu>
         </CardHeader>
         <ScrollArea className="h-[calc(100%-80px)]">
-          <CardContent className="flex flex-col space-y-4 px-4 overflow-y-auto">
+          <CardContent className="flex flex-col space-y-6 overflow-y-auto pb-6">
             {filteredGoals.map((goal) => (
               <div
                 key={goal.id}
-                className={`rounded-sm border w-full h-auto p-4 flex flex-col space-y-2 ${goal.color}`}
+                className={`rounded-lg border w-full p-6 flex flex-col space-y-4 shadow-xl ${goal.color}`}
               >
-                <div className="flex flex-wrap items-center justify-between space-x-2">
+                <div className="flex flex-wrap items-center justify-between gap-4">
                   <Label className="flex items-center">
                     <Car aria-hidden="true" />
-                    <span className="ml-2">{goal.title}</span>
+                    <span className="ml-2 text-lg font-semibold">
+                      {goal.title}
+                    </span>
                   </Label>
                   <Progress
                     value={goal.progress}
-                    className="w-full lg:w-[40%] flex-grow my-2"
+                    className="w-full lg:w-[50%] flex-grow"
                   />
-                  <Label>${goal.target}</Label>
-                  <Label>{goal.date}</Label>
+                  <Label className="text-base">${goal.target}</Label>
+                  <Label className="text-base">{goal.date}</Label>
                   <UpdateGoal />
                 </div>
-                <Label className="text-sm">{goal.note}</Label>
+                <Label className="text-sm ">
+                  {goal.note}
+                </Label>
               </div>
             ))}
           </CardContent>
