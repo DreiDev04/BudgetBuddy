@@ -33,7 +33,7 @@ export default function DashboardLayout({
 
     if (lastSegment && /^[0-9a-fA-F]{24}$/.test(lastSegment)) {
       // If the last segment is a MongoDB ObjectId, fetch the title
-      fetch(`/api/budget/${lastSegment}`)
+      fetch(`/api/details/${lastSegment}`)
         .then((res) => res.json())
         .then((data) => {
           setCurrentPage(data.title || "Untitled");
