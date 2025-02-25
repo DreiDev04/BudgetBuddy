@@ -34,7 +34,7 @@ interface ChartConfig {
 interface CategoriesProps {
   data: {
     category: string
-    amount: number
+    expenses: number
     fill: string
   }[]
 }
@@ -58,7 +58,7 @@ const CategoriesGraph: React.FC<CategoriesProps> = ({ data }) => {
 
   const categoryTotal = React.useMemo(() => {
     const categoryData = data.filter((item) => item.category === activeCategory)
-    return categoryData.reduce((acc, curr) => acc + curr.amount, 0)
+    return categoryData.reduce((acc, curr) => acc + curr.expenses, 0)
   }, [activeCategory, data])
 
   const categories = React.useMemo(() => data.map((item) => item.category), [data])
@@ -100,13 +100,13 @@ const CategoriesGraph: React.FC<CategoriesProps> = ({ data }) => {
       <CardContent className="flex-1 pb-0">
         <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[235px]">
           <PieChart>
-            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} wrapperClassName="w-auto pr-1" />
             <Pie
               data={data.map((item) => ({
                 ...item,
                 fill: Colors.find((c) => c.value === item.category)?.color || "#ccc",
               }))}
-              dataKey="amount"
+              dataKey="expenses"
               nameKey="category"
               innerRadius={60}
               strokeWidth={5}

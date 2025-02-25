@@ -172,7 +172,7 @@ export const AccountOverviewGraph: React.FC<AccountOverviewGraphProps> = ({
                   {chartConfig[chart].label}
                 </span>
                 <span
-                  className={`text-lg font-bold leading-none sm:text-3xl text-nowrap 
+                  className={`text-lg font-bold leading-none sm:text-3xl text-nowrap
                   ${key === "income" ? "text-green-500" : "text-red-500"}
                     `}
                 >
@@ -218,16 +218,18 @@ export const AccountOverviewGraph: React.FC<AccountOverviewGraphProps> = ({
                 <ChartTooltipContent
                   className="w-[150px]"
                   nameKey="views"
-                  labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("en-US", {
+                  labelFormatter={(value, payload) => {
+                    const category = payload?.[0]?.payload?.category || 'N/A';
+                    const formattedDate = new Date(value).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
                       year: "numeric",
                     });
+                    return `${formattedDate} - ${category}`;
                   }}
                 />
               }
-            />
+/>
             <Bar dataKey={activeChart} fill={`var(--color-${activeChart})`} />
           </BarChart>
         </ChartContainer>
