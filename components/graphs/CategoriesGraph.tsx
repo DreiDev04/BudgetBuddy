@@ -64,7 +64,27 @@ const chartConfig = {
     label: "Utilities",
     color: "hsl(var(--chart-5))",
   },
-} satisfies ChartConfig
+  healthcare: {
+    label: "Healthcare",
+    color: "hsl(var(--chart-6))",
+  },
+  dining: {
+    label: "Dining Out",
+    color: "hsl(var(--chart-7))",
+  },
+  subscriptions: {
+    label: "Subscriptions",
+    color: "hsl(var(--chart-8))",
+  },
+  savings: {
+    label: "Savings",
+    color: "hsl(var(--chart-9))",
+  },
+  misc: {
+    label: "Miscellaneous",
+    color: "hsl(var(--chart-10))",
+  },
+} satisfies ChartConfig;
 
 const CategoriesGraph: React.FC<CategoriesProps> = ({ data }) => {
   // State to track the active category
