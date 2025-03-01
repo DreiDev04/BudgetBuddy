@@ -34,3 +34,19 @@ export async function PATCH(req: NextRequest, { params }: { params: { budgetId: 
     return NextResponse.json({ error: "Error updating budget" }, { status: 500 });
   }
 }
+
+export async function DELETE(req: NextRequest, { params }: { params: { budgetId: string } }) {
+  try {
+    await dbConnect();
+
+    const deletedBudget = await Budget.findByIdAndDelete(params.budgetId);
+    console.log(deletedBudget);
+
+    if (!deletedBudget) {
+      return NextResponse.json({ error: "Budget not found" }, { status: 404 });
+    }
+    return NextResponse.json(deletedBudget, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error: "Error deleting budget" }, { status: 500 });
+  }
+}

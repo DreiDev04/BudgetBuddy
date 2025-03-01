@@ -29,7 +29,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {Label} from "@/components/ui/label";
-import ProfileForm from "@/components/custom/AddBudgetForm";
+import CreateBudgetForm from "@/components/custom/CreateBudgetForm";
+import DeleteBudgetModal from "@/components/custom/DeleteBudgetModal";
 import { IBudget } from "@/types/budget-types";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
@@ -86,7 +87,7 @@ const page = () => {
             <DialogHeader>
               <DialogTitle>Create Budget</DialogTitle>
             </DialogHeader>
-            <ProfileForm
+            <CreateBudgetForm
               setBudgets={setBudgets}
               setDialogOpen={setDialogOpen}
             />
@@ -95,19 +96,32 @@ const page = () => {
 
         {/* Budgets list */}
         {budgets.map((budget) => (
-          <Link key={budget._id} href={`/dashboard/budget/${budget._id}`}>
+          <section key={budget._id} className="relative">
+            <Link href={`/dashboard/budget/${budget._id}`}>
             <Card className='col-span-1 min-h-44'
               style={{ backgroundColor: budget.color[0]?.hex }}
-              >
-              <CardHeader>
-                <CardTitle>{budget.title}</CardTitle>
-                <CardDescription>{budget.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Label>Budget: ${budget.budgetLimit}</Label>
-              </CardContent>
-            </Card>
-          </Link>
+                  >
+                  <CardHeader>
+                    <CardTitle className="flex justify-between items-center">
+                        {budget.title}
+                    </CardTitle>
+                    <CardDescription>{budget.description}</CardDescription>
+                  </CardHeader>
+                  <CardFooter>
+                    <Label>Budget: ${budget.budgetLimit}</Label>
+                  </CardFooter>
+                </Card>
+            </Link>
+
+            <div className="absolute top-4 right-4">
+              <DeleteBudgetModal
+                id={budget._id}
+                onItemDeleted={() => {
+                  setBudgets((prevBudgets) => prevBudgets.filter((b) => b._id !== budget._id));
+                }}
+              />
+            </div>
+          </section>
         ))}
 
       </section>
@@ -131,7 +145,7 @@ const page = () => {
           <DrawerHeader className="text-left">
             <DrawerTitle>Create Budget</DrawerTitle>
           </DrawerHeader>
-          <ProfileForm
+          <CreateBudgetForm
             setBudgets={setBudgets}
             setDialogOpen={setDialogOpen}
           />
@@ -145,19 +159,32 @@ const page = () => {
 
         {/* Budgets list */}
         {budgets.map((budget) => (
-          <Link key={budget._id} href={`/dashboard/budget/${budget._id}`}>
+          <section key={budget._id} className="relative">
+            <Link href={`/dashboard/budget/${budget._id}`}>
             <Card className='col-span-1 min-h-44'
               style={{ backgroundColor: budget.color[0]?.hex }}
-              >
-              <CardHeader>
-                <CardTitle>{budget.title}</CardTitle>
-                <CardDescription>{budget.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Label>Budget: ${budget.budgetLimit}</Label>
-              </CardContent>
-            </Card>
-          </Link>
+                  >
+                  <CardHeader>
+                    <CardTitle className="flex justify-between items-center">
+                        {budget.title}
+                    </CardTitle>
+                    <CardDescription>{budget.description}</CardDescription>
+                  </CardHeader>
+                  <CardFooter>
+                    <Label>Budget: ${budget.budgetLimit}</Label>
+                  </CardFooter>
+                </Card>
+            </Link>
+
+            <div className="absolute top-4 right-4">
+              <DeleteBudgetModal
+                id={budget._id}
+                onItemDeleted={() => {
+                  setBudgets((prevBudgets) => prevBudgets.filter((b) => b._id !== budget._id));
+                }}
+              />
+            </div>
+          </section>
         ))}
 
     </section>

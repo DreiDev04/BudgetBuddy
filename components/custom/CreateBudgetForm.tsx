@@ -32,11 +32,11 @@ const BudgetSchema = z.object({
   budgetLimit: z.number().min(1, "Budget must be at least 1"),
   color: z.object({
     name: z.string().min(1, "Color name is required"),
-    color: z.string().min(1, "Color hex is required"),
+    hex: z.string().min(1, "Color hex is required"),
   }),
 });
 
-const AddBudgetForm = ({
+const CreateBudgetForm = ({
   setBudgets,
   setDialogOpen,
 }: {
@@ -210,7 +210,7 @@ const AddBudgetForm = ({
                         key={color.value}
                         value={JSON.stringify({
                           name: color.colorName,
-                          color: color.color,
+                          hex: color.color,
                         })}
                       >
                         <div className="flex items-center gap-2">
@@ -246,4 +246,4 @@ const AddBudgetForm = ({
   );
 };
 
-export default AddBudgetForm;
+export default CreateBudgetForm;
