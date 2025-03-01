@@ -131,6 +131,7 @@ export const useSpendingData = () =>
     );
 
 
+
 const page = () => {
   const [accounts, setAccounts] = useState<IAccount[]>([]);
   const [selectedAccount, setSelectedAccount] = useState<string>("all-account");
@@ -164,9 +165,7 @@ const page = () => {
     selectedAccount === "all-account"
       ? accounts
       : accounts.filter((account) => account.accountName === selectedAccount);
-
   console.log(accounts);
-
   return (
     // <div className="p-4">
     //   <section className="p-2 flex justify-between items-center rounded">
