@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-// import { Colors } from "@/helper/color";
 import { Colors } from "@/helper/categoriesColor";
 import z from "zod";
 import { useForm } from "react-hook-form";

@@ -1,27 +1,22 @@
 "use client";
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { IBudget } from "@/types/budget-types";
 import { useToast } from "@/hooks/use-toast";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Colors } from "@/helper/categoriesColor";
+import BudgetForm from "@/components/custom/BudgetForm";
+
 
 // Schema for form validation
 const formSchema = z.object({
   transactionType: z.enum(["income", "expense"]),
   amount: z.preprocess((val) => Number(val), z.number().min(1, "Amount must be at least 1")),
+   category: z.object({
+      name: z.string().min(1, "Category name must be at least 1 character"),
+      hex: z.string().min(1, "Color hex is required"),
+    })
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -36,13 +31,14 @@ const BudgetModal = ({ budget, setBudgets, setDialogOpen }: BudgetModalProps) =>
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      transactionType: "income",
-      amount: 0,
-    },
-  });
+   const form = useForm<FormData>({
+      resolver: zodResolver(formSchema),
+      defaultValues: {
+        transactionType: "income",
+        amount: 0,
+        category: { name: "", hex: "" }
+      },
+    });
 
   const onSubmit = async (data: FormData) => {
     if (!budget) {
@@ -86,60 +82,7 @@ const BudgetModal = ({ budget, setBudgets, setDialogOpen }: BudgetModalProps) =>
 
   return (
     <div>
-      <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mx-[40px]">
-        {/* Tabs for Income/Expense */}
-        <FormField
-          control={form.control}
-          name="transactionType"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Transaction Type</FormLabel>
-              <Tabs value={field.value} onValueChange={field.onChange} defaultValue="income">
-                <div className="flex justify-center">
-                  <TabsList className="flex space-x-4">
-                    <TabsTrigger value="income">Income</TabsTrigger>
-                    <TabsTrigger value="expense">Expense</TabsTrigger>
-                  </TabsList>
-                </div>
-              </Tabs>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Amount Input */}
-        <FormField
-          control={form.control}
-          name="amount"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Amount</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  placeholder="Enter amount"
-                  min={1}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (/^0\d/.test(value)) e.target.value = value.replace(/^0+/, "");
-                    field.onChange(parseFloat(e.target.value) || 0);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "-" || e.key === "e") e.preventDefault();
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
-          {isSubmitting ? "Updating..." : "Submit"}
-        </Button>
-      </form>
-    </Form>
+      <BudgetForm form={form} Colors={Colors} isSubmitting={isSubmitting} onSubmit={onSubmit} />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { DollarSign, PiggyBank, ShoppingCart, Home, Briefcase, Heart, Utensils, BookOpen, Tv, Gift, User, LineChart, Banknote, Medal, GraduationCap, Ellipsis } from "lucide-react";
+import { DollarSign, PiggyBank, ShoppingCart, Home, Briefcase, Heart, Utensils, BookOpen, Tv, Gift, User, LineChart, Banknote, Medal, GraduationCap, Ellipsis, Coins } from "lucide-react";
 
 export const Colors = [
   {
@@ -6,7 +6,7 @@ export const Colors = [
     name: "Amount",
     colorName: "Coral",
     color: "hsl(var(--chart-1))",
-    icon: <Home />,
+    icon: <Coins />,
   },
   {
     value: "rent",

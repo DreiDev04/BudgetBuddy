@@ -44,7 +44,6 @@ function useMediaQuery(query: string) {
 export function AppSidebar() {
   const { user } = useUser();
   const {setOpenMobile } = useSidebar();
-  const {state} = useSidebar();
   const pathname = usePathname();
 
   const isTablet = useMediaQuery("(min-width: 769px) and (max-width: 1023px)");
@@ -88,7 +87,7 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar collapsible="icon" variant="floating" >
+    <Sidebar collapsible='icon' variant="floating" >
       <SidebarHeader>
         <SidebarMenuButton size="lg" asChild>
           <a href="/dashboard">
