@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import { Trash } from 'lucide-react'
+import { Trash2Icon } from 'lucide-react'
 import { Button } from '../ui/button'
 import {
     Dialog,
@@ -19,7 +19,7 @@ interface DeleteButtonProps {
     onItemDeleted?: () => void;
 }
 
-const DeleteBudgetModal: React.FC<DeleteButtonProps>= ({id, onItemDeleted}) => {
+const DeleteBudgetButton: React.FC<DeleteButtonProps>= ({id, onItemDeleted}) => {
     const {toast} = useToast();
     const [open, setOpen] = React.useState(false);
 
@@ -56,7 +56,7 @@ const DeleteBudgetModal: React.FC<DeleteButtonProps>= ({id, onItemDeleted}) => {
             className='w-[6px]'
             onClick={(e) => e.stopPropagation()}
             >
-                <Trash/>
+                <Trash2Icon/>
             </Button>
         </DialogTrigger>
         <DialogContent>
@@ -77,4 +77,4 @@ const DeleteBudgetModal: React.FC<DeleteButtonProps>= ({id, onItemDeleted}) => {
   )
 }
 
-export default DeleteBudgetModal
+export default DeleteBudgetButton

@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/card";
 import {Label} from "@/components/ui/label";
 import CreateBudgetForm from "@/components/custom/CreateBudgetForm";
-import DeleteBudgetModal from "@/components/custom/DeleteBudgetModal";
+import DeleteBudgetButton from "@/components/custom/DeleteBudgetButton";
 import { IBudget } from "@/types/budget-types";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
@@ -114,7 +114,7 @@ const page = () => {
             </Link>
 
             <div className="absolute top-4 right-4">
-              <DeleteBudgetModal
+              <DeleteBudgetButton
                 id={budget._id}
                 onItemDeleted={() => {
                   setBudgets((prevBudgets) => prevBudgets.filter((b) => b._id !== budget._id));
@@ -177,7 +177,7 @@ const page = () => {
             </Link>
 
             <div className="absolute top-4 right-4">
-              <DeleteBudgetModal
+              <DeleteBudgetButton
                 id={budget._id}
                 onItemDeleted={() => {
                   setBudgets((prevBudgets) => prevBudgets.filter((b) => b._id !== budget._id));

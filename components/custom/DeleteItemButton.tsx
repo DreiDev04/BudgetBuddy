@@ -19,7 +19,7 @@ interface DeleteButtonProps {
   onItemDeleted?: () => void; // Add callback prop
 }
 
-const DeleteButton: React.FC<DeleteButtonProps> = ({ id, onItemDeleted }) => {
+const DeleteItemButton: React.FC<DeleteButtonProps> = ({ id, onItemDeleted }) => {
   const { toast } = useToast();
   const [open, setOpen] = React.useState(false);
 
@@ -78,4 +78,4 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ id, onItemDeleted }) => {
   );
 };
 
-export default DeleteButton;
+export default DeleteItemButton;

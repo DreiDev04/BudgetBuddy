@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import DeleteButton from "../custom/DeleteButton";
+import DeleteItemButton from "../custom/DeleteItemButton";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 
@@ -56,7 +56,7 @@ export const columns = (onItemDeleted: () => void): ColumnDef<ShoppingItem>[] =>
     cell: ({ row }) => {
       const item = row.original;
 
-      return <DeleteButton id={item._id} onItemDeleted={onItemDeleted} />;
+      return <DeleteItemButton id={item._id} onItemDeleted={onItemDeleted} />;
     },
   },
 ];
