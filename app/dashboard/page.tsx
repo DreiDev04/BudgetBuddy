@@ -82,55 +82,237 @@ import CategoriesGraph from "@/components/graphs/CategoriesGraph";
 //   { date: "2024-05-22", income: 81, expenses: 120 },
 // ]
 
-
 export const useSpendingData = () =>
   useState([
-    { id: '1', label: "Income", category: 'misc', income: 222, expenses: 0, date: "2025-04-01", fill: 'hsl(var(--chart-10))' },
-    { id: '2', label: "Income", category: 'misc', income: 97, expenses: 0, date: "2024-04-02", fill: 'hsl(var(--chart-10))' },
-    { id: '3', label: "Expense", category: 'misc', income: 167, expenses: 120, date: "2024-04-03", fill: 'hsl(var(--chart-10))' },
-    { id: '4', label: "Expense", category: 'rent', income: 242, expenses: 260, date: "2024-04-04", fill: 'hsl(var(--chart-1))' },
-    { id: '5', label: "Expense", category: 'groceries', income: 373, expenses: 290, date: "2024-04-05", fill: 'hsl(var(--chart-2))' },
-    { id: '6', label: "Expense", category: 'transportation', income: 301, expenses: 340, date: "2024-04-06", fill: 'hsl(var(--chart-3))' },
-    { id: '7', label: "Expense", category: 'entertainment', income: 245, expenses: 180, date: "2024-04-07", fill: 'hsl(var(--chart-4))' },
-    { id: '8', label: "Expense", category: 'utilities', income: 409, expenses: 320, date: "2024-04-08", fill: 'hsl(var(--chart-5))' },
-    { id: '9', label: "Expense", category: 'subscriptions', income: 59, expenses: 110, date: "2024-04-09", fill: 'hsl(var(--chart-8))' },
-    { id: '10', label: "Expense", category: 'healthcare', income: 261, expenses: 190, date: "2024-04-10", fill: 'hsl(var(--chart-6))' },
-    { id: '11', label: "Expense", category: 'savings', income: 327, expenses: 350, date: "2024-04-11", fill: 'hsl(var(--chart-9))' },
-    { id: '12', label: "Expense", category: 'dining', income: 292, expenses: 210, date: "2024-04-12", fill: 'hsl(var(--chart-7))' },
-    { id: '13', label: "Expense", category: 'entertainment', income: 342, expenses: 380, date: "2024-04-13", fill: 'hsl(var(--chart-4))' },
-    { id: '14', label: "Expense", category: 'groceries', income: 137, expenses: 220, date: "2024-04-14", fill: 'hsl(var(--chart-2))' },
-    { id: '15', label: "Expense", category: 'transportation', income: 120, expenses: 170, date: "2024-04-15", fill: 'hsl(var(--chart-3))' },
-    { id: '16', label: "Expense", category: 'subscriptions', income: 138, expenses: 190, date: "2024-04-16", fill: 'hsl(var(--chart-8))' },
-    { id: '17', label: "Expense", category: 'rent', income: 446, expenses: 360, date: "2024-04-17", fill: 'hsl(var(--chart-1))' },
-    { id: '18', label: "Expense", category: 'utilities', income: 364, expenses: 410, date: "2024-04-18", fill: 'hsl(var(--chart-5))' },
-    { id: '19', label: "Expense", category: 'entertainment', income: 243, expenses: 180, date: "2024-04-19", fill: 'hsl(var(--chart-4))' },
-    { id: '20', label: "Expense", category: 'dining', income: 89, expenses: 150, date: "2024-04-20", fill: 'hsl(var(--chart-7))' },
-    { id: '21', label: "Expense", category: 'misc', income: 224, expenses: 170, date: "2024-04-22", fill: 'hsl(var(--chart-10))' },
-    { id: '22', label: "Income", category: 'groceries', income: 387, expenses: 0, date: "2024-04-24", fill: 'hsl(var(--chart-2))' },
-    { id: '23', label: "Expense", category: 'groceries', income: 0, expenses: 290, date: "2024-04-24", fill: 'hsl(var(--chart-2))' },
+    {
+      id: "1",
+      label: "Income",
+      category: "misc",
+      income: 222,
+      expenses: 0,
+      date: "2025-04-01",
+      fill: "hsl(var(--chart-10))",
+    },
+    {
+      id: "2",
+      label: "Income",
+      category: "misc",
+      income: 97,
+      expenses: 0,
+      date: "2024-04-02",
+      fill: "hsl(var(--chart-10))",
+    },
+    {
+      id: "3",
+      label: "Expense",
+      category: "misc",
+      income: 167,
+      expenses: 120,
+      date: "2024-04-03",
+      fill: "hsl(var(--chart-10))",
+    },
+    {
+      id: "4",
+      label: "Expense",
+      category: "rent",
+      income: 242,
+      expenses: 260,
+      date: "2024-04-04",
+      fill: "hsl(var(--chart-1))",
+    },
+    {
+      id: "5",
+      label: "Expense",
+      category: "groceries",
+      income: 373,
+      expenses: 290,
+      date: "2024-04-05",
+      fill: "hsl(var(--chart-2))",
+    },
+    {
+      id: "6",
+      label: "Expense",
+      category: "transportation",
+      income: 301,
+      expenses: 340,
+      date: "2024-04-06",
+      fill: "hsl(var(--chart-3))",
+    },
+    {
+      id: "7",
+      label: "Expense",
+      category: "entertainment",
+      income: 245,
+      expenses: 180,
+      date: "2024-04-07",
+      fill: "hsl(var(--chart-4))",
+    },
+    {
+      id: "8",
+      label: "Expense",
+      category: "utilities",
+      income: 409,
+      expenses: 320,
+      date: "2024-04-08",
+      fill: "hsl(var(--chart-5))",
+    },
+    {
+      id: "9",
+      label: "Expense",
+      category: "subscriptions",
+      income: 59,
+      expenses: 110,
+      date: "2024-04-09",
+      fill: "hsl(var(--chart-8))",
+    },
+    {
+      id: "10",
+      label: "Expense",
+      category: "healthcare",
+      income: 261,
+      expenses: 190,
+      date: "2024-04-10",
+      fill: "hsl(var(--chart-6))",
+    },
+    {
+      id: "11",
+      label: "Expense",
+      category: "savings",
+      income: 327,
+      expenses: 350,
+      date: "2024-04-11",
+      fill: "hsl(var(--chart-9))",
+    },
+    {
+      id: "12",
+      label: "Expense",
+      category: "dining",
+      income: 292,
+      expenses: 210,
+      date: "2024-04-12",
+      fill: "hsl(var(--chart-7))",
+    },
+    {
+      id: "13",
+      label: "Expense",
+      category: "entertainment",
+      income: 342,
+      expenses: 380,
+      date: "2024-04-13",
+      fill: "hsl(var(--chart-4))",
+    },
+    {
+      id: "14",
+      label: "Expense",
+      category: "groceries",
+      income: 137,
+      expenses: 220,
+      date: "2024-04-14",
+      fill: "hsl(var(--chart-2))",
+    },
+    {
+      id: "15",
+      label: "Expense",
+      category: "transportation",
+      income: 120,
+      expenses: 170,
+      date: "2024-04-15",
+      fill: "hsl(var(--chart-3))",
+    },
+    {
+      id: "16",
+      label: "Expense",
+      category: "subscriptions",
+      income: 138,
+      expenses: 190,
+      date: "2024-04-16",
+      fill: "hsl(var(--chart-8))",
+    },
+    {
+      id: "17",
+      label: "Expense",
+      category: "rent",
+      income: 446,
+      expenses: 360,
+      date: "2024-04-17",
+      fill: "hsl(var(--chart-1))",
+    },
+    {
+      id: "18",
+      label: "Expense",
+      category: "utilities",
+      income: 364,
+      expenses: 410,
+      date: "2024-04-18",
+      fill: "hsl(var(--chart-5))",
+    },
+    {
+      id: "19",
+      label: "Expense",
+      category: "entertainment",
+      income: 243,
+      expenses: 180,
+      date: "2024-04-19",
+      fill: "hsl(var(--chart-4))",
+    },
+    {
+      id: "20",
+      label: "Expense",
+      category: "dining",
+      income: 89,
+      expenses: 150,
+      date: "2024-04-20",
+      fill: "hsl(var(--chart-7))",
+    },
+    {
+      id: "21",
+      label: "Expense",
+      category: "misc",
+      income: 224,
+      expenses: 170,
+      date: "2024-04-22",
+      fill: "hsl(var(--chart-10))",
+    },
+    {
+      id: "22",
+      label: "Income",
+      category: "groceries",
+      income: 387,
+      expenses: 0,
+      date: "2024-04-24",
+      fill: "hsl(var(--chart-2))",
+    },
+    {
+      id: "23",
+      label: "Expense",
+      category: "groceries",
+      income: 0,
+      expenses: 290,
+      date: "2024-04-24",
+      fill: "hsl(var(--chart-2))",
+    },
   ]);
 
+export const useAggregatedSpendingData = (spendingData: any[]) =>
+  useState(() =>
+    spendingData.reduce((acc: any[], record) => {
+      const existingCategory = acc.find(
+        (item) => item.category === record.category
+      );
 
-  export const useAggregatedSpendingData = (spendingData: any[]) =>
-    useState(() =>
-      spendingData.reduce((acc: any[], record) => {
-        const existingCategory = acc.find(item => item.category === record.category);
+      if (existingCategory) {
+        existingCategory.expenses += record.expenses;
+      } else {
+        acc.push({
+          category: record.category,
+          expenses: record.expenses,
+          fill: record.fill,
+        });
+      }
 
-        if (existingCategory) {
-          existingCategory.expenses += record.expenses;
-        } else {
-          acc.push({
-            category: record.category,
-            expenses: record.expenses,
-            fill: record.fill,
-          });
-        }
-
-        return acc;
-      }, [])
-    );
-
-
+      return acc;
+    }, [])
+  );
 
 const page = () => {
   const [accounts, setAccounts] = useState<IAccount[]>([]);
@@ -147,7 +329,7 @@ const page = () => {
       try {
         const response = await fetch(`/api/accounts/`);
         const data = await response.json();
-        setAccounts(data);
+        (data);
       } catch (error) {
         toast({
           variant: "destructive",
@@ -161,75 +343,9 @@ const page = () => {
     fetchAccounts();
   }, []);
 
-  const filteredAccounts =
-    selectedAccount === "all-account"
-      ? accounts
-      : accounts.filter((account) => account.accountName === selectedAccount);
   console.log(accounts);
+
   return (
-    // <div className="p-4">
-    //   <section className="p-2 flex justify-between items-center rounded">
-    //     <h1 className="text-2xl font-bold">
-    //       {selectedAccount === "all-account"
-    //         ? "Overview - All Accounts"
-    //         : `Overview - ${selectedAccount}`}
-    //     </h1>
-    //     <Select
-    //       value={selectedAccount}
-    //       onValueChange={(value) => setSelectedAccount(value)}
-    //       defaultValue="all-account"
-    //     >
-    //       <SelectTrigger className="w-[150px] border-none">
-    //         <SelectValue placeholder="All Account" />
-    //       </SelectTrigger>
-    //       <SelectContent>
-    //         <SelectGroup>
-    //           <SelectItem value="all-account">All Account</SelectItem>
-    //           {accounts.map((account, index) => (
-    //             <SelectItem key={index} value={account.accountName}>
-    //               {account.accountName}
-    //             </SelectItem>
-    //           ))}
-    //           <SelectLabel>
-    //             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-    //               <DialogTrigger asChild>
-    //                 <Button variant="ghost" className="w-full justify-start">
-    //                   Add Account
-    //                 </Button>
-    //               </DialogTrigger>
-    //               <DialogForm
-    //                 setAccounts={setAccounts}
-    //                 setDialogOpen={setDialogOpen}
-    //               />
-    //             </Dialog>
-    //           </SelectLabel>
-    //         </SelectGroup>
-    //       </SelectContent>
-    //     </Select>
-    //   </section>
-
-    //   <BudgetInfo income={300} expenses={200} balance={100} />
-
-    //   {isLoading ? (
-    //     <div className="flex justify-center items-center h-40">
-    //       <Loader2 className="h-8 w-8 animate-spin" />
-    //     </div>
-    //   ) : (
-    //     <>
-    //       {filteredAccounts.length > 0 ? (
-    //         filteredAccounts.map((account, index) => (
-    //           <div key={index} className="space-y-2">
-    //             <h2 className="font-bold">{account.accountName}</h2>
-    //             {/* <p>Initial Value: ${account.initialValue}</p> */}
-    //           </div>
-    //         ))
-    //       ) : (
-    //         <p>No accounts found.</p>
-    //       )}
-    //     </>
-    //   )}
-    //   <pre>{JSON.stringify(accounts, null, 2)}</pre>
-    // </div>
     <section className="min-h-screen flex flex-col lg:p-4 md:p-2">
       <article className="w-full bg-card rounded-md p-4 border space-y-4">
         <header className="flex items-center gap-4">
@@ -252,23 +368,12 @@ const page = () => {
             ))}
           </ul>
         </header>
-            {/* <div className="w-full flex justify-between items-center">
-          <div>
-            <h2 className="text-card-foreground text-sm">Today</h2>
-            <p className="text-primary text-3xl font-bold">
-              {accounts.map((account, index) => (
-                <span key={index}>
-                  {getCurrencySymbol(account.currency)} {account.budgetLimit}
-                </span>
-              ))}
-            </p>
-          </div>
-        </div> */}
         <section className="grid grid-cols-12 gap-5">
           <div className="col-span-12 lg:col-span-12 lg:row-span-1">
-            <AccountOverviewGraph data={spendingData}  />
+            <AccountOverviewGraph data={spendingData} />
           </div>
-
+        </section>
+        <section className="grid grid-cols-12 gap-5">
           <div className="col-span-12 lg:col-span-6 lg:row-span-4 md:col-span-6 md:row-span-4">
             <RecordsOverview data={spendingData} />
           </div>
@@ -280,9 +385,9 @@ const page = () => {
           <div className="col-span-12 lg:col-span-6 lg:row-span-2 md:col-span-6 md:row-span-2">
             <ReportsGraph reportsData={spendingData} />
           </div>
-
         </section>
       </article>
+
       <OverviewModal />
     </section>
   );
