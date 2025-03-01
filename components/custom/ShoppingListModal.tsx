@@ -13,15 +13,19 @@ import { useToast } from "@/hooks/use-toast";
 
 // Define schema with zod
 const shoppingItemSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  link: z.string().url("Invalid URL").optional(),
+  title: z.string().min(1, "Name is required"),
+  link: z.string().url("Invalid URL").or(z.literal("")).optional(), // Allow empty string
   price: z.number().min(0, "Price must be 0 or more"),
 });
 
 // Form values type
 type ShoppingItemFormValues = z.infer<typeof shoppingItemSchema>;
 
-const ShoppingListModal = () => {
+interface shoppingListModalProps {
+  onItemAdded: () => void;
+}
+
+const ShoppingListModal:React.FC<shoppingListModalProps> = ({ onItemAdded }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const form = useForm<ShoppingItemFormValues>({
@@ -49,6 +53,9 @@ const ShoppingListModal = () => {
 
       toast({ title: "Item added", description: "The item has been added to your shopping list" });
       form.reset();
+
+      // Trigger the parent page update
+      if (onItemAdded) onItemAdded();
     } catch (error: any) {
       toast({ title: "Error", description: error.message || "Failed to add item", variant: "destructive" });
     } finally {
@@ -75,7 +82,7 @@ const ShoppingListModal = () => {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input disabled={isSubmitting} {...field} />
                   </FormControl>
@@ -136,5 +143,6 @@ const ShoppingListModal = () => {
     </Dialog>
   );
 };
+
 
 export default ShoppingListModal;

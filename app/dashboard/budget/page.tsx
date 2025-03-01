@@ -28,7 +28,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import ProfileForm from "@/components/custom/AddBudgetForm";
+import {Label} from "@/components/ui/label";
+import CreateBudgetForm from "@/components/custom/CreateBudgetForm";
+import DeleteBudgetButton from "@/components/custom/DeleteBudgetButton";
 import { IBudget } from "@/types/budget-types";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
@@ -85,7 +87,7 @@ const page = () => {
             <DialogHeader>
               <DialogTitle>Create Budget</DialogTitle>
             </DialogHeader>
-            <ProfileForm
+            <CreateBudgetForm
               setBudgets={setBudgets}
               setDialogOpen={setDialogOpen}
             />
@@ -94,20 +96,32 @@ const page = () => {
 
         {/* Budgets list */}
         {budgets.map((budget) => (
-          <Link key={budget._id} href={`/dashboard/budget/${budget._id}`}>
-            <Card className="col-span-1 max-h-48">
-              <CardHeader>
-                <CardTitle>{budget.title}</CardTitle>
-                <CardDescription>{budget.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Budget: ${budget.budgetLimit}</p>
-                <p style={{ color: budget.color[0]?.hex }}> {/* error here */}
-                  Color: {budget.color[0]?.name}
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
+          <section key={budget._id} className="relative">
+            <Link href={`/dashboard/budget/${budget._id}`}>
+            <Card className='col-span-1 min-h-44'
+              style={{ backgroundColor: budget.color[0]?.hex }}
+                  >
+                  <CardHeader>
+                    <CardTitle className="flex justify-between items-center">
+                        {budget.title}
+                    </CardTitle>
+                    <CardDescription>{budget.description}</CardDescription>
+                  </CardHeader>
+                  <CardFooter>
+                    <Label>Budget: ${budget.budgetLimit}</Label>
+                  </CardFooter>
+                </Card>
+            </Link>
+
+            <div className="absolute top-4 right-4">
+              <DeleteBudgetButton
+                id={budget._id}
+                onItemDeleted={() => {
+                  setBudgets((prevBudgets) => prevBudgets.filter((b) => b._id !== budget._id));
+                }}
+              />
+            </div>
+          </section>
         ))}
 
       </section>
@@ -131,7 +145,7 @@ const page = () => {
           <DrawerHeader className="text-left">
             <DrawerTitle>Create Budget</DrawerTitle>
           </DrawerHeader>
-          <ProfileForm
+          <CreateBudgetForm
             setBudgets={setBudgets}
             setDialogOpen={setDialogOpen}
           />
@@ -145,20 +159,32 @@ const page = () => {
 
         {/* Budgets list */}
         {budgets.map((budget) => (
-          <Link key={budget._id} href={`/dashboard/budget/${budget._id}`}>
-            <Card className="col-span-1 max-h-48">
-              <CardHeader>
-                <CardTitle>{budget.title}</CardTitle>
-                <CardDescription>{budget.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Budget: ${budget.budgetLimit}</p>
-                <p style={{ color: budget.color[0]?.hex }}>
-                  Color: {budget.color[0]?.name}
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
+          <section key={budget._id} className="relative">
+            <Link href={`/dashboard/budget/${budget._id}`}>
+            <Card className='col-span-1 min-h-44'
+              style={{ backgroundColor: budget.color[0]?.hex }}
+                  >
+                  <CardHeader>
+                    <CardTitle className="flex justify-between items-center">
+                        {budget.title}
+                    </CardTitle>
+                    <CardDescription>{budget.description}</CardDescription>
+                  </CardHeader>
+                  <CardFooter>
+                    <Label>Budget: ${budget.budgetLimit}</Label>
+                  </CardFooter>
+                </Card>
+            </Link>
+
+            <div className="absolute top-4 right-4">
+              <DeleteBudgetButton
+                id={budget._id}
+                onItemDeleted={() => {
+                  setBudgets((prevBudgets) => prevBudgets.filter((b) => b._id !== budget._id));
+                }}
+              />
+            </div>
+          </section>
         ))}
 
     </section>

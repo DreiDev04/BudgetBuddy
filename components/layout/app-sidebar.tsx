@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import {
   LayoutDashboard,
@@ -26,20 +26,44 @@ import { usePathname } from "next/navigation";
 import { useSidebar } from "@/components/ui/sidebar";
 
 
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(query);
+    setMatches(mediaQuery.matches);
+
+    const handler = (event: MediaQueryListEvent) => setMatches(event.matches);
+    mediaQuery.addEventListener("change", handler);
+
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, [query]);
+  return matches;
+}
+
 export function AppSidebar() {
   const { user } = useUser();
   const {setOpenMobile } = useSidebar();
   const pathname = usePathname();
 
-  React.useEffect(() => { // this here is the 'close on click for mobile'
+  const isTablet = useMediaQuery("(min-width: 769px) and (max-width: 1023px)");
+  const [isCollapsed, setIsCollapsed] = useState(isTablet);
+
+
+
+ useEffect(() => { // this here is the 'close on click function for mobile'
     setOpenMobile(false);
   }, [pathname, setOpenMobile])
+
+  // useEffect(() => {
+  //   setIsCollapsed(isTablet);
+  // }, [isTablet]);
 
   const navigation = [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { name: "Budget", href: "/dashboard/budget", icon: PiggyBank },
     { name: "Goals", href: "/dashboard/goals", icon: Goal },
-    {name: "Shopping List", href: "/dashboard/shopping-list", icon: ShoppingCart},
+    { name: "Shopping List", href: "/dashboard/shopping-list", icon: ShoppingCart},
     { name: "Design", href: "/dashboard/Design", icon: User }, // Design system
   ];
 
@@ -63,7 +87,7 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible='icon' variant="floating" >
       <SidebarHeader>
         <SidebarMenuButton size="lg" asChild>
           <a href="/dashboard">
