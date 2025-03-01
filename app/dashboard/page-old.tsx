@@ -1,7 +1,7 @@
 "use client";
 import GoalsGraph from "../../components/graphs/GoalsGraph";
 import Categories from "../../components/graphs/CategoriesGraph";
-import AccountBalanceGraph from "../../components/graphs/AccountBalanceGraph";
+import AccountBalanceGraph from "../../components/graphs/BudgetBalanceGraph";
 import AccountBalanceCard from "../../components/graphs/AccountBalanceCard";
 import LastRecords from "../../components/graphs/RecordsOverview";
 import { useState } from "react";

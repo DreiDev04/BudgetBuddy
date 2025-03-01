@@ -2,7 +2,7 @@
 
 import { Pencil } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import AccountBalanceGraph from "@/components/graphs/AccountBalanceGraph";
+import AccountBalanceGraph from "@/components/graphs/BudgetBalanceGraph";
 import LastRecords from "@/components/graphs/RecordsOverview";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/clerk-react";

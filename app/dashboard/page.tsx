@@ -20,7 +20,7 @@ import { BarChart, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { get } from "http";
 import { getCurrencySymbol } from "@/helper/helper";
-import AccountBalanceGraph from "@/components/graphs/AccountBalanceGraph";
+import AccountBalanceGraph from "@/components/graphs/BudgetBalanceGraph";
 import { AccountOverviewGraph } from "@/components/graphs/AccountOverviewGraph";
 import OverviewModal from "@/components/custom/OverviewModal";
 import RecordsOverview from "@/components/graphs/RecordsOverview";

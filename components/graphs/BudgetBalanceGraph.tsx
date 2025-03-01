@@ -48,7 +48,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const AccountBalanceGraph: React.FC<AccountBalanceGraphProps> = ({ data }) => {
+const BudgetBalanceGraph: React.FC<AccountBalanceGraphProps> = ({ data }) => {
   const [timeRange, setTimeRange] = React.useState("90d");
 
   // Filter data based on the selected time range
@@ -181,4 +181,4 @@ const AccountBalanceGraph: React.FC<AccountBalanceGraphProps> = ({ data }) => {
   );
 };
 
-export default AccountBalanceGraph;
+export default BudgetBalanceGraph;

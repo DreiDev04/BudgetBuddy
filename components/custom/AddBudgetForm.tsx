@@ -9,7 +9,8 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Colors } from "@/helper/color";
+// import { Colors } from "@/helper/color";
+import { Colors } from "@/helper/categoriesColor";
 import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,11 +28,11 @@ import { IBudget } from "@/types/budget-types";
 
 const BudgetSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  description: z.string().min(1, "Description is required"),
+  description: z.string().min(1, "Description is required").optional(),
   budgetLimit: z.number().min(1, "Budget must be at least 1"),
   color: z.object({
     name: z.string().min(1, "Color name is required"),
-    hex: z.string().min(1, "Color hex is required"),
+    color: z.string().min(1, "Color hex is required"),
   }),
 });
 
@@ -125,7 +126,8 @@ const AddBudgetForm = ({
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input disabled={isSubmitting} {...field} />
+                <Input disabled={isSubmitting} {...field}
+                placeholder="Enter budget title" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -140,7 +142,8 @@ const AddBudgetForm = ({
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input disabled={isSubmitting} {...field} />
+                <Input disabled={isSubmitting} {...field}
+                placeholder="Enter Description" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -174,6 +177,7 @@ const AddBudgetForm = ({
                       e.preventDefault();
                     }
                   }}
+                  placeholder="Enter Budget"
                 />
               </FormControl>
               <FormMessage />
@@ -205,11 +209,17 @@ const AddBudgetForm = ({
                       <SelectItem
                         key={color.value}
                         value={JSON.stringify({
-                          name: color.name,
-                          hex: color.hex,
+                          name: color.colorName,
+                          color: color.color,
                         })}
                       >
-                        {color.name}
+                        <div className="flex items-center gap-2">
+                        <span
+                            className="flex h-3 w-3 shrink-0 rounded-sm"
+                            style={{ backgroundColor: color.color }}
+                          />
+                          {color.colorName}
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectContent>

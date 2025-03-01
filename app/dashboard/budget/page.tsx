@@ -28,6 +28,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {Label} from "@/components/ui/label";
 import ProfileForm from "@/components/custom/AddBudgetForm";
 import { IBudget } from "@/types/budget-types";
 import { useToast } from "@/hooks/use-toast";
@@ -95,16 +96,15 @@ const page = () => {
         {/* Budgets list */}
         {budgets.map((budget) => (
           <Link key={budget._id} href={`/dashboard/budget/${budget._id}`}>
-            <Card className="col-span-1 max-h-48">
+            <Card className='col-span-1 min-h-44'
+              style={{ backgroundColor: budget.color[0]?.hex }}
+              >
               <CardHeader>
                 <CardTitle>{budget.title}</CardTitle>
                 <CardDescription>{budget.description}</CardDescription>
               </CardHeader>
               <CardContent>
-                <p>Budget: ${budget.budgetLimit}</p>
-                <p style={{ color: budget.color[0]?.hex }}> {/* error here */}
-                  Color: {budget.color[0]?.name}
-                </p>
+                <Label>Budget: ${budget.budgetLimit}</Label>
               </CardContent>
             </Card>
           </Link>
@@ -146,16 +146,15 @@ const page = () => {
         {/* Budgets list */}
         {budgets.map((budget) => (
           <Link key={budget._id} href={`/dashboard/budget/${budget._id}`}>
-            <Card className="col-span-1 max-h-48">
+            <Card className='col-span-1 min-h-44'
+              style={{ backgroundColor: budget.color[0]?.hex }}
+              >
               <CardHeader>
                 <CardTitle>{budget.title}</CardTitle>
                 <CardDescription>{budget.description}</CardDescription>
               </CardHeader>
               <CardContent>
-                <p>Budget: ${budget.budgetLimit}</p>
-                <p style={{ color: budget.color[0]?.hex }}>
-                  Color: {budget.color[0]?.name}
-                </p>
+                <Label>Budget: ${budget.budgetLimit}</Label>
               </CardContent>
             </Card>
           </Link>
