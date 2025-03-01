@@ -1,16 +1,26 @@
-// types/budget-types.ts
 import { Document, Types } from "mongoose";
-import { IColor, ICategory } from "./shared-types";
-import { IExpense } from "./expense-types";
 
-export interface IBudget extends Document {
-  _id: string; //added
-  title: string;
-  description: string;
-  budgetLimit: number;
-  color: IColor[];
-  categories: ICategory[];
-  expenses: IExpense[];
-  user: Types.ObjectId; // Add this field
-  createdAt: Date;// added
+export interface IAccountBudget extends Document {
+  label: string;
+  amount: number;
+  transactionType: "income" | "expense";
+  category: Types.ObjectId;
+  account: Types.ObjectId;
+  isDeleted: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface IAccountBudgetCategory extends Document {
+  categoryName: string;
+  color: Types.ObjectId;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface ICategoryColor extends Document {
+  colorName: string;
+  hslValue: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

@@ -1,8 +1,12 @@
-import { Types, Document } from "mongoose";
+import { Document, Types } from "mongoose";
 
-export interface IGoal extends Document {
-  title: string;
-  target: string;
-  progress: number;
-  user: Types.ObjectId; // Add this field
+export interface IAccountGoal extends Document {
+  goalName: string;
+  targetAmount: number;
+  savedAmount: number;
+  deadline: Date;
+  isCompleted: boolean;
+  account: Types.ObjectId;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

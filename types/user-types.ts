@@ -1,6 +1,6 @@
-import { Types, Document } from "mongoose";
+import { Document } from "mongoose";
 
-export interface IClerkUser extends Document {
+export interface IUser extends Document {
   clerkId: string;
   email: string;
   firstName?: string;
