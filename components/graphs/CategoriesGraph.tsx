@@ -22,6 +22,7 @@ import {
   SelectValue
 } from "@/components/ui/select"
 import { Colors } from "@/helper/categoriesColor"
+import { EXPENSE_CATEGORY } from "@/helper/constants"
 
 // Define types for the chart config
 interface ChartConfig {
@@ -34,14 +35,14 @@ interface ChartConfig {
 interface CategoriesProps {
   data: {
     category: string
-    expenses: number
+    expense: number
     fill: string
   }[]
 }
 
 // Build chart configuration dynamically from Colors array
-const chartConfig = Colors.reduce((acc, item) => {
-  acc[item.value] = {
+const chartConfig = EXPENSE_CATEGORY.reduce((acc, item) => {
+  acc[item.name] = {
     label: item.name,
     color: item.color,
   }
@@ -58,7 +59,7 @@ const CategoriesGraph: React.FC<CategoriesProps> = ({ data }) => {
 
   const categoryTotal = React.useMemo(() => {
     const categoryData = data.filter((item) => item.category === activeCategory)
-    return categoryData.reduce((acc, curr) => acc + curr.expenses, 0)
+    return categoryData.reduce((acc, curr) => acc + curr.expense, 0)
   }, [activeCategory, data])
 
   const categories = React.useMemo(() => data.map((item) => item.category), [data])
@@ -77,24 +78,22 @@ const CategoriesGraph: React.FC<CategoriesProps> = ({ data }) => {
           <SelectContent align="end" className="rounded-xl">
             {categories.map((key) => {
               const config = chartConfig[key]
-              const colorItem = Colors.find((c) => c.value === key)
-
-              if (!config || !colorItem) return null
+              if (!config) return null
 
               return (
                 <SelectItem key={key} value={key} className="rounded-lg [&_span]:flex">
                   <div className="flex items-center gap-2 text-xs">
-                    {/* {colorItem.icon} */}
                     <span
                       className="flex h-3 w-3 shrink-0 rounded-sm"
-                      style={{ backgroundColor: colorItem.color }}
+                      style={{ backgroundColor: config.color }}
                     />
-                    {config?.label}
+                    {config.label}
                   </div>
                 </SelectItem>
               )
             })}
           </SelectContent>
+
         </Select>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
@@ -104,9 +103,9 @@ const CategoriesGraph: React.FC<CategoriesProps> = ({ data }) => {
             <Pie
               data={data.map((item) => ({
                 ...item,
-                fill: Colors.find((c) => c.value === item.category)?.color || "#ccc",
+                fill: chartConfig[item.category]?.color || "#ccc",
               }))}
-              dataKey="expenses"
+              dataKey="expense"
               nameKey="category"
               innerRadius={60}
               strokeWidth={5}

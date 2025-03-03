@@ -25,7 +25,7 @@ interface RecordsOverviewProps{
     label: string,
     category: string,
     income: number,
-    expenses: number,
+    expense: number,
     date: string,
     fill: string
   }[];
@@ -33,7 +33,7 @@ interface RecordsOverviewProps{
 
 const RecordsOverview: React.FC<RecordsOverviewProps> = ({ data }) => {
   const [filter, setFilter] = useState<string>("All Items");
-  const [view, setView] = useState<"Income" | "Expenses">("Income");
+  const [view, setView] = useState<"Income" | "expense">("Income");
 
   const getFilteredRecords = () => {
     const now = new Date();
@@ -70,7 +70,7 @@ const RecordsOverview: React.FC<RecordsOverviewProps> = ({ data }) => {
   };
 
   const toggleView = () => {
-    setView((prevView) => (prevView === "Income" ? "Expenses" : "Income"));
+    setView((prevView) => (prevView === "Income" ? "expense" : "Income"));
   };
 
   return (
@@ -84,7 +84,7 @@ const RecordsOverview: React.FC<RecordsOverviewProps> = ({ data }) => {
         </div>
         <div className="flex flex-wrap justify-center md:justify-end items-center gap-2">
           <Button onClick={toggleView}>
-            {view === "Income" ? "View Expenses" : "View Income"}
+            {view === "Income" ? "View expense" : "View Income"}
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -120,11 +120,11 @@ const RecordsOverview: React.FC<RecordsOverviewProps> = ({ data }) => {
                 className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-2 gap-4 text-center p-4 rounded-lg shadow-md border"
               >
                 <Label className="text-sm bg-primary text-white rounded-sm px-3 py-1 w-auto">
-                  {view === "Income" ? "Income" : "Expenses"}
+                  {view === "Income" ? "Income" : "expense"}
                 </Label>
                 <Label className="text-sm">{recent.category}</Label>
                 <Label className="text-sm font-semibold">
-                  {view === "Income" ? `$${recent.income}` : `$${recent.expenses}`}
+                  {view === "Income" ? `$${recent.income}` : `$${recent.expense}`}
                 </Label>
                 <Label className="text-sm text-muted">
                   {new Date(recent.date).toLocaleDateString("en-GB")}

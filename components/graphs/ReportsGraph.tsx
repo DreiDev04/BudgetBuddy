@@ -16,14 +16,14 @@ interface ReportsGraphProps {
     reportsData: {
         date: string;
         income: number;
-        expenses: number;
+        expense: number;
     }[];
 }
 
 const ReportsGraph: React.FC<ReportsGraphProps> = ({ reportsData }) => {
   // Split income and expense records
   const incomeRecords = reportsData.map((data) => ({ amount: data.income }));
-  const expenseRecords = reportsData.map((data) => ({ amount: data.expenses }));
+  const expenseRecords = reportsData.map((data) => ({ amount: data.expense }));
 
   // Calculate totals
   const totalIncome = incomeRecords.reduce((sum, record) => sum + record.amount, 0);

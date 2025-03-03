@@ -1,19 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import BudgetInfo from "@/components/custom/BudgetInfo";
-import DialogForm from "@/components/custom/AddAccountForm";
-
 import { IAccount } from "@/types/account-types";
 import { useToast } from "@/hooks/use-toast";
 import { BarChart, Loader2 } from "lucide-react";
@@ -27,6 +13,7 @@ import ReportsGraph from "@/components/graphs/ReportsGraph";
 import CategoriesGraph from "@/components/graphs/CategoriesGraph";
 import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/navigation";
+import { any } from "zod";
 
 // const chartData = [
 //   { date: "2024-04-01", income: 222, expenses: 0 },
@@ -90,7 +77,7 @@ export const useSpendingData = () =>
       label: "Income",
       category: "misc",
       income: 222,
-      expenses: 0,
+      expense: 0,
       date: "2025-04-01",
       fill: "hsl(var(--chart-10))",
     },
@@ -99,7 +86,7 @@ export const useSpendingData = () =>
       label: "Income",
       category: "misc",
       income: 97,
-      expenses: 0,
+      expense: 0,
       date: "2024-04-02",
       fill: "hsl(var(--chart-10))",
     },
@@ -108,7 +95,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "misc",
       income: 167,
-      expenses: 120,
+      expense: 120,
       date: "2024-04-03",
       fill: "hsl(var(--chart-10))",
     },
@@ -117,7 +104,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "rent",
       income: 242,
-      expenses: 260,
+      expense: 260,
       date: "2024-04-04",
       fill: "hsl(var(--chart-1))",
     },
@@ -126,7 +113,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "groceries",
       income: 373,
-      expenses: 290,
+      expense: 290,
       date: "2024-04-05",
       fill: "hsl(var(--chart-2))",
     },
@@ -135,7 +122,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "transportation",
       income: 301,
-      expenses: 340,
+      expense: 340,
       date: "2024-04-06",
       fill: "hsl(var(--chart-3))",
     },
@@ -144,7 +131,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "entertainment",
       income: 245,
-      expenses: 180,
+      expense: 180,
       date: "2024-04-07",
       fill: "hsl(var(--chart-4))",
     },
@@ -153,7 +140,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "utilities",
       income: 409,
-      expenses: 320,
+      expense: 320,
       date: "2024-04-08",
       fill: "hsl(var(--chart-5))",
     },
@@ -162,7 +149,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "subscriptions",
       income: 59,
-      expenses: 110,
+      expense: 110,
       date: "2024-04-09",
       fill: "hsl(var(--chart-8))",
     },
@@ -171,7 +158,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "healthcare",
       income: 261,
-      expenses: 190,
+      expense: 190,
       date: "2024-04-10",
       fill: "hsl(var(--chart-6))",
     },
@@ -180,7 +167,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "savings",
       income: 327,
-      expenses: 350,
+      expense: 350,
       date: "2024-04-11",
       fill: "hsl(var(--chart-9))",
     },
@@ -189,7 +176,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "dining",
       income: 292,
-      expenses: 210,
+      expense: 210,
       date: "2024-04-12",
       fill: "hsl(var(--chart-7))",
     },
@@ -198,7 +185,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "entertainment",
       income: 342,
-      expenses: 380,
+      expense: 380,
       date: "2024-04-13",
       fill: "hsl(var(--chart-4))",
     },
@@ -207,7 +194,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "groceries",
       income: 137,
-      expenses: 220,
+      expense: 220,
       date: "2024-04-14",
       fill: "hsl(var(--chart-2))",
     },
@@ -216,7 +203,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "transportation",
       income: 120,
-      expenses: 170,
+      expense: 170,
       date: "2024-04-15",
       fill: "hsl(var(--chart-3))",
     },
@@ -225,7 +212,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "subscriptions",
       income: 138,
-      expenses: 190,
+      expense: 190,
       date: "2024-04-16",
       fill: "hsl(var(--chart-8))",
     },
@@ -234,7 +221,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "rent",
       income: 446,
-      expenses: 360,
+      expense: 360,
       date: "2024-04-17",
       fill: "hsl(var(--chart-1))",
     },
@@ -243,7 +230,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "utilities",
       income: 364,
-      expenses: 410,
+      expense: 410,
       date: "2024-04-18",
       fill: "hsl(var(--chart-5))",
     },
@@ -252,7 +239,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "entertainment",
       income: 243,
-      expenses: 180,
+      expense: 180,
       date: "2024-04-19",
       fill: "hsl(var(--chart-4))",
     },
@@ -261,7 +248,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "dining",
       income: 89,
-      expenses: 150,
+      expense: 150,
       date: "2024-04-20",
       fill: "hsl(var(--chart-7))",
     },
@@ -270,7 +257,7 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "misc",
       income: 224,
-      expenses: 170,
+      expense: 170,
       date: "2024-04-22",
       fill: "hsl(var(--chart-10))",
     },
@@ -279,7 +266,7 @@ export const useSpendingData = () =>
       label: "Income",
       category: "groceries",
       income: 387,
-      expenses: 0,
+      expense: 0,
       date: "2024-04-24",
       fill: "hsl(var(--chart-2))",
     },
@@ -288,10 +275,17 @@ export const useSpendingData = () =>
       label: "Expense",
       category: "groceries",
       income: 0,
-      expenses: 290,
+      expense: 290,
       date: "2024-04-24",
       fill: "hsl(var(--chart-2))",
     },
+    // {
+    //   id: "24",
+    //   label: "Monthly Income",
+    //   expense: 5000,
+    //   transactionType: "income",
+    //   category: "Salary"
+    // },
   ]);
 
 export const useAggregatedSpendingData = (spendingData: any[]) =>
@@ -302,12 +296,11 @@ export const useAggregatedSpendingData = (spendingData: any[]) =>
       );
 
       if (existingCategory) {
-        existingCategory.expenses += record.expenses;
+        existingCategory.expense += record.expense;
       } else {
         acc.push({
           category: record.category,
-          expenses: record.expenses,
-          fill: record.fill,
+          expense: record.expense,
         });
       }
 
@@ -340,6 +333,12 @@ const page = () => {
 
         if (response.ok) {
           setDataPayload(data);
+          // data.accounts.forEach((acc: { accountName: string; accountBudgets: { label: string; amount: number; transactionType: string; category: string }[] }) => {
+          //   console.log(`Account: ${acc.accountName}`);
+          //   console.log("Budgets:", acc.accountBudgets);
+          // });
+
+
           if (data.isOnboardingCompleted === false) {
             router.push("/onboarding");
           }
@@ -363,13 +362,22 @@ const page = () => {
     fetchAccounts();
   }, [router]);
 
+  const reportsData = selectedAccount === "all-account"
+  ? dataPayload?.accounts.flatMap(acc => acc.accountBudgets) || []
+  : dataPayload?.accounts.find(acc => acc.accountName === selectedAccount)?.accountBudgets || [];
+
+  console.log("Selected Reports Data:", reportsData);
+
+
+
   console.log(dataPayload?.accounts);
 
   return (
     <section className="min-h-screen flex flex-col lg:p-4 md:p-2 space-y-4">
 
-        <section className="w-full rounded-md space-y-4 bg-card">
-          <header className="flex items-center gap-4 p-4">
+        <section className="w-full rounded-md space-y-4 bg-card p-4 border">
+
+          <header className="flex items-center gap-4">
             <figure className="flex-shrink-0">
               <Image
                 src="https://cdn-icons-png.flaticon.com/128/781/781831.png"
@@ -388,7 +396,11 @@ const page = () => {
                 </p>
               </li>
             </ul>
+
+
+
           </header>
+
           <section className="grid grid-cols-12 gap-5">
             <div className="col-span-12 lg:col-span-12 lg:row-span-1">
               <AccountOverviewGraph data={spendingData} />
