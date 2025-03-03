@@ -44,4 +44,8 @@ export const EXPENSE_CATEGORY = [
   { name: "Other", color: "hsl(var(--chart-7))" },
 ] as const;
 
+export const EXPENSE_CATEGORY_NAME = EXPENSE_CATEGORY.map(
+  (EXPENSE_CATEGORY) => EXPENSE_CATEGORY.name
+);
+
 export const TRANSACTION_TYPE = ["income", "expense"] as const;

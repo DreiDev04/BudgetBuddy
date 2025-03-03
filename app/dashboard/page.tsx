@@ -18,7 +18,6 @@ import { IAccount } from "@/types/account-types";
 import { useToast } from "@/hooks/use-toast";
 import { BarChart, Loader2 } from "lucide-react";
 import Image from "next/image";
-import { get } from "http";
 import { getCurrencySymbol } from "@/helper/helper";
 import AccountBalanceGraph from "@/components/graphs/BudgetBalanceGraph";
 import { AccountOverviewGraph } from "@/components/graphs/AccountOverviewGraph";
@@ -26,6 +25,8 @@ import OverviewModal from "@/components/custom/OverviewModal";
 import RecordsOverview from "@/components/graphs/RecordsOverview";
 import ReportsGraph from "@/components/graphs/ReportsGraph";
 import CategoriesGraph from "@/components/graphs/CategoriesGraph";
+import { redirect } from "next/dist/server/api-utils";
+import { useRouter } from "next/navigation";
 
 // const chartData = [
 //   { date: "2024-04-01", income: 222, expenses: 0 },
@@ -316,6 +317,11 @@ export const useAggregatedSpendingData = (spendingData: any[]) =>
 
 const page = () => {
   const [accounts, setAccounts] = useState<IAccount[]>([]);
+  const [dataPayload, setDataPayload] = useState<{
+    accounts: IAccount[];
+    isOnboardingCompleted: boolean;
+  } | null>(null);
+
   const [selectedAccount, setSelectedAccount] = useState<string>("all-account");
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
@@ -324,12 +330,26 @@ const page = () => {
   const [spendingData] = useSpendingData();
   const [aggregatedSpendingData] = useAggregatedSpendingData(spendingData);
 
+  const router = useRouter();
+
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
         const response = await fetch(`/api/accounts/`);
         const data = await response.json();
-        (data);
+
+        if (response.ok) {
+          setDataPayload(data);
+          if (data.isOnboardingCompleted === false) {
+            router.push("/onboarding");
+          }
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: data.error,
+          });
+        }
       } catch (error) {
         toast({
           variant: "destructive",
@@ -341,9 +361,9 @@ const page = () => {
       }
     };
     fetchAccounts();
-  }, []);
+  }, [router]);
 
-  console.log(accounts);
+  console.log(dataPayload?.accounts);
 
   return (
     <section className="min-h-screen flex flex-col lg:p-4 md:p-2">
@@ -360,12 +380,12 @@ const page = () => {
             />
           </figure>
           <ul className="space-y-1">
-            {accounts.map((account, index) => (
-              <li key={index}>
-                <h2 className="font-bold text-lg">{account.accountName}</h2>
-                <p className="text-card-foreground text-sm">{account.type}</p>
-              </li>
-            ))}
+            <li>
+              <h2 className="font-bold text-lg">{dataPayload?.accounts[0]?.accountName}</h2>
+              <p className="text-card-foreground text-sm">
+                {dataPayload?.accounts[0]?.type}
+              </p>
+            </li>
           </ul>
         </header>
         <section className="grid grid-cols-12 gap-5">
@@ -373,7 +393,7 @@ const page = () => {
             <AccountOverviewGraph data={spendingData} />
           </div>
         </section>
-        <section className="grid grid-cols-12 gap-5">
+        {/* <section className="grid grid-cols-12 gap-5">
           <div className="col-span-12 lg:col-span-6 lg:row-span-4 md:col-span-6 md:row-span-4">
             <RecordsOverview data={spendingData} />
           </div>
@@ -385,9 +405,9 @@ const page = () => {
           <div className="col-span-12 lg:col-span-6 lg:row-span-2 md:col-span-6 md:row-span-2">
             <ReportsGraph reportsData={spendingData} />
           </div>
-        </section>
+        </section> */}
       </article>
-
+      <pre>{JSON.stringify(dataPayload, null, 2)}</pre>
       <OverviewModal />
     </section>
   );
