@@ -366,34 +366,38 @@ const page = () => {
   console.log(dataPayload?.accounts);
 
   return (
-    <section className="min-h-screen flex flex-col lg:p-4 md:p-2">
-      <article className="w-full bg-card rounded-md p-4 border space-y-4">
-        <header className="flex items-center gap-4">
-          <figure className="flex-shrink-0">
-            <Image
-              src="https://cdn-icons-png.flaticon.com/128/781/781831.png"
-              alt=""
-              width={75}
-              height={75}
-              className="bg-blue-400 rounded-sm p-3 max-w-[75px] w-full"
-              aria-hidden="true"
-            />
-          </figure>
-          <ul className="space-y-1">
-            <li>
-              <h2 className="font-bold text-lg">{dataPayload?.accounts[0]?.accountName}</h2>
-              <p className="text-card-foreground text-sm">
-                {dataPayload?.accounts[0]?.type}
-              </p>
-            </li>
-          </ul>
-        </header>
-        <section className="grid grid-cols-12 gap-5">
-          <div className="col-span-12 lg:col-span-12 lg:row-span-1">
-            <AccountOverviewGraph data={spendingData} />
-          </div>
+    <section className="min-h-screen flex flex-col lg:p-4 md:p-2 space-y-4">
+
+        <section className="w-full rounded-md space-y-4 bg-card">
+          <header className="flex items-center gap-4 p-4">
+            <figure className="flex-shrink-0">
+              <Image
+                src="https://cdn-icons-png.flaticon.com/128/781/781831.png"
+                alt=""
+                width={75}
+                height={75}
+                className="bg-blue-400 rounded-sm p-3 max-w-[75px] w-full"
+                aria-hidden="true"
+              />
+            </figure>
+            <ul className="space-y-1">
+              <li>
+                <h2 className="font-bold text-lg">{dataPayload?.accounts[0]?.accountName}</h2>
+                <p className="text-card-foreground text-sm">
+                  {dataPayload?.accounts[0]?.type}
+                </p>
+              </li>
+            </ul>
+          </header>
+          <section className="grid grid-cols-12 gap-5">
+            <div className="col-span-12 lg:col-span-12 lg:row-span-1">
+              <AccountOverviewGraph data={spendingData} />
+            </div>
+          </section>
         </section>
-        {/* <section className="grid grid-cols-12 gap-5">
+
+        <section className="grid grid-cols-12 gap-5">
+
           <div className="col-span-12 lg:col-span-6 lg:row-span-4 md:col-span-6 md:row-span-4">
             <RecordsOverview data={spendingData} />
           </div>
@@ -405,8 +409,8 @@ const page = () => {
           <div className="col-span-12 lg:col-span-6 lg:row-span-2 md:col-span-6 md:row-span-2">
             <ReportsGraph reportsData={spendingData} />
           </div>
-        </section> */}
-      </article>
+        </section>
+
       <pre>{JSON.stringify(dataPayload, null, 2)}</pre>
       <OverviewModal />
     </section>
