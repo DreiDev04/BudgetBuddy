@@ -13,24 +13,26 @@ const CompleteOnboarding = () => {
     const completeOnboarding = async () => {
       const accountType = localStorage.getItem("accountType") || "Cash";
       const accountName = localStorage.getItem("accountName") || "Cash";
-      const budgetLimit = localStorage.getItem("budgetLimit") || "0";
-      const currency = localStorage.getItem("currency") || "USD";
+      const currency = localStorage.getItem("currency") || "PHP";
+      const accountBudgets = localStorage.getItem("accountBudgets") || [];
 
       try {
         const response = await fetch("/api/completeOnboarding", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            accountType,
             accountName,
-            budgetLimit,
+            accountType,
             currency,
+            accountBudgets,
           }),
         });
 
+
+
         if (response.ok) {
           localStorage.removeItem("accountType");
-          localStorage.removeItem("budgetLimit");
+          localStorage.removeItem("accountBudgets");
           localStorage.removeItem("accountName");
           localStorage.removeItem("currency");
           router.push("/dashboard");

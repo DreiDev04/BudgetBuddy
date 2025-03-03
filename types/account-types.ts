@@ -1,13 +1,26 @@
-// types/budget-types.ts
 import { Document, Types } from "mongoose";
-import { IExpense } from "./expense-types";
+import { ACCOUNT_TYPE, CURRENCY_CODE } from "@/helper/constants";
+
+
+export type CurrencyType = (typeof CURRENCY_CODE)[number];
+export type AccountType = (typeof ACCOUNT_TYPE)[number]; ;
 
 
 export interface IAccount extends Document {
-  _id: string;
   accountName: string;
-  type: string;
-  currency: string;
-  budgetLimit: number;
+  type: AccountType;
+  currency: CurrencyType;
   user: Types.ObjectId;
+  isDeleted: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+  accountBudgets: Types.ObjectId[];
+}
+
+export interface ICurrency extends Document {
+  code: string;
+  name: string;
+  symbol: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
