@@ -1,10 +1,9 @@
 import dbConnect from "@/lib/mongodb";
 import { Account } from "@/models/account.model";
 import { User } from "@/models/user.model";
-import { IAccount } from "@/types/account-types";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import { revalidatePath } from "next/cache";
+import { AccountBudget } from "@/models/accountBudget.model";
 
 export const GET = async (req: NextRequest) => {
   try {
@@ -18,55 +17,35 @@ export const GET = async (req: NextRequest) => {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    const accounts = await Account.find({ user: user._id });
+    const accounts = await Account.find({ user: user._id })
+      .populate({
+        path: "accountBudgets",
+        select: "label amount transactionType category isDeleted",
+      })
+      .select("accountName type currency isDeleted createdAt updatedAt");
 
-    if (!accounts) {
+    if (!accounts || accounts.length === 0) {
       return NextResponse.json({ error: "No accounts found" }, { status: 404 });
     }
-    const formattedAccounts = accounts.map((account) => {
-      return {
-        // _id: account._id,
-        ...account.toJSON(),
+
+    console.log("accountBudget", accounts);
+
+    const payload = {
+      isOnboardingCompleted: user.isOnboardingCompleted,
+      accounts: accounts.map((account) => ({
         accountName: account.accountName,
         type: account.type,
-        initialValue: account.initialValue,
-      };
-    });
+        currency: account.currency,
+        accountBudgets: account.accountBudgets.map((budget: any) => ({
+          label: budget.label,
+          amount: budget.amount,
+          transactionType: budget.transactionType,
+          category: budget.category,
+        })),
+      })),
+    };
 
-    return NextResponse.json(formattedAccounts as IAccount[], { status: 200 });
-  } catch (error) {
-    console.error("Error processing request:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
-  }
-};
-
-export const POST = async (req: NextRequest) => {
-  try {
-    const body = await req.json();
-    // const { userId } = await auth()
-    // console.log(userId);
-    const userId = "user_2sHqdLaiBpIyeLFNKOwgTY4rX6w"; // Clerk ID nung account ko
-
-    await dbConnect();
-
-    const user = await User.findOne({ clerkId: userId });
-
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
-
-    const account = new Account({ ...body, user: user._id });
-
-    await account.save();
-    revalidatePath("/dashboard");
-
-    return NextResponse.json(
-      { message: "Account created successfully" },
-      { status: 201 }
-    );
+    return NextResponse.json(payload, { status: 200 });
   } catch (error) {
     console.error("Error processing request:", error);
     return NextResponse.json(

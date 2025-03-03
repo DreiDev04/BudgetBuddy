@@ -9,6 +9,7 @@ const AccountSchema = new Schema<IAccount>(
     currency: { type: String, enum: CURRENCY_CODE, required: true },
     user: { type: Schema.ObjectId, ref: "User", required: true },
     isDeleted: { type: Boolean, default: false },
+    accountBudgets: [{ type: Types.ObjectId, ref: "AccountBudget" }], // Add this line
   },
   { timestamps: true }
 );

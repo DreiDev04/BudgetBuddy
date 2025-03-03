@@ -14,6 +14,7 @@ export interface IAccount extends Document {
   isDeleted: boolean;
   createdAt?: Date;
   updatedAt?: Date;
+  accountBudgets: Types.ObjectId[];
 }
 
 export interface ICurrency extends Document {

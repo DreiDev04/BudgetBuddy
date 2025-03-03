@@ -13,12 +13,21 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { accountType, accountName, currency, accountBudgets } = await req.json();
+    const { accountType, accountName, currency, accountBudgets } =
+      await req.json();
 
-    console.log("Request Body:", { accountType, accountName, currency, accountBudgets });
+    console.log("Request Body:", {
+      accountType,
+      accountName,
+      currency,
+      accountBudgets,
+    });
 
     // Parse accountBudgets if it's a JSON string
-    const parsedBudget = typeof accountBudgets === "string" ? JSON.parse(accountBudgets) : accountBudgets;
+    const parsedBudget =
+      typeof accountBudgets === "string"
+        ? JSON.parse(accountBudgets)
+        : accountBudgets;
     console.log("Parsed Account Budgets:", parsedBudget);
 
     await dbConnect();
@@ -49,6 +58,8 @@ export const POST = async (req: NextRequest) => {
 
       await budget.save();
       console.log("Budget Saved:", budget);
+      account.accountBudgets.push(budget._id);
+      await account.save();
     } catch (error) {
       console.error("Error saving account:", error);
       return NextResponse.json(
