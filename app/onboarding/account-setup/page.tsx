@@ -27,9 +27,9 @@ import {
   TrendingUp,
   ArrowLeft,
   ArrowRight,
-  DollarSign,
   Coins,
   CircleEllipsis,
+  DollarSign,
 } from "lucide-react";
 import {
   Form,
@@ -37,12 +37,11 @@ import {
   FormItem,
   FormLabel,
   FormControl,
-  FormDescription,
   FormMessage,
 } from "@/components/ui/form";
-import { currencies, getCurrencySymbol } from "@/helper/helper";
+import { ACCOUNT_TYPE, CURRENCY } from "@/helper/constants";
 
-// Zod schema for validation. Here, the budgetLimit is required to be a positive number.
+// Zod schema for account setup step
 const accountFormSchema = z.object({
   accountName: z.string().nonempty({ message: "Account name is required" }),
   accountType: z.enum([
@@ -63,12 +62,6 @@ const accountFormSchema = z.object({
     "CHF",
     "CNY",
   ]),
-  budgetLimit: z.preprocess(
-    (a) => (typeof a === "string" && a.trim() === "" ? undefined : Number(a)),
-    z.number({ required_error: "Budget limit is required" }).positive({
-      message: "Budget limit must be greater than 0",
-    })
-  ),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
@@ -81,52 +74,43 @@ const AccountSetup = () => {
     defaultValues: {
       accountName: "",
       accountType: "Cash",
-      currency: "USD",
-      budgetLimit: 0,
+      currency: "PHP",
     },
   });
 
-  // Watch values from the form to compute dynamic UI changes
   const accountNameValue = form.watch("accountName") as string;
-  const budgetLimitValue = form.watch("budgetLimit");
-  const watchedCurrency = form.watch("currency");
 
-  // Disable the submit button if accountName (after trimming) or budgetLimit is empty.
-  const isSubmitDisabled = !accountNameValue?.trim() || budgetLimitValue === 0;
+  const isSubmitDisabled = !accountNameValue?.trim();
 
-  const getAccountTypeIcon = (type: string) => {
-    switch (type) {
-      case "Cash":
-        return <Wallet className="mr-2 h-4 w-4" />;
-      case "Savings":
-        return <PiggyBank className="mr-2 h-4 w-4" />;
-      case "Investment":
-        return <TrendingUp className="mr-2 h-4 w-4" />;
-      case "Credit Card":
-        return <DollarSign className="mr-2 h-4 w-4" />;
-      case "Other":
-        return <CircleEllipsis className="mr-2 h-4 w-4" />;
-      default:
-        return null;
-    }
-  };
+  // const getAccountTypeIcon = (type: string) => {
+  //   switch (type) {
+  //     case "Cash":
+  //       return <Wallet className="mr-2 h-4 w-4" />;
+  //     case "Savings":
+  //       return <PiggyBank className="mr-2 h-4 w-4" />;
+  //     case "Investment":
+  //       return <TrendingUp className="mr-2 h-4 w-4" />;
+  //     case "Credit Card":
+  //       return <DollarSign className="mr-2 h-4 w-4" />;
+  //     case "Other":
+  //       return <CircleEllipsis className="mr-2 h-4 w-4" />;
+  //     default:
+  //       return null;
+  //   }
+  // };
 
   const onSubmit = (data: AccountFormValues) => {
-    // Extra manual checks (in addition to Zod validations)
     if (!data.accountName.trim()) {
       alert("Please enter an account name.");
-      return;
-    }
-    if (!data.budgetLimit) {
-      alert("Please enter a budget limit.");
       return;
     }
 
     localStorage.setItem("accountType", data.accountType);
     localStorage.setItem("accountName", data.accountName);
-    localStorage.setItem("budgetLimit", data.budgetLimit.toString());
     localStorage.setItem("currency", data.currency);
-    router.push("/onboarding/complete");
+
+    // Navigate to budget setup
+    router.push("/onboarding/budget-setup");
   };
 
   return (
@@ -140,11 +124,11 @@ const AccountSetup = () => {
               </div>
               <div>
                 <h2 className="text-2xl font-bold tracking-tight">
-                  Account Setup
+                  Account Setup (Step 1 of 2)
                 </h2>
                 <p className="text-sm text-muted-foreground mt-2">
-                  Let's set up your first account and budget. You can adjust
-                  these settings later.
+                  Let's set up your first account. You can adjust these settings
+                  later.
                 </p>
               </div>
             </CardHeader>
@@ -192,42 +176,16 @@ const AccountSetup = () => {
                           <SelectTrigger id="accountType" className="w-full">
                             <SelectValue placeholder="Select account type">
                               <div className="flex items-center">
-                                {getAccountTypeIcon(field.value)}
                                 {field.value}
                               </div>
                             </SelectValue>
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="Cash">
-                              <div className="flex items-center">
-                                <Wallet className="mr-2 h-4 w-4" />
-                                Cash
-                              </div>
-                            </SelectItem>
-                            <SelectItem value="Savings">
-                              <div className="flex items-center">
-                                <PiggyBank className="mr-2 h-4 w-4" />
-                                Savings
-                              </div>
-                            </SelectItem>
-                            <SelectItem value="Investment">
-                              <div className="flex items-center">
-                                <TrendingUp className="mr-2 h-4 w-4" />
-                                Investment
-                              </div>
-                            </SelectItem>
-                            <SelectItem value="Credit Card">
-                              <div className="flex items-center">
-                                <DollarSign className="mr-2 h-4 w-4" />
-                                Credit Card
-                              </div>
-                            </SelectItem>
-                            <SelectItem value="Other">
-                              <div className="flex items-center">
-                                <CircleEllipsis className="mr-2 h-4 w-4" />
-                                Other
-                              </div>
-                            </SelectItem>
+                            {ACCOUNT_TYPE.map((type) => (
+                              <SelectItem key={type} value={type}>
+                                <div className="flex items-center">{type}</div>
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -252,12 +210,12 @@ const AccountSetup = () => {
                             <SelectValue placeholder="Select currency">
                               <div className="flex items-center">
                                 <Coins className="mr-2 h-4 w-4" />
-                                {field.value} - {getCurrencySymbol(field.value)}
+                                {field.value}
                               </div>
                             </SelectValue>
                           </SelectTrigger>
                           <SelectContent>
-                            {currencies.map((curr) => (
+                            {CURRENCY.map((curr) => (
                               <SelectItem key={curr.code} value={curr.code}>
                                 <div className="flex items-center">
                                   <Coins className="mr-2 h-4 w-4" />
@@ -273,42 +231,6 @@ const AccountSetup = () => {
                   )}
                 />
               </div>
-
-              {/* Budget Settings Section */}
-              <div className="space-y-4 pt-4 border-t">
-                <h3 className="font-medium text-sm text-muted-foreground">
-                  Budget Settings
-                </h3>
-                <FormField
-                  control={form.control}
-                  name="budgetLimit"
-                  render={({ field }) => (
-                    <FormItem className="space-y-2">
-                      <FormLabel htmlFor="budgetLimit">
-                        Monthly Budget Limit
-                      </FormLabel>
-                      <div className="relative">
-                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
-                          {getCurrencySymbol(watchedCurrency)}
-                        </div>
-                        <FormControl>
-                          <Input
-                            id="budgetLimit"
-                            type="number"
-                            placeholder="Enter your monthly budget"
-                            {...field}
-                            className="pl-9"
-                          />
-                        </FormControl>
-                      </div>
-                      <FormDescription>
-                        Set a monthly spending limit to help track your expenses
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
             </CardContent>
 
             <CardFooter className="flex justify-between pt-6">
@@ -318,8 +240,8 @@ const AccountSetup = () => {
                   Back
                 </Button>
               </Link>
-              <Button type="submit" size="sm" disabled={isSubmitDisabled}>
-                Complete
+              <Button size="sm" disabled={isSubmitDisabled} type="submit">
+                Next
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </CardFooter>

@@ -1,6 +1,6 @@
 import dbConnect from "@/lib/mongodb";
-import Account from "@/models/Account";
-import { User } from "@/models/User";
+import { Account } from "@/models/account.model";
+import { User } from "@/models/user.model";
 import { IAccount } from "@/types/account-types";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";

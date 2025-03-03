@@ -1,11 +1,15 @@
+import { INCOME_CATEGORY_NAME, TRANSACTION_TYPE } from "@/helper/constants";
 import { Document, Types } from "mongoose";
+
+export type IncomeCategoryNameType = (typeof INCOME_CATEGORY_NAME)[number];
+export type TransactionType = (typeof TRANSACTION_TYPE)[number];
 
 export interface IAccountBudget extends Document {
   label: string;
   amount: number;
-  transactionType: "income" | "expense";
-  category: Types.ObjectId;
-  account: Types.ObjectId;
+  transactionType: TransactionType;
+  category: IncomeCategoryNameType;
+  account?: Types.ObjectId;
   isDeleted: boolean;
   createdAt?: Date;
   updatedAt?: Date;
